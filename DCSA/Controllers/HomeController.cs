@@ -35,7 +35,20 @@ namespace DCSA.Controllers
 
             //ViewBag.PopUp = db.PopUpUpdates.FirstOrDefault();
 
+            var Cart = Session["Cart"] as List<CartItem>;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddToSession(CartItem model)
+        {
+            var Cart = Session["Cart"] as List<CartItem>;
+            if(Cart==null)
+                Cart = new List<CartItem>();
+            Cart.Add(model);
+            Session.Add("Cart", Cart);
+
+            return Json(new { Count=Cart.Count }, JsonRequestBehavior.AllowGet);
         }
 
         [Route("نتائج-البحث/{SearchWord?}")]

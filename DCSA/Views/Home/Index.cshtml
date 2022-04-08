@@ -3,6 +3,8 @@
     ViewBag.Title = "مشروع المتجر الإلكتروني";
 
 }
+
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
 <div>
 
     <div class="container-fluid">
@@ -73,7 +75,7 @@
                                         @if (item.TypeID == 1)
                                         {
                                             <label for="donateNumber" class="col-form-label">مبلغ التبرع</label>
-                                            <input id="donateNumber" class="form-control form-control-sm" type="text" aria-label="default input example">
+                                            <input id="donateNumber-@item.ID" class="form-control form-control-sm" type="text" value="30" onkeypress="return isNumber(event)" aria-label="default input example">
                                         }
                                         else
                                         {
@@ -96,7 +98,7 @@
                                 <div class="cardfooter-action">
                                     <div class="action-btns">
                                         <button class="donation-btn">تبرع سريع</button>
-                                        <button class="donation-btn-outline">إضافه للسلة</button>
+                                        <button class="donation-btn-outline" onclick="AddToCart('@item.ID', '@item.Header', '@item.TypeID')">إضافه للسلة</button>
                                     </div>
                                     <div class="gift-donation">
                                         <img src="../images/gift.svg" />
@@ -120,7 +122,37 @@
 </div>
 
 @section scripts{
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
     <script>
+
+        function AddToCart(id,Name,Type) {
+            var model = new Object();
+            model.ID = id;
+            model.Name = Name;
+            var Amount=0;
+            if (Type == 1) {
+                Amount = document.getElementById("donateNumber-" + id).value;
+            }
+            else 
+                Amount = document.getElementById("PriceValue-" + id).innerText;
+            
+            model.Amount = Amount
+            $.ajax({
+                type: "Post",
+
+                url: '@Url.Action("AddToSession", "Home")',
+                data: { model: model},
+                success: function (data) {
+                  
+                        swal("نجاح!", data.Message, "success");
+                    
+                    document.getElementById("CartItemsSpan").innerText = data.Count;
+                   
+                }
+            });
+        }
+
+
         function AddValueSpan(Stockvalue, WantedCard,left) {
             var CurrentArrow = parseInt(document.getElementById("ArrowNo-" + WantedCard).innerText);
             CurrentArrow++;
@@ -140,6 +172,14 @@
             document.getElementById("PriceValue-" + WantedCard).innerText = CurrentArrow * Stockvalue;
             document.getElementById("ArrowNo-" + WantedCard).innerText = CurrentArrow;
         }
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
 
+        }
     </script>
 }
