@@ -1,0 +1,23 @@
+﻿@model IEnumerable<NCCM.Models.SearchResultModel>
+@{
+    ViewBag.Title = "_GetSearchResults";
+}
+
+<div class="row mt-4 mb-5">
+    <div class="col">
+        @foreach (var item in Model)
+        {
+            
+        <h4 class="search-result">
+            <a href="@Url.Action("DisplayPage","Activities",new {name = item.CatName.Replace(' ','-'), itemurl=item.URL })">
+                <img class="search-photo" src="@item.CoverURL" /> @item.Name
+            </a>
+            <a href="@Url.Action("GetActivity","Activities",new { name=item.CatName.Replace(' ','-')})" class="category">@item.CatName</a>
+            <br />
+            <p class="news-date">@item.date.ToShortDateString()</p>
+        </h4>
+        }
+
+    </div>
+</div>
+

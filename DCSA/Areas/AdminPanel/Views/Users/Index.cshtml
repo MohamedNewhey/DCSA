@@ -1,0 +1,160 @@
+﻿@model IEnumerable<NCCM.Database.User>
+
+@{
+    ViewBag.Title = "المستخدمين";
+}
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+<div id="updateProgress" style="position: fixed;display:none; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+    <div style="position:relative; top:40%; width:100%; text-align:center;">
+        <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<div class="row mb-5">
+    <div class="input-group mb-3 report-button">
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary  Classification-button" id="SearchButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                <img class="Classification-img" src="~/Content/Icons/levels.svg" />
+                @ViewBag.SearchValue
+                <img class="Classification-icondrop dropdown-toggle" src="~/Content/Icons/Group 82.svg" />
+            </button>
+            <ul class="dropdown-menu">
+                <li onclick="ChangeButtonText(this)"><a class="dropdown-item">تـصنيــــف</a></li>
+                <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">الاسم</a></li>
+                <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">البريد الالكتروني</a></li>
+
+            </ul>
+            </div>
+            <input type="text" class="form-control Classification-button" onchange="Search()" value="@ViewBag.Search" id="SearchInput" aria-label="Text input with dropdown button" placeholder="بحــــــث">
+        </div>
+    </div>
+<!-- ---------title and refresh----------------- -->
+<div class="row">
+
+    <div class="col-md-7">
+        <span class="Missing-children-title">المستخدمين</span>
+        <span class="title-number">@Model.Count()</span>
+    </div>
+    <div class="col-md-5 report-icons2">
+
+        @*<button type="button" class="Missing-children-button-refresh"> <img class="Missing-children-icon" src="~/Content/Icons/reload.svg" /> تحديث</button>*@
+
+        <a  class="Missing-children-button" href="@Url.Action("Manage", "Users")">اضافة</a>
+
+        @*<button type="button" class="Missing-children-button-XLS">XLS</button>*@
+    </div>
+
+</div>
+<hr>
+<!--table-->
+<div>
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th>الاسم</th>
+
+                <th>المسمى الوظيفي</th>
+                <th class="text-center">الحالة</th>
+                <th>البريد الالكتروني</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr id="Tr-@item.ID">
+
+                <td>
+                    @if (item.Photo != null)
+                    {
+                        <img class="img-table info-img" style="width: 15% !important" src="@item.Photo">
+                    }
+                    else
+                    {
+<img class="img-table info-img" style="width: 15% !important" src = "../../images/AdminLayout/user.svg" />
+                    }
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+
+
+                <td>@Html.DisplayFor(modelItem => item.UserRole.Name)</td>
+                @if (item.Status == true)
+                {
+                    <td class="text-center"><img class="icon-color-table" src="~/Content/Icons/Ellipse 3.svg">نشط</td>
+                }
+                else
+                {
+                    <td class="text-center"><img class="icon-color-table" src="~/Content/Icons/Ellipse 2.svg">غير نشط</td>
+                }
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td class="two-button-color">
+
+
+                    <a  class="table-button-edit" href="@Url.Action("Manage", "Users", new { ID = item.ID })">تعديل</a>
+
+                    <button type="button" class="table-button-hide" onclick="Delete('@item.ID', '@item.Name')">مسح</button>
+                </td>
+            </tr>
+            }
+
+
+
+        </tbody>
+    </table>
+
+
+</div>
+@section scripts{
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
+
+    <script>
+           $(document).ready(function(){
+                    $("#latest-news-tab-Users").addClass('active').parent().siblings().find('a').removeClass('active');
+                                                        $("#UsersTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
+
+        })
+
+        function Delete(id, name) {
+
+    swal({
+    title: "هل انت متأكد؟",
+    text: "هل تريد مسح " + name + " ؟" ,
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#DD6B55",
+    confirmButtonText: "نعم",
+    closeOnConfirm: false
+    }, function () {
+    $.ajax({
+    type: "Post",
+
+    url: '@Url.Action("DeleteUser", "Users", new { area = "AdminPanel"})',
+    data: { id: id },
+    success: function (data) {
+    if (data.IsValid) {
+    $('#Tr-' + id).remove();
+
+    swal("نجاح!", data.Message, "success");
+
+
+    }
+    else {
+    swal("فشل!", data.Message, "Fail");
+    }
+    }
+    });
+
+    });
+        }
+
+        function Search() {
+            var tag = document.getElementById('updateProgress');
+            tag.style.display = 'block';
+            var searchValue = document.getElementById("SearchButton").innerText;
+            var search = document.getElementById("SearchInput").value;
+
+            location.href = '@Url.Action("Index", "Users")?Search=' + search + "&searchValue=" + searchValue;
+        }
+    </script>
+}

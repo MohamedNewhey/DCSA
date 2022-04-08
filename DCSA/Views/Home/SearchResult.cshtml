@@ -1,0 +1,88 @@
+﻿@model IEnumerable<NCCM.Models.SearchResultModel>
+@{
+    ViewBag.Title = "نتائج البحث";
+    Layout = "~/Views/Shared/_LayoutNCCM.cshtml";
+}
+
+<main class=subHeader>
+    <div class="container">
+
+        <h4 class=" Subheader-Title text-center"> نتيجة البحث</h4>
+        <p class="text-center mt-5"><a class="breadcrumb-menu" href="@Url.Action("index","Home")">الرئيسية</a><span class="spretor">/</span><span>نتيجة البحث</span></p>
+
+    </div>
+</main>
+
+<div class="container">
+
+    <div class="row mb-5 mt-5">
+        <h5>البحث</h5>
+        <div class="col-lg-9">
+            <div class="input-group input-group-sm mb-3">
+
+                <input type="search" id="searchtxt" class="form-control search-input" aria-label="Sizing example input" value="@ViewBag.SearchWord" aria-describedby="inputGroup-sizing-sm">
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <button class="search-btn-result" onclick="Search()">بحث</button>
+        </div>
+
+    </div>
+    <div id="DataDiv">
+        <div class="row mt-4 mb-5">
+            <div class="col">
+                @foreach (var item in Model)
+                {
+
+                <h4 class="search-result">
+                    <a href="@Url.Action("DisplayPage","Activities",new {name = item.CatName.Replace(' ','-'), itemurl=item.URL })">
+                        <img class="search-photo" src="@item.CoverURL" /> @item.Name
+                    </a>
+                    <a href="@Url.Action("GetActivity","Activities",new { name=item.CatName.Replace(' ','-')})" class="category">@item.CatName</a>
+                    <br />
+                    <p class="news-date">@item.date.ToShortDateString()</p>
+                </h4>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("[type*='search']").focus(function () {
+            $(this).removeClass("search-input")
+        });
+        $("[type*='search']").blur(function () {
+            $(this).addClass("search-input")
+        });
+
+        $("#searchtxt").keyup(function (evt) {
+            if (evt.which == 13) {
+                location.href = "/نتائج-البحث/" + $("#searchtxt").val();
+            }
+        });
+    });
+
+    function Search() {
+        var SearchValue = $("#searchtxt").val();
+        location.href = "/نتائج-البحث/" + $("#searchtxt").val();
+        @*$.ajax({
+            url: '@Url.Action("GetSearchResults", "Home")',
+            type: 'POST',
+            data: { SearchWord: SearchValue },
+            success: function (data) {
+              //  $('#DataDiv').html("")
+                $('#DataDiv').html(data);
+
+             //   tag.style.display = 'none';
+            },
+            error: function () {
+              //  tag.style.display = 'none';
+                alert('Error occured');
+            }
+        });*@
+    }
+</script>

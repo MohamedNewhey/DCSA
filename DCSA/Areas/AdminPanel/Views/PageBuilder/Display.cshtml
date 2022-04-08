@@ -1,0 +1,37 @@
+﻿@model NCCM.Database.Page
+
+@{
+    ViewBag.Title = "Display";
+}
+
+<h2>Display</h2>
+
+<div>
+    <h4>Page</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dd>
+
+            @Html.Raw(Model.PageContent)
+
+        </dd>
+
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+@section scripts{
+    <script>
+       $(document).ready(function(){
+          $('img').each(function(){
+            var $this = $(this)
+            $this.attr('src',$this.attr('src').replace('../..','../../..'))
+          })
+       })
+    </script>
+}

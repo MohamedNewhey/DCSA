@@ -1,0 +1,87 @@
+﻿@using PagedList;
+@model IPagedList<NCCM.Database.Page>
+
+@{
+    ViewBag.Title = ViewBag.Header;
+    Layout = "~/Views/Shared/_LayoutNCCM.cshtml";
+}
+<link href="~/Content/EditorCustomStyle.css" rel="stylesheet" />
+<main class=subHeader>
+    <div class="container">
+
+        <h4 class=" Subheader-Title text-center">@ViewBag.Header</h4>
+        <p class="text-center mt-5"><a class="breadcrumb-menu" href="@Url.Action("index","Home")">الرئيسية</a></p>
+
+    </div>
+</main>
+
+<div id="Container">
+
+
+    <section class="programs-page">
+        <div class="container">
+            @*@for (int i = 0; i < Model.Count(); i += 3)
+
+            {*@
+                <div class="row g-2">
+                    @{
+						//var items = Model.Skip(i).Take(3).ToList();
+						foreach (var item in /*items*/Model)
+						{
+                            <div class="col col-md-4">
+                                <div class="program-body">
+                                    <img class="program-img" src="@item.CoverPhoto">
+                                    <h5 class="programs-tilte">@item.Header</h5>
+                                    @if (ViewBag.Header == "اخبار المجلس")
+                                    {
+                                        <p class="news-date">@item.PageDate.Value.ToShortDateString()</p>
+                                    }
+                                    <hr class="program-line" />
+                                    <p class="program-content">
+                                        @item.ShortDescription <a href="@Url.Action("DisplayPage","Activities",new {name = ViewBag.PageHeader, itemurl=item.URL })" class="load-more">...المزيد</a>
+                                    </p>
+                                </div>
+                            </div>
+
+                        }
+                    }
+
+                </div>
+            @*}*@
+
+        </div>
+    </section>
+    <div id="LoadMoreDiv">
+
+    </div>
+</div>
+
+<button class="search-btn" id="LoadMoreButton" style="display:none; margin-bottom:30px; margin-right:40%; ">
+     المزيد <i class="fa fa-spinner fa-spin"></i>
+</button>
+@section scripts{
+    <script>
+        var page = 2;
+        var LaodMoreVariable = @Json.Encode(ViewBag.More);
+        window.onscroll =   function LoadMore() {
+            if ($(document).height() <= $(window).scrollTop() + $(window).height()) {
+               // alert("Page :" + page + "  LoadMore :" + LaodMoreVariable);
+                if (LaodMoreVariable) {
+                    document.getElementById("LoadMoreButton").style.display = 'block';
+                    $.ajax({
+                        url: '@Url.Action("_LoadMoreActivities", "Activities")',
+                        type: 'GET',
+                        data: { page: page, name: '@ViewBag.PageHeader' },
+
+                        success: function (data) {
+                            $("#LoadMoreDiv").append(data);
+                            document.getElementById("LoadMoreButton").style.display = 'none';
+
+                            page++;
+                        }
+                    });
+                }
+            }
+        }
+    </script>
+}

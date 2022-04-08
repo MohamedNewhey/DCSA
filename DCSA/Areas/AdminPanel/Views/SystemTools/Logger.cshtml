@@ -1,0 +1,207 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<NCCM.Database.AuditLogger>
+
+@{
+    ViewBag.Title = "Audit Log";
+}
+
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+<link href="~/assets/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+
+<style>
+    td {
+        font-size: 13px;
+        width: 1% !important;
+        text-align: center;
+        padding: 15px 0 12px 10px;
+        line-height: 2;
+    }
+
+    table {
+        width: 100%;
+        direction: ltr;
+    }
+
+    thead {
+        text-align: center;
+        border-bottom: 1px solid #E0E3DA;
+    }
+</style>
+<div class="row mb-5" dir="ltr">
+
+    @*<div class="dropdown">
+        <button class="btn btn-outline-secondary  Classification-button" id="SearchButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+            <img class="Classification-img" src="~/Content/Icons/levels.svg" />
+            تـصنيــــف
+            <img class="Classification-icondrop dropdown-toggle" src="~/Content/Icons/Group 82.svg" />
+        </button>
+        <ul class="dropdown-menu">
+            <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">User ID</a></li>
+            <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">Time</a></li>
+            <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">Record ID</a></li>
+            <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">Table Name</a></li>
+            <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">Column Name</a></li>
+            <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">Original Value</a></li>
+            <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">Event Type</a></li>
+            <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">New Value</a></li>
+        </ul>
+        </div>*@
+
+    <div class="col" style="position:relative">
+        <input type="text" class="form-control" placeholder="From" id="FromDate">
+    </div>
+
+    <div class="col" style="position:relative">
+        <input type="text" class="form-control" placeholder="To" id="ToDate">
+    </div>
+    <div class="col">
+        <input type="text" class="form-control" placeholder="User ID" id="UserID" value="@ViewBag.UserID">
+    </div>
+
+
+</div>
+<div class="text-center mt-5 last-buttons">
+    <button type="button" class="button-history-add" onclick="Search()">Search</button>
+</div>
+<!-- ---------title and refresh----------------- -->
+<div class="row">
+
+    <div class="col-md-7">
+        <span class="Missing-children-title">Audit Log</span>
+        <span class="title-number">@ViewBag.Count</span>
+    </div>
+
+
+</div>
+<hr>
+<div>
+    <table style="width: 100%; ">
+        <thead>
+            <tr>
+
+                <th>
+                    User ID
+                </th>
+                <th>
+                    Time
+                </th>
+                <th>Record ID</th>
+                <th>
+                    Table Name
+                </th>
+                <th>
+                    Column Name
+                </th>
+                <th>
+                    Original Value
+                </th>
+                <th>
+                    Event Type
+                </th>
+                <th>
+                    New Value
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserID)
+                    </td>
+
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Time)
+
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RecordID)
+
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TableName)
+
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ColumnName)
+
+
+                    </td>
+                    <td style="word-break:break-word">
+                        @Html.DisplayFor(modelItem => item.OriginalValue)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventType)
+
+
+                    </td>
+                    <td style="word-break:break-word; ">
+                        @Html.DisplayFor(modelItem => item.NewValue)
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.PagedListPager(Model, page => Url.Action("Logger", new { page, FromDate = Request.QueryString["FromDate"] , ToDate = Request.QueryString["ToDate"], UserID = Request.QueryString["UserID"]}), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayItemSliceAndTotal = true })
+</div>
+@section scripts{
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
+    <script src="~/assets/bootstrap-datepicker/dist/js/moment.min.js"></script>
+    <script src="~/assets/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#latest-news-tab-2").addClass('active').parent().siblings().find('a').removeClass('active');
+            $("#SystemSettingsTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
+
+            @if(ViewBag.FromDate != null && ViewBag.FromDate != "")
+{
+                     @:$('#FromDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+                @:date: '@ViewBag.FromDate'
+            @:});
+            }
+            else
+            {
+                        @:$('#FromDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+            @:});
+            }
+            @if(ViewBag.ToDate != null && ViewBag.ToDate != "")
+{
+                 @:$('#ToDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+                @:date: '@ViewBag.ToDate'
+            @:});
+            }
+            else
+            {
+                  @:$('#ToDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+            @:});
+            }
+        })
+
+        function Search() {
+            var from = document.getElementById('FromDate').value;
+            var to = document.getElementById('ToDate').value;
+            var userID = document.getElementById('UserID').value;
+
+            window.location.href = '@Url.Action("Logger", "SystemTools", new { area = "AdminPanel"})?FromDate=' + from + '&ToDate=' + to + '&UserID=' + userID;
+        }
+
+
+    </script>
+}

@@ -1,0 +1,117 @@
+﻿@model IEnumerable<NCCM.Areas.AdminPanel.Models.FormFilesSaveModel>
+
+@{
+    ViewBag.Title = "الملفات";
+}
+
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+
+@*<div class="row mb-5">
+    <div class="input-group mb-3 report-button">
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary  Classification-button" id="SearchButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                <img class="Classification-img" src="~/Content/Icons/levels.svg" />
+                تـصنيــــف
+                <img class="Classification-icondrop dropdown-toggle" src="~/Content/Icons/Group 82.svg" />
+            </button>
+            <ul class="dropdown-menu">
+                <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">الاسم</a></li>
+                <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">المسار</a></li>
+
+            </ul>
+            </div>
+            <input type="text" class="form-control Classification-button" aria-label="Text input with dropdown button" placeholder="بحــــــث">
+        </div>
+    </div>*@
+<!-- ---------title and refresh----------------- -->
+<div class="row">
+
+    <div class="col-md-7">
+        <span class="Missing-children-title">الملفات</span>
+        <span class="title-number">@Model.Count()</span>
+    </div>
+ 
+
+</div>
+<hr>
+<div>
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th>
+                    الاسم
+                </th>
+                <th>
+                    المسار
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="Tr-@item.ID">
+                    <td>
+                        @if (item.FileEx == ".jpg" || item.FileEx == ".png")
+                        {
+                            <img class="img-table info-img" src="@item.FilePath">
+                        }
+                        @Html.DisplayFor(modelItem => item.FileName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FilePath)
+                    </td>
+                    <td>
+
+                        <button type="button" class="table-button-hide" onclick="Delete('@item.ID', '@item.FilePath.Replace(@"\",@"\\")')">مسح</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts{
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
+    <script>
+         $(document).ready(function(){
+               $("#latest-news-tab-WFiles").addClass('active').parent().siblings().find('a').removeClass('active');
+               $("#FilesTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
+
+        })
+        function Delete(id, path) {
+            swal({
+                title: "هل انت متأكد؟",
+                text: "هل تريد مسح هذا الملف ؟",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "نعم",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "Post",
+
+                    url: '@Url.Action("DeleteFile", "FormsFiles", new { area = "AdminPanel" })',
+                    data: { path: path },
+                    success: function (data) {
+                        if (data.IsValid) {
+                            $('#Tr-' + id).remove();
+
+                            swal("نجاح!", data.Message, "success");
+
+
+                        }
+                        else {
+                            swal("فشل!", data.Message, "Fail");
+                        }
+                    }
+                });
+
+            });
+        }
+
+    </script>
+}
+
+

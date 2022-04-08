@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "انشطة المجلس";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/EditorCustomStyle.css" rel="stylesheet" />
+
+<div class="reportsupport">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="support-title text-center">انشطة المجلس</h2>
+            </div>
+        </div>
+        <div class="support-section">
+			<div class="row text-center">
+				<div class="col mb-5 wow animate__bounceInDown" data-wow-duration="1s" data-wow-delay="0.2s">
+
+
+					<img class="activities-img" src="~/images/Component 3 – 1.svg" />
+					<h4 class="support-section-title">حملات ومبادرات</h4>
+					<p class="activities-content">هي الحملات التي يطلقها المجلس للرعاية بالاطفال</p>
+
+					<a href="@Url.Action("GetActivity","Activities",new { name="حملات-و-مبادرات"})" class="childbutton">المزيد</a>
+				</div>
+				<div class="col mb-5 wow animate__bounceInDown" data-wow-duration="1s" data-wow-delay="0.3s">
+
+
+					<img class="activities-img" src="~/images/Group 9105.svg" />
+					<h4 class="support-section-title">البـــــــرامــج</h4>
+					<p class="activities-content">البرامج المقدمة من المجلس لتقديم الدعم للمجتمع</p>
+					<a href="@Url.Action("GetActivity","Activities",new { name="برامج"})" class="childbutton">المزيد</a>
+				</div>
+				<div class="col mb-5 wow animate__bounceInDown" data-wow-duration="1s" data-wow-delay="0.4s">
+
+
+					<img class="activities-img" src="~/images/Group 9148.svg" />
+					<h4 class="support-section-title">قصص نجـــــــاح</h4>
+					<p class="activities-content">قصص نجاح تتوج مجهودات المجلس ومساهمته في رعاية الطفولة</p>
+					<a href="@Url.Action("GetActivity","Activities",new { name="قصص-نجاح"})" class="childbutton">المزيد</a>
+				</div>
+			
+	
+
+			</div>
+        </div>
+    </div>
+
+</div>
+<script src="~/Scripts/jquery.js">
+</script>
+<script>
+    $("#Header").addClass("Header2").removeClass("Header");
+</script>

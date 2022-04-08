@@ -1,0 +1,59 @@
+﻿
+@{ ViewBag.Title = "للابلاغ والدعم والمشورة"; }
+
+
+<div class="reportsupport">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h2 class="support-title text-center">للابلاغ والدعم والمشورة</h2>
+			</div>
+		</div>
+		<div class="support-section">
+			<div class="row text-center">
+				<div class="col mb-5 wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+
+					<img class="support-img" src="~/images/Group 8890.svg" />
+					<h4 class="support-section-title">طفل في خطر</h4>
+					<p class="support-content">للابلاغ عن طفل يتعرض لانتهاك لفظى جنسى بدنى</p>
+
+					<a href="@Url.Action("Index", "ReportAbuse")" class="childbutton">المزيد</a>
+				</div>
+				<div class="col  mb-5 wow bounceInUp " data-wow-duration="1s" data-wow-delay="0.3s">
+
+					<img class="support-img" src="~/images/Group 8984.svg" />
+					<h4 class="support-section-title">الدعم والمشورة</h4>
+					<p class="support-content">لطلب دعم للام او الطفل من خلال أنواع الدعم المقدمة من المجلس</p>
+				
+					<a href="@Url.Action("Index", "AskForAdvice")" class="childbutton">المزيد</a>
+				</div>
+				<div class="col mb-5 wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.4s">
+
+					<img class="support-img" src="~/images/Group 8914.svg" />
+					<h4 class="support-section-title">طفل مفقود</h4>
+				
+						<p class="support-content">للابلاغ عن طفل مفقود بتقديم بيانات تساعد في العثور عليه</p>
+				
+					<a href="@Url.Action("Index", "ReportMissingChild")" class="childbutton">المزيد</a>
+				</div>
+				<div class="col  mb-5 wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.5s">
+
+					<img class="support-img" src="~/images/Group 8920.svg" />
+					<h4 class="support-section-title">العثور على طفل</h4>
+			
+						<p class="support-content">للابلاغ عن طفل تم العثور عليه للمساهمة في عودته لبيته</p>
+			
+					<a href="@Url.Action("Index", "ReportFoundChild")" class="childbutton">المزيد</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script src="~/Scripts/jquery.js">
+</script>
+<script>
+	$("#Header").addClass("Header3").removeClass("Header");
+</script>

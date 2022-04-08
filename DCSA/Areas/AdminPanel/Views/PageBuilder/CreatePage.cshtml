@@ -1,0 +1,206 @@
+﻿@{
+    ViewBag.Title = "CreatePage";
+}
+<link href="~/assets/select2/dist/css/select2-bootstrap.min.css" rel="stylesheet" />
+<link href="~/assets/select2/dist/css/select2.css" rel="stylesheet" />
+<link href="~/assets/select2/dist/css/select2.min.css" rel="stylesheet" />
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+
+<form id="MainForm" action="#">
+    @Html.AntiForgeryToken()
+    <div id="updateProgress" style="position: fixed;display:none; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+        <div style="position:relative; top:40%; width:100%; text-align:center;">
+            <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="container-fluid Form-Tab">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="example-basic">
+
+                    <section class="forms-width">
+                        <div class="mb-3">
+                            <label class="form-label">النوع <span></span></label>
+                            <select class="form-select mb-3" aria-label="Default select example" id="TypeID" name="TypeID" style="width:100%">
+                                <option value="-1">النوع</option>
+                                @foreach (var item in ViewBag.Types)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                            <span class="text-danger" id="ValidType"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">العنوان <span></span></label>
+                            <input type="text" class="form-control" placeholder="العنوان" name="Header" id="Header">
+                            <span class="text-danger" id="ValidHeader"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">الصورة <span></span></label>
+                            <input type="text" class="form-control upload-icon" placeholder="اسحب الصورة لتحميلها" onclick="document.getElementById('file').click(); " id="file1" style="cursor:pointer" readonly />
+                            <input type="file" id="file" style="display:none" onchange="var fileInput = document.getElementById('file');  var filename = fileInput.files[0].name; document.getElementById('file1').value= filename;" name="CoverPhoto" />
+                            <span class="text-danger" id="ValidPhoto"></span>
+
+                        </div>
+                        <div class="mb-3">
+                            <textarea id="Content" name="Content" rows="70">
+                                </textarea>
+                            <span class="text-danger" id="ValidContent"></span>
+
+                        </div>
+                        <div class="text-center mb-4">
+                            <button class="sendbtn" type="button" onclick="Save()">ارسال</button>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+</form>
+
+@section scripts{
+    <script src="~/assets/select2/dist/js/select2.full.js"></script>
+    <script src="~/assets/select2/dist/js/select2.full.min.js"></script>
+    <script src="~/assets/select2/dist/js/select2.js"></script>
+    <script src="~/assets/select2/dist/js/select2.min.js"></script>
+    <script src="~/assets/ckeditor/build/ckeditor.js"></script>
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
+
+    <script>
+        var CKEditor;
+        $(document).ready(function(){
+            $("#TypeID").select2();
+
+             ClassicEditor
+                .create(document.querySelector('#Content'), {
+
+                    toolbar: {
+                        items: [
+                            'heading',
+                            '|',
+                            'bold',
+                            'italic',
+                            'link',
+                            'bulletedList',
+                            'numberedList',
+                            '|',
+                            'indent',
+                            'outdent',
+                            '|',
+                            'imageUpload',
+                            'blockQuote',
+                            'insertTable',
+                            'mediaEmbed',
+                            'undo',
+                            'redo',
+                            'highlight',
+                            'fontBackgroundColor',
+                            'fontColor',
+                            'fontFamily',
+                            'fontSize',
+                            'exportWord',
+                            'exportPdf',
+                            'codeBlock',
+                            'alignment',
+                            'imageInsert'
+                        ]
+                    },
+                    language: 'ar',
+                    image: {
+                        toolbar: [
+                            'imageTextAlternative',
+                            'imageStyle:full',
+                            'imageStyle:side',
+                            'linkImage'
+                        ]
+                    },
+                    table: {
+                        contentToolbar: [
+                            'tableColumn',
+                            'tableRow',
+                            'mergeTableCells'
+                        ]
+                    },
+                    licenseKey: '',
+
+                })
+                .then(editor => {
+                    CKEditor = editor;
+                })
+                .catch(error => {
+                    console.error('Oops, something went wrong!');
+                    console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+                    console.warn('Build id: di6kneyt0vjg-4o21qfes0f3c');
+                    console.error(error);
+                });
+
+        
+        })
+
+        function Save() {
+            var formdata = new FormData($('form').get(0));
+
+            formdata.delete('Content');
+      
+            formdata.append('Content', CKEditor.getData());
+
+        $.ajax({
+        url: '@Url.Action("CreatePage", "PageBuilder")',
+        type: 'POST',
+        data: formdata,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            if (data.IsValid) {
+                swal({
+                    title: data.Message,
+                    text: "نجاح",
+                    type: "success",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "تم",
+                    closeOnConfirm: false
+                }, function () {
+                    window.location.reload();
+
+                });
+
+
+                tag.style.display = 'none';
+            }
+            else {
+                swal({
+                    title: "خطأ!",
+                    text: data.Message,
+                    type: "error",
+                });
+
+
+       }
+        },
+        error: function () {
+
+            swal({
+                title: "خطأ!",
+                text: "حدث خطأ",
+                type: "error",
+            });
+            tag.style.display = 'none';
+
+        }
+    });
+
+        }
+
+    </script>
+}

@@ -1,0 +1,28 @@
+﻿@model NCCM.Database.StaticPage
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_LayoutNCCM.cshtml";
+}
+<link href="~/Content/EditorCustomStyle.css" rel="stylesheet" />
+
+<main class=subHeader>
+    <div class="container">
+
+        <p class="text-center mt-5"><span>الرئيسية</span><span class="spretor">/</span><span> @Model.Name</span></p>
+
+    </div>
+</main>
+
+<div class="container article-build pt-3">
+    <div class="row">
+        <div class="col-lg-12">
+            @*<img class="article-img" src="https://via.placeholder.com/400" />*@
+            <p class="article-content">
+                <div id="DynamicContent">
+                    @Html.Raw(Model.PageContent)
+                    </div>
+            </p>
+        </div>
+    </div>
+</div>
+

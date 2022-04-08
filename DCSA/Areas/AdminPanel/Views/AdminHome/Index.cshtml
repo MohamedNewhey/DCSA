@@ -1,0 +1,531 @@
+﻿@model NCCM.Areas.AdminPanel.Models.HomeDataModel
+@using NCCM.Helpers
+@{
+    ViewBag.Title = "الصفحة الرئيسية";
+}
+
+
+<div class="container mb-5">
+
+    <div class="row text-center">
+        <div class="col-md-3">
+
+            <a class="button-show" href="@Url.Action("Index", "Abuse", new { area = "AdminPanel"})">
+                <div class="admain-control">
+
+
+                    <div class="row">
+                        <div class="col-2 d-flex">
+
+                            @*<p class="percentage-danger">10%-</p>*@
+
+                        </div>
+                        <div class="col-6 d-flex justify-content-end">
+
+                            <div>
+                                <p class="admainpanel-title text-center">طفل في خطر </p>
+                                <p class="forms-number">@Model.InDangerChildNo</p>
+                            </div>
+
+
+                        </div>
+                        <div class="col-4">
+                            <img class="adminpanel-img" src="~/images/AdminLayout/Group 9431.svg" />
+
+                        </div>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a class="button-show" href="@Url.Action("Index", "Advice", new { area = "AdminPanel"})">
+                <div class="admain-control">
+
+
+                    <div class="row">
+                        <div class="col-2 d-flex">
+
+                            @*<p class="percentage-danger">10%-</p>*@
+
+                        </div>
+                        <div class="col-6 d-flex justify-content-end">
+
+                            <div>
+                                <p class="admainpanel-title">الدعم والمشورة</p>
+                                <p class="forms-number">@Model.SupportFormsNo</p>
+                            </div>
+
+
+                        </div>
+                        <div class="col-4">
+
+                            <img class="adminpanel-img" src="~/images/AdminLayout/Group 9432.svg" />
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </a>
+        </div>
+
+
+
+
+        <div class="col-md-3">
+            <a class="button-show " href="@Url.Action("Index", "MissingChildren", new { area = "AdminPanel"})">
+                <div class="admain-control">
+
+                    <div class="row">
+                        <div class="col-2 d-flex">
+
+                            @*<p class="percentage-success">10%-</p>*@
+
+                        </div>
+                        <div class="col-6 d-flex justify-content-end">
+
+                            <div>
+                                <p class="admainpanel-title">طفل مفقود</p>
+                                <p class="forms-number">@Model.MissingChildNo</p>
+                            </div>
+
+
+                        </div>
+                        <div class="col-4">
+                            <img class="adminpanel-img" src="~/images/AdminLayout/Group 9433.svg" />
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a class="button-show  " href="@Url.Action("Index", "FoundChildren", new { area = "AdminPanel"})">
+                <div class="admain-control">
+
+                    <div class="row">
+                        <div class="col-2 d-flex">
+
+                            @*<p class="percentage-success">10%-</p>*@
+
+                        </div>
+                        <div class="col-6 d-flex justify-content-end">
+
+                            <div>
+                                <p class="admainpanel-title">العثور على طفل</p>
+                                <p class="forms-number">@Model.FoundChildNo</p>
+                            </div>
+
+
+                        </div>
+                        <div class="col-4">
+                            <img class="adminpanel-img" src="~/images/AdminLayout/Group 9430.svg" />
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </a>
+        </div>
+
+
+    </div>
+
+
+    <!-- charts-->
+    <div class="">
+        <div class="row">
+            <div class="col">
+                <div class="box admain-control" style=" direction: ltr;">
+                    <figure class="highcharts-figure">
+                        <div id="piechart"></div>
+
+                    </figure>
+                </div>
+            </div>
+
+
+            <div class="col">
+                <div class="box admain-control" style=" direction: ltr;">
+                    <figure class="highcharts-figure">
+                        <div id="Barchart"></div>
+
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-7">
+                <div class="box admain-control" style=" direction: ltr;">
+                    <figure class="highcharts-figure">
+                        <div id="linechart"></div>
+
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- charts end-->
+    @if (SecurityRoles.IsWebsiteAdmin())
+    {
+        <div class="row menu-item">
+            <div class="col-md-4">
+
+                <img class="adminpanel-icon" src="~/images/AdminLayout/newspaper (1).svg" />
+                <span class="menu-link">اخبار المجلس</span>
+                <span class="numberOf-posts">@Model.NewsNo</span>
+                <a class="Missing-children-button2" href="@Url.Action("Manage", "PageBuilder", new { area = "AdminPanel", type = 4})">اضافة</a>
+
+
+            </div>
+            <div class="col-md-4 border-admainpanel">
+
+                <img class="adminpanel-icon" src="~/images/AdminLayout/book-open (1).svg" />
+                <span class="menu-link">معلومات تهمك</span>
+                <span class="numberOf-posts">@Model.InfoNo</span>
+                <a class="Missing-children-button2" href="@Url.Action("Index", "InformationCategories", new { area = "AdminPanel"})">اضافة</a>
+
+
+
+            </div>
+            <div class="col-md-4">
+                <img class="adminpanel-icon" src="~/images/AdminLayout/document-layout-right.svg" />
+                <span class="menu-link">صفحات الموقع</span>
+                <span class="numberOf-posts">@Model.PagesNo</span>
+                <a class="Missing-children-button2" href="@Url.Action("Manage", "StaticPages", new { area = "AdminPanel"})">اضافة</a>
+
+            </div>
+        </div>
+    }
+
+</div>
+
+@section scripts{
+
+
+
+    @*<script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>*@
+    <script src="~/assets/highcharts/highcharts.js"></script>
+    <script src="~/assets/highcharts/exporting.js"></script>
+    <script src="~/assets/highcharts/export-data.js"></script>
+    <script>
+
+        Highcharts.chart('Barchart', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'بلاغات',
+                style: {
+                    color: '#707070',
+                    fontSize: "24px",
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            xAxis: {
+                categories: [
+                    'يناير',
+                    'فبراير',
+                    'مارس',
+                    'ابريل',
+                    'مايو',
+                    'يونيو',
+                    'يوليو',
+                    'اغسطس',
+                    'سبتمبر',
+                    'اكتوبر',
+                    'نوفمبر',
+                    'ديسمبر'
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ' '
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:20px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:f} </b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true,
+
+            },
+            exporting: {
+                buttons: {
+                    contextButton: {
+                        menuItems: [
+                            'printChart',
+                            'downloadPNG',
+                            'downloadJPEG',
+                            'downloadPDF',
+                            'downloadSVG'
+                        ]
+                    }
+                }
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.1,
+                    borderWidth: 0
+                }
+            },
+
+            series: [{
+                name: 'طفل مفقود',
+                data: @Html.Raw(Json.Encode(Model.MissingNoPerMonth.ToArray())),
+               color: '#4791FF'
+
+            }, {
+
+                name: 'طفل في خطر',
+                data: @Html.Raw(Json.Encode(Model.InDangerNoPerMonth.ToArray())),
+                color: "#FF2366",
+
+            }, {
+                name: 'طفل معثور عليه',
+                data: @Html.Raw(Json.Encode(Model.FoundNoPerMonth.ToArray())),
+                color: "#02BC77"
+
+            }, {
+                name: 'الدعم والمشورة',
+                data: @Html.Raw(Json.Encode(Model.SupportNoPerMonth.ToArray())),
+                color: "#FFD950"
+
+            }]
+        });
+
+
+
+    </script>
+
+
+
+    <script>
+
+        Highcharts.chart('linechart', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'مجموع بلاغات للمحافظات',
+                style: {
+                    color: '#707070',
+                    fontSize: "20px",
+                }
+            },
+            subtitle: {
+                text: '@Model.TotalForGover',
+                style: {
+                    color: '#707070',
+                    fontSize: "24px",
+                }
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: false
+                }
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: ' '
+                }
+
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                buttons: {
+                    contextButton: {
+                        menuItems: [
+                            'printChart',
+                            'downloadPNG',
+                            'downloadJPEG',
+                            'downloadPDF',
+                            'downloadSVG'
+                        ]
+                    }
+                }
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: false,
+                        format: '{point.y:.1f}%'
+                    }
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<span >' + this.point.name + ' :</span > <b>' + this.y + '</b>';
+                }
+                //pointFormat: '<b>{point.y}</b> '
+            },
+
+            series: [
+                {
+                    name: "البلاغات",
+                    colorByPoint: true,
+                    data: [
+                        @foreach(var item in Model.GoverForms)
+                        {
+                            @:{
+                            @:name: "@item.GoverName",
+                            @:y: @item.FormsNo,
+
+                        @:},
+                        }
+                        
+
+
+                    ]
+                }
+            ],
+        });
+
+
+
+    </script>
+
+
+    <script>
+        var chart = new Highcharts.Chart({
+
+            chart: {
+                renderTo: 'piechart',
+                type: 'pie'
+            },
+
+            title: {
+                text: 'مجموع البلاغات',
+                useHTML: true, //bug fixed `IE9` and `EDGE`
+                style: {
+                    color: '#707070',
+                    fontSize: "24px",
+                }
+            },
+            subtitle: {
+                text: '@Model.TotalForms',
+                style: {
+                    color: '#707070',
+                    fontSize: "24px",
+                }
+            },
+            credits: {
+                enabled: false
+            },
+
+            tooltip: {
+                useHTML: true,
+                pointFormat: '<span>العدد</span>: <b>{point.x}</b>',
+                style: {
+                    fontSize: '10px',
+                    direction: 'rtl',
+                },
+            },
+            exporting: {
+                buttons: {
+                    contextButton: {
+                        menuItems: [
+                            'printChart',
+                            'downloadPNG',
+                            'downloadJPEG',
+                            'downloadPDF',
+                            'downloadSVG'
+                        ]
+                    }
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    size: 200,
+                    dataLabels: {
+                        enabled: true,
+                        y: -5, //Optional
+                        format: '\u202B' + '{point.y}%', // \u202B is RLE char for RTL support
+                        style: {
+                            fontSize: '10px',
+
+                            textShadow: false, //bug fixed IE9 and EDGE
+                        },
+                        useHTML: true,
+                    },
+                    //showInLegend: true,
+                },
+            },
+
+            series: [{
+                name: 'النسبه',
+                colorByPoint: true,
+                data: [{
+                    name: 'العثور على طفل',
+                    y: @Model.FoundChildPer.Percentage,
+                    x: @Model.FoundChildPer.Num,
+                    color: "#02BC77"
+
+                },
+                    {
+                        name: 'طفل  في خطر',
+                        y: @Model.InDangerChildPer.Percentage,
+                        x:@Model.InDangerChildPer.Num,
+                        color: "#FF2366"
+                    }
+                    ,
+                    {
+                        name: 'الدعم والمشورة',
+                        y: @Model.SupportFormsPer.Percentage,
+                        x:@Model.SupportFormsPer.Num,
+                        color: "#FFD950"
+                    }
+                    ,
+                    {
+                        name: 'طفل مفقود',
+                        y: @Model.MissingChildPer.Percentage,
+                    x:@Model.MissingChildPer.Num,
+                    color: '#4791FF'
+                }],
+            }],
+
+        });
+
+
+    </script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            $("#HomeTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
+
+        })
+    </script>
+}

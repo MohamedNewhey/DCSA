@@ -1,0 +1,288 @@
+﻿@model NCCM.Database.User
+
+@{
+    if (Model.ID != -1)
+    {
+        ViewBag.Title = "تعديل " + Model.Name;
+    }
+    else
+    {
+        ViewBag.Title = "اضافة مستخدم";
+    }
+}
+
+<link href="~/assets/select2/dist/css/select2-bootstrap.min.css" rel="stylesheet" />
+<link href="~/assets/select2/dist/css/select2.css" rel="stylesheet" />
+<link href="~/assets/select2/dist/css/select2.min.css" rel="stylesheet" />
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.HiddenFor(x => x.ID)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div id="updateProgress" style="position: fixed;display:none; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+            <div style="position:relative; top:40%; width:100%; text-align:center;">
+                <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="example-basic">
+						<div class="row">
+
+
+
+                            <div class=" col-lg-6 mb-4">
+                                <label for="exampleFormControlInput1" class="form-label"> الاسم<span></span></label>
+
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "ادخل الاسم", @id = "Name", @onkeyup = "ValidationRefresh('Name', 'ValidName')" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "ValidName" })
+
+                            </div>
+
+                            <div class=" col-lg-6  mb-5">
+                                <label for="exampleFormControlInput1" class="form-label"> البريد الالكتروني<span></span></label>
+
+                                <input class="form-control" style=" direction: rtl;" name="Email" id="Email" type="email" value="@Model.Email" placeholder="ادخل البريد الالكترونى" onkeyup="ValidationRefresh('Email', 'ValidEmail')" />
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger", @id = "ValidEmail" })
+
+                            </div>
+
+                            <div class="mb-5">
+                                <label for="exampleFormControlInput1" class="form-label"> الصورة<span></span></label>
+
+                                <input type="text" class="form-control upload-icon" placeholder="اسحب صورة الخبر لتحميلها" onclick="document.getElementById('file').click(); " id="file1" style="cursor:pointer" readonly />
+                                <input type="file" id="file" style="display:none" name="Photo" onchange="var fileInput = document.getElementById('file'); var filename = fileInput.files[0].name; document.getElementById('file1').value = filename;removePhoto() " />
+                                <span class="text-danger" id="ValidPhoto"></span>
+                                @if (Model.Photo != null)
+                                {
+                                    <a href="@Model.Photo" title="click to open full size" target="_blank"><img src="@Model.Photo" width="5%" class="mt-4" /></a>
+                                }
+                            </div>
+
+                            <div class=" col-lg-6 mb-5">
+                                <label for="exampleFormControlInput1" class="form-label"> المسمى الوظيفي<span></span></label>
+
+                                <select class="form-select mb-4" aria-label="Default select example" id="RoleID" name="RoleID" style="width:100%" onchange="ValidationRefresh('RoleID', 'ValidRole')">
+                                    <option value="-1">المسمى الوظيفى</option>
+                                    @foreach (var item in ViewBag.RoleID)
+                                    {
+                                        if (Model.RoleID == int.Parse(item.Value))
+                                        {
+                                            <option selected value="@item.Value">@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <span class="text-danger" id="ValidRole"></span>
+                            </div>
+
+                            <div class="col-lg-6 mb-5">
+                                <label for="exampleFormControlInput1" class="form-label"> التليفون<span></span></label>
+
+                                <input class="form-control" style=" direction: rtl;" type="tel" name="Phone" onkeypress="return isNumber(event)" placeholder="ادخل التليفون" />
+                            </div>
+
+                            <div class="  mb-5">
+                                <label for="exampleFormControlInput1" class="form-label"> كلمة السر<span></span></label>
+                                <input class="form-control" name="Password" id="Password" type="password" placeholder="ادخل كلمة المرور" value="@Model.Password" onkeyup="ValidationRefresh('Password', 'ValidPassword')" />
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", @id = "ValidPassword" })
+
+                            </div>
+
+
+							@if (Model.ID != -1)
+							{
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label" style="display:block">الحالة</label>
+									<div id="MainPage">
+										<div class="form-check form-check-inline">
+											<label class="form-check-label form-label" for="inlineRadio1">نشط</label>
+											@if (Model.Status == true)
+											{
+												<input class="form-check-input" type="radio" name="Status" id="inlineRadio1" value="1" checked>
+											}
+											else
+											{
+												<input class="form-check-input" type="radio" name="Status" id="inlineRadio1" value="1">
+											}
+										</div>
+										<div class="form-check form-check-inline">
+											<label class="form-check-label form-label" for="inlineRadio2">غير نشط</label>
+											@if (Model.Status == false)
+											{
+												<input class="form-check-input" type="radio" name="Status" id="inlineRadio2" value="2" checked>
+											}
+											else
+											{
+												<input class="form-check-input" type="radio" name="Status" id="inlineRadio2" value="2">
+											}
+										</div>
+										<span class="text-danger" id="validStatus"></span>
+									</div>
+								</div>
+							}
+							else
+							{
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label" style="display:block">الحالة</label>
+									<div id="MainPage">
+										<div class="form-check form-check-inline">
+											<label class="form-check-label form-label" for="inlineRadio1">نشط</label>
+											<input class="form-check-input" type="radio" name="Status" id="inlineRadio1" value="1" checked>
+										</div>
+										<div class="form-check form-check-inline">
+											<label class="form-check-label form-label" for="inlineRadio2">غير نشط</label>
+											<input class="form-check-input" type="radio" name="Status" id="inlineRadio2" value="2">
+										</div>
+									</div>
+									<span class="text-danger" id="validStatus"></span>
+								</div>
+							}
+
+
+
+
+						
+							<div class="text-center mt-5 last-buttons">
+                                <button type="button" class="button-history-add" value="اضافة" onclick="Save()">حفظ</button>
+								<button type="button" class="button-history-Cancel" onclick="window.location.href = '@Url.Action("Index", "Users")'">إلغاء</button>
+							</div>
+						</div>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+}
+
+@*<div>
+    @Html.ActionLink("عودة الى القائمة", "Index")
+</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
+    <script src="~/assets/select2/dist/js/select2.full.js"></script>
+    <script src="~/assets/select2/dist/js/select2.full.min.js"></script>
+    <script src="~/assets/select2/dist/js/select2.js"></script>
+    <script src="~/assets/select2/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+                            $("#latest-news-tab-Users").addClass('active').parent().siblings().find('a').removeClass('active');
+                            $("#UsersTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
+
+            $("#RoleID").select2();
+        })
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+
+        }
+
+         function Save() {
+            var formdata = new FormData($('form').get(0));
+            var tag = document.getElementById('updateProgress');
+            tag.style.display = 'block';
+        $.ajax({
+        url: '@Url.Action("Manage", "Users")',
+        type: 'POST',
+        data: formdata,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            if (data.IsValid) {
+                swal({
+                    title: data.Message,
+                    text: "نجاح",
+                    type: "success",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "تم",
+                    closeOnConfirm: false
+                }, function () {
+                    window.location.href = "@Url.Action("Index", "Users")";
+
+                });
+
+
+                tag.style.display = 'none';
+            }
+            else {
+                swal({
+                    title: "خطأ!",
+                    text: data.Message,
+                    type: "error",
+                });
+
+                tag.style.display = 'none';
+         if (data.ValidFieldID != "") {
+                    document.getElementById(data.ValidFieldID).innerText = data.Message;
+                    $("#" + data.FieldID).css('border-color', 'red');
+
+
+                    if (data.FieldID == "RoleID") {
+                        $('#' + data.FieldID).siblings(".select2-container").css('border', '1px solid red');
+                    }
+
+
+                }
+                
+       }
+        
+        },
+        error: function () {
+
+            swal({
+                title: "خطأ!",
+                text: "حدث خطأ",
+                type: "error",
+            });
+            tag.style.display = 'none';
+
+        }
+    });
+
+        }
+
+         function ValidationRefresh(inputid, validid) {
+
+
+
+            if (inputid == "RoleID") {
+                $('#' + inputid).siblings(".select2-container").css('border', '');
+            }
+
+
+                document.getElementById(validid).innerText = "";
+                $("#" + inputid).css('border-color', '');
+
+
+
+        }
+
+         function removePhoto() {
+            @if (Model.Phone != null)
+            {
+                @:$("img").css('display', 'none');
+            }
+        }
+    </script>
+}
+
+

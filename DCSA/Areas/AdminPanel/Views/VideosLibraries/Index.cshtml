@@ -1,0 +1,237 @@
+﻿@model IEnumerable<NCCM.Database.VideosLibrary>
+
+@{
+    ViewBag.Title = "مكتبة الفيديو";
+}
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+
+
+@*<div class="row mb-5">
+    <div class="input-group mb-3 report-button">
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary  Classification-button" id="SearchButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                <img class="Classification-img" src="~/Content/Icons/levels.svg" />
+                تـصنيــــف
+                <img class="Classification-icondrop dropdown-toggle" src="~/Content/Icons/Group 82.svg" />
+            </button>
+            <ul class="dropdown-menu">
+                <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">الاسم</a></li>
+                <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">الوصف</a></li>
+                <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">المسار</a></li>
+                <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">الحالة</a></li>
+                <li onclick="ChangeButtonText(this)"><a class="dropdown-item" href="#">الناشر</a></li>
+            </ul>
+            </div>
+            <input type="text" class="form-control Classification-button" aria-label="Text input with dropdown button" placeholder="بحــــــث">
+        </div>
+    </div>*@
+<!-- ---------title and refresh----------------- -->
+<div class="row">
+
+    <div class="col-md-7">
+        <span class="Missing-children-title">مكتبة الفيديو</span>
+        <span class="title-number">@Model.Count()</span>
+    </div>
+    <div class="col-md-5 report-icons2">
+        <a  class="Missing-children-button" href="@Url.Action("Manage", "VideosLibraries")">اضافة</a>
+
+    </div>
+
+</div>
+<hr>
+<div>
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th>
+                   الاسم 
+                </th>
+                <th>
+                   الوصف
+                </th>
+                <th class="text-center">
+                   المسار
+                </th>
+                <th class="text-center">عرض</th>
+                <th class="text-center">الحالة</th>
+                <th>
+                    الناشر
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr id="Tr-@item.ID">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td class="text-center" style="word-break:break-all">
+                    <a href="@item.URL" target="_blank" style="text-decoration: none;color: #576271">@item.URL</a>
+                    @*@Html.DisplayFor(modelItem => item.URL)*@
+                </td>
+                <td class="text-center">
+    <iframe class="videos" style="width:200px; height:100px" src="@item.URL" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=allowfullscreen></iframe>
+</td>
+                @if (item.Publish == true)
+                {
+                    <td class="text-center"><img class="icon-color-table" src="~/Content/Icons/Ellipse 3.svg">نشر</td>
+                }
+                else
+                {
+                    <td class="text-center"><img class="icon-color-table" src="~/Content/Icons/Ellipse 2.svg">اخفاء من النشر</td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Name)
+
+
+                </td>
+                <td>
+                    @if (item.Publish == true)
+                    {
+                        <button type="button" class="table-button-off" onclick="Publish('@item.ID', 2)">ايقاف</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="table-button-Spread" onclick="Publish('@item.ID', 1)">نشر</button>
+                    }
+                    <a  class="table-button-edit" href="@Url.Action("Manage", "VideosLibraries", new { ID = item.ID })">تعديل</a>
+
+                    <button type="button" class="table-button-hide" onclick="Delete('@item.ID')">مسح</button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts{
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+         $("#latest-news-tab-Videos").addClass('active').parent().siblings().find('a').removeClass('active');
+         $("#VideosTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
+        })
+
+        function Delete(id) {
+
+    swal({
+    title: "هل انت متأكد؟",
+    text: "هل تريد مسح الفيديو ؟" ,
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#DD6B55",
+    confirmButtonText: "نعم",
+    closeOnConfirm: false
+    }, function () {
+    $.ajax({
+    type: "Post",
+
+    url: '@Url.Action("DeleteVideo", "VideosLibraries", new { area = "AdminPanel"})',
+    data: { id: id },
+    success: function (data) {
+    if (data.IsValid) {
+    $('#Tr-' + id).remove();
+
+    swal("نجاح!", data.Message, "success");
+
+
+    }
+    else {
+    swal("فشل!", data.Message, "Fail");
+    }
+    }
+    });
+
+    });
+    }
+
+         function Publish(id, type) {
+        if(type == 1){
+        swal({
+                title: "هل انت متأكد؟",
+           text: "هل تريد نشر الفيديو؟",
+
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "نعم",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "Post",
+
+                    url: '@Url.Action("Publish", "VideosLibraries", new { area = "AdminPanel"})',
+                    data: { id: id , type:type},
+                    success: function (data) {
+                        if (data.IsValid) {
+
+
+                            swal({
+                    title: data.Message,
+                    text: "نجاح",
+                    type: "success",
+
+                }, function () {
+                    window.location.reload();
+
+                });
+
+
+                        }
+                        else {
+                            swal("فشل!", data.Message, "Fail");
+                        }
+                    }
+                });
+
+            });
+        }
+            else{
+        swal({
+                title: "هل انت متأكد؟",
+           text: "هل تريد ايقاف نشر الفيديو؟",
+
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "نعم",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "Post",
+
+                    url: '@Url.Action("Publish", "VideosLibraries", new { area = "AdminPanel"})',
+                    data: { id: id , type:type},
+                    success: function (data) {
+                        if (data.IsValid) {
+
+
+                            swal({
+                    title: data.Message,
+                    text: "نجاح",
+                    type: "success",
+
+                }, function () {
+                    window.location.reload();
+
+                });
+
+
+                        }
+                        else {
+                            swal("فشل!", data.Message, "Fail");
+                        }
+                    }
+                });
+
+            });
+        }
+        }
+
+    </script>
+}

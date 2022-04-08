@@ -1,0 +1,37 @@
+@font-face {
+  font-family: 'RB Regular';
+  src: url('RB Regular.eot');
+  src: url('RB Regular.eot?#iefix') format('embedded-opentype'),
+       url('RB Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'RB-Regular';
+  src: url('RB-Regular.svg#RB-Regular') format('svg'),
+       url('RB-Regular.ttf') format('truetype'),
+       url('RB-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'RB-Bold';
+  src: url('RB-Bold.svg#RB-Bold') format('svg'),
+     
+       url('RB-Bold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Rb bold';
+  src: url('Rb bold.eot');
+  src: url('Rb bold.eot?#iefix') format('embedded-opentype'),
+       url('Rb bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<NCCM.Database.VideosLibrary>
+@{
+    ViewBag.Title = "مكتبة الفيديوهات";
+    Layout = "~/Views/Shared/_LayoutNCCM.cshtml";
+}
+
+
+
+<main class=subHeader>
+    <div class="container">
+
+        <h4 class=" Subheader-Title text-center">مكتبة الفيديوهات</h4>
+        <p class="text-center mt-5"><a class="breadcrumb-menu" href="@Url.Action("index","Home")">الرئيسية</a></p>
+
+
+    </div>
+</main>
+
+<div class="video-library">
+    <div class="container-fluid">
+
+        @for (int i = 0; i < Model.Count(); i += 3)
+        {
+        <div class="row">
+
+            @{
+                var items = Model.Skip(i).Take(3).ToList();
+
+                foreach (var item in items)
+                {
+                    <div class="col col-md-4 video-center">
+                        <iframe class="videos" src="@item.URL" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    }
+                }
+
+                </div>
+        }
+           
+        </div>
+</div>

@@ -1,0 +1,54 @@
+﻿@using PagedList;
+@model IPagedList<NCCM.Database.Page>
+
+
+<section class="programs-page">
+    <div class="container">
+        @*@for (int i = 0; i < Model.Count(); i += 4)
+
+        {*@
+            <div class="row">
+                @{
+                    //var items = Model.Skip(i).Take(4).ToList();
+                    foreach (var item in /*items*/Model)
+                    {
+                        <div class=" col col-md-4">
+                            <div class="program-body">
+                                <img class="program-img" src="@item.CoverPhoto">
+                                <h5 class="programs-tilte">@item.Header</h5>
+                                @if (ViewBag.Header == "اخبار المجلس")
+                                {
+                                    <p class="news-date">@item.PageDate.Value.ToShortDateString()</p>
+                                }
+                                <hr class="program-line" />
+                                <p class="program-content">
+                                    @item.ShortDescription <a href="@Url.Action("DisplayPage","Activities",new {name = ViewBag.PageHeader, itemurl=item.URL })" class="load-more">...المزيد</a>
+                                </p>
+                            </div>
+
+
+
+                        </div>
+
+                    }
+                }
+
+            </div>
+        @*}*@
+
+    </div>
+</section>
+
+<script>
+    $(document).ready(function(){
+        @if(ViewBag.LoadMore == false)
+        {
+          //  @:document.getElementById("LoadMoreButton").style.display = 'none';
+            @:LaodMoreVariable = false;
+        }
+        else{
+          //  @: document.getElementById("LoadMoreButton").style.display = 'block';
+            @:LaodMoreVariable = true;
+        }
+    })
+</script>

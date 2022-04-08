@@ -1,0 +1,49 @@
+﻿
+@{
+	ViewBag.Title = "خدمات الدعم القانوني والنفسي";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="reportsupport">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h2 class="support-title text-center">خدمات الدعم القانوني والنفسي</h2>
+			</div>
+		</div>
+		<div class="support-section">
+			<div class="row text-center ">
+				
+				<div class="col mb-5">
+
+				
+					<img class="support-img"  src="~/images/Group 9453.svg" />
+					<h4 class="support-section-title">خدمات الدعم القانوني</h4>
+					<p class="support-content">يقدم المجلس العديد من خدمات الدعم القانونى</p>
+
+					<a href="@Url.Action("LegalServices", "Services")" class="childbutton">المزيد</a>
+				</div>
+				<div class="col mb-5 ">
+
+			
+					<img class="support-img"  src="~/images/Group 9397.svg" />
+					<h4 class="support-section-title">خدمات الدعم النفسي</h4>
+					<p class="support-content">يقدم المجلس جميع أنواع الدعم النفسى للطفل والام</p>
+
+					<a href="@Url.Action("PsychicServices", "Services")" class="childbutton">المزيد</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+<script src="~/Scripts/jquery.js"></script>
+
+<script>
+		$("#Header").addClass("Header6").removeClass("Header");
+</script>

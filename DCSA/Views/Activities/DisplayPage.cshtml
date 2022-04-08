@@ -1,0 +1,28 @@
+﻿@model NCCM.Database.Page
+@{
+    ViewBag.Title = Model.Header;
+    Layout = "~/Views/Shared/_LayoutNCCM.cshtml";
+}
+<link href="~/Content/EditorCustomStyle.css" rel="stylesheet" />
+<main class=subHeader>
+    <div class="container">
+
+        <h4 class=" Subheader-Title text-center">@Model.Header</h4>
+        <p class="text-center mt-5"><a class="breadcrumb-menu" href="@Url.Action("index","Home")">الرئيسية</a><span class="spretor">/</span><a class="breadcrumb-menu" href="@Url.Action("GetActivity","Activities",new { name=ViewBag.PageHeader})"> @ViewBag.Header</a></p>
+
+    </div>
+</main>
+
+<div class="container article-build pt-3">
+    <div class="row">
+        <div class="col-lg-12">
+            @*<img class="article-img" src="https://via.placeholder.com/400" />*@
+            <p class="article-content">
+                <div id="DynamicContent">
+                @Html.Raw(Model.PageContent)
+                    </div>
+            </p>
+        </div>
+    </div>
+</div>
+

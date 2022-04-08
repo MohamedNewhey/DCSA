@@ -1,0 +1,77 @@
+﻿@using NCCM.Models
+@model LoginViewModel
+@{
+
+	Layout = null;
+}
+
+@Scripts.Render("~/bundles/modernizr")
+
+
+
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="~/Content/Icons/globe.ico" />
+	<link href="~/Content/bootstrap.rtl.min.css" rel="stylesheet" />
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/Content/bootstrap-utilities.rtl.min.css" rel="stylesheet" />
+	<link href="~/Content/Login.css" rel="stylesheet" />
+	<link href="~/Content/helvatica font/HelvaticaFont.css" rel="stylesheet" />
+	<title>تسجيل دخول</title>
+
+</head>
+
+<body>
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken();
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-7 login-admin">
+
+					<div class="login-form">
+						<img class="img-logo" src="~/images/0-45.png" />
+						<h3 class="mt-3">الدخول لحسابى</h3>
+
+						<input type="email" class="form-control form-login" placeholder="اسم المستخدم" aria-label="Username" name="Email" aria-describedby="basic-addon1">
+						@Html.ValidationMessageFor(Model => Model.Email, null, new { @class = "text-danger" })
+						<input type="password" class="form-control form-login" placeholder="كلمة المرور" aria-label="Username" name="Password" aria-describedby="basic-addon1">
+						<div class="form-check">
+							<input  type="checkbox" value="" id="flexCheckDefault">
+							<label class="form-check-label" for="flexCheckDefault">
+							تذكرني
+							</label>
+						</div>
+
+						@Html.ValidationMessageFor(Model => Model.Password, null, new { @class = "text-danger" })
+
+
+						<button type="submit" class="button-history-add mt-4">الدخول</button>
+					</div>
+                </div>
+                <div class="col-md-5  img-login-admin">
+
+                    <img class="img-login" src="~/images/undraw_secure_login_pdn4.svg" />
+                </div>
+            </div>
+        </div>
+
+    }
+
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jquery")
+
+            <script src="~/Scripts/jquery.js"></script>
+            <script src="~/Scripts/bootstrap.min.js"></script>
+            @RenderSection("scripts", required: false)
+        }
+
+
+    </body>
+</html>

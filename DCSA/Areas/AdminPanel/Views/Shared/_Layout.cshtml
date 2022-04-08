@@ -1,0 +1,495 @@
+﻿@using NCCM.Helpers
+@using NCCM.Database
+@using System.Security.Claims;
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+
+    <title>@ViewBag.Title</title>
+
+    @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/Content/Icons/globe.ico" />
+    <link href="~/Content/bootstrap.rtl.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-utilities.rtl.min.css" rel="stylesheet" />
+    <link href="~/Content/FormTab.css" rel="stylesheet" />
+    <link href="~/Content/HomePage.css" rel="stylesheet" />
+    <link href="~/Content/Responsive.css" rel="stylesheet" />
+    <link href="~/Content/helvatica font/HelvaticaFont.css" rel="stylesheet" />
+    <link href="~/Content/all.min.css" rel="stylesheet" />
+    <link href="~/Content/AdminLayout.css" rel="stylesheet" />
+</head>
+<body>
+    <!----------------------- Page Latest News ------------------------->
+    <div class="report-support-section">
+        <!-- -----------------tabs----------------------- -->
+        @{
+            DefaultConnection db = new DefaultConnection();
+            var identity = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identity.Claims;
+            int UserID = int.Parse(claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var Image = db.Users.Find(UserID).Photo;
+        }
+
+        <div class="report-section mb-5">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-7 mb-3">
+                        <h4 class="report">@ViewBag.TITLEee</h4>
+
+                    </div>
+                    <div class="col-md-4 report-icons">
+                        @*<img class="report-icon" src="~/images/AdminLayout/bell (1).svg">*@
+                        @if (Image != null)
+                        {
+                            <img class="report-img" src="@Image">
+                        }
+                        else
+                        {
+                            <img class="report-img" src="~/images/AdminLayout/user.svg">
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-11">
+                        <ul class="nav" id="nav">
+                            @if (ViewBag.LIST != null)
+                            {
+                                foreach (var item in ViewBag.LIST)
+                                {
+                                    if (item.ID == -1)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="@ViewBag.FID" aria-current="page" href="@item.URL">@item.Name</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="latest-news-tab-@item.ID" aria-current="page" href="@item.URL">@item.Name</a>
+                                        </li>
+                                    }
+
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- -----------------body----------------------- -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-1 ">
+                    <nav class="main-menu">
+                        <ul id="main-menu">
+                            <li>
+                                <a>
+                                    <img class="logo-menu" src="~/images/AdminLayout/0-45.png">
+                                </a>
+                            </li>
+                            <li>
+                                <a id="HomeTab" href="@Url.Action("Index", "AdminHome")">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 21.574 24">
+                                        <defs>
+
+                                        </defs>
+                                        <path class="a" d="M23.376,9.2h0l-7.191-6.3a3.6,3.6,0,0,0-4.794,0L4.2,9.2A3.6,3.6,0,0,0,3,11.9V22.38a3.6,3.6,0,0,0,3.6,3.6H20.979a3.6,3.6,0,0,0,3.6-3.6V11.893a3.6,3.6,0,0,0-1.2-2.7ZM16.184,23.579H11.39V17.586a1.2,1.2,0,0,1,1.2-1.2h2.4a1.2,1.2,0,0,1,1.2,1.2Zm5.993-1.2a1.2,1.2,0,0,1-1.2,1.2h-2.4V17.586a3.6,3.6,0,0,0-3.6-3.6h-2.4a3.6,3.6,0,0,0-3.6,3.6v5.993H6.6a1.2,1.2,0,0,1-1.2-1.2V11.893a1.2,1.2,0,0,1,.408-.9L13,4.7a1.2,1.2,0,0,1,1.582,0l7.191,6.292a1.2,1.2,0,0,1,.408.9Z" transform="translate(-3 -1.976)" />
+                                    </svg>
+                                    <span class="nav-text">
+                                        الصفحة الرئيسية
+                                    </span>
+                                </a>
+
+                            </li>
+                            @if (SecurityRoles.IsWebsiteAdmin())
+                            {
+                                <li class="has-subnav">
+                                    <a id="NewsTab" href="@Url.Action("Index", "PageBuilder", new { Type =4 })">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 22.574 20.317">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path class="a" d="M18.931,12.03H17.8a1.129,1.129,0,1,0,0,2.257h1.129a1.129,1.129,0,0,0,0-2.257Zm0,4.515H17.8a1.129,1.129,0,1,0,0,2.257h1.129a1.129,1.129,0,0,0,0-2.257ZM12.158,9.772h6.772a1.129,1.129,0,0,0,0-2.257H12.158a1.129,1.129,0,1,0,0,2.257ZM23.446,3H7.644A1.129,1.129,0,0,0,6.515,4.129V7.515H3.129A1.129,1.129,0,0,0,2,8.644V19.931a3.386,3.386,0,0,0,3.386,3.386H20.059A4.515,4.515,0,0,0,24.574,18.8V4.129A1.129,1.129,0,0,0,23.446,3ZM6.515,19.931a1.129,1.129,0,1,1-2.257,0V9.772H6.515Zm15.8-1.129a2.257,2.257,0,0,1-2.257,2.257H8.569a3.386,3.386,0,0,0,.2-1.129V5.257H22.317ZM12.158,14.287h1.129a1.129,1.129,0,1,0,0-2.257H12.158a1.129,1.129,0,1,0,0,2.257Zm0,4.515h1.129a1.129,1.129,0,1,0,0-2.257H12.158a1.129,1.129,0,1,0,0,2.257Z" transform="translate(-2 -3)" />
+                                        </svg>
+                                        <span class="nav-text">
+
+                                            أخر الأخبار
+                                        </span>
+                                    </a>
+
+                                </li>
+                                <li class="has-subnav">
+                                    <a id="AboutTab" href="@Url.Action("ManageMainPages", "StaticPages", new { id = 2})">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 21 26.25">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fdfdfd;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path class="a" d="M10.563,12.5h1.313a1.313,1.313,0,0,0,0-2.625H10.563a1.313,1.313,0,0,0,0,2.625Zm0,2.625a1.313,1.313,0,0,0,0,2.625h7.875a1.313,1.313,0,0,0,0-2.625ZM25,11.109a1.719,1.719,0,0,0-.079-.354v-.118a1.4,1.4,0,0,0-.249-.368h0L16.8,2.394h0a1.4,1.4,0,0,0-.368-.249.42.42,0,0,0-.118,0A1.155,1.155,0,0,0,15.878,2H7.937A3.938,3.938,0,0,0,4,5.938V24.313A3.938,3.938,0,0,0,7.938,28.25H21.063A3.937,3.937,0,0,0,25,24.313v-13.2ZM17.125,6.476l3.4,3.4H18.438a1.312,1.312,0,0,1-1.312-1.312Zm5.25,17.837a1.313,1.313,0,0,1-1.312,1.313H7.937a1.312,1.312,0,0,1-1.312-1.312V5.938A1.312,1.312,0,0,1,7.937,4.625H14.5V8.563A3.937,3.937,0,0,0,18.438,12.5h3.938Zm-3.937-3.937H10.563a1.313,1.313,0,0,0,0,2.625h7.875a1.313,1.313,0,0,0,0-2.625Z" transform="translate(-4 -2)" />
+                                        </svg>  <span class="nav-text">
+                                            عن المجلس
+                                        </span>
+                                    </a>
+
+                                </li>
+                            }
+
+                            @if (SecurityRoles.IsFormsAdmin() || SecurityRoles.IsMobileAdmin() || SecurityRoles.IsApproveOnlyLayOut())
+                            {
+                                if (SecurityRoles.IsApproveOnlyLayOut())
+                                {
+                                    <li class="has-subnav">
+                                        <a id="FormsTab" href="@Url.Action("Index", "MissingChildren")">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 24.274 27.522">
+                                                <defs>
+                                                    <style>
+                                                        .a {
+                                                            fill: #fff;
+                                                            stroke: #fff;
+                                                            stroke-width: 0.7px;
+                                                        }
+                                                    </style>
+                                                </defs>
+                                                <g transform="translate(-30.65 0.35)"><g transform="translate(34.143 11.001)"><path class="a" d="M93.357,210A2.36,2.36,0,0,0,91,212.357v6.391a2.357,2.357,0,0,0,4.715,0v-6.391A2.36,2.36,0,0,0,93.357,210Z" transform="translate(-91 -210)" /></g><g transform="translate(31 12.697)"><path class="a" d="M32.572,243.028a3.9,3.9,0,0,1,.067-.662A2.353,2.353,0,0,0,31,244.6v3.248a2.353,2.353,0,0,0,1.639,2.233,3.9,3.9,0,0,1-.067-.662Z" transform="translate(-31 -242.366)" /></g><g transform="translate(40.43 11.001)"><path class="a" d="M219.644,210a2.36,2.36,0,0,0-2.357,2.357v6.391a2.36,2.36,0,0,0,2.357,2.357,2.326,2.326,0,0,0,.675-.11,2.353,2.353,0,0,1-2.247,1.682h-2.5a2.357,2.357,0,1,0,0,1.572h2.5A3.934,3.934,0,0,0,222,220.32v-7.963A2.36,2.36,0,0,0,219.644,210Z" transform="translate(-211 -210)" /></g><g transform="translate(52.936 12.697)"><path class="a" d="M449.722,242.366a3.9,3.9,0,0,1,.067.662v6.391a3.9,3.9,0,0,1-.067.662,2.353,2.353,0,0,0,1.639-2.233V244.6A2.353,2.353,0,0,0,449.722,242.366Z" transform="translate(-449.722 -242.366)" /></g><g transform="translate(31)"><path class="a" d="M42.787,0A11.8,11.8,0,0,0,31,11.787v.02a3.891,3.891,0,0,1,1.608-.73,10.2,10.2,0,0,1,20.359,0,3.892,3.892,0,0,1,1.608.73v-.02A11.8,11.8,0,0,0,42.787,0Z" transform="translate(-31)" /></g></g>
+                                            </svg>
+                                            <span class="nav-text">
+                                                للابلاغ والدعم والمشورة
+                                            </span>
+                                        </a>
+
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="has-subnav">
+                                        <a id="FormsTab" href="@Url.Action("Index", "Abuse")">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 24.274 27.522">
+                                                <defs>
+                                                    <style>
+                                                        .a {
+                                                            fill: #fff;
+                                                            stroke: #fff;
+                                                            stroke-width: 0.7px;
+                                                        }
+                                                    </style>
+                                                </defs>
+                                                <g transform="translate(-30.65 0.35)"><g transform="translate(34.143 11.001)"><path class="a" d="M93.357,210A2.36,2.36,0,0,0,91,212.357v6.391a2.357,2.357,0,0,0,4.715,0v-6.391A2.36,2.36,0,0,0,93.357,210Z" transform="translate(-91 -210)" /></g><g transform="translate(31 12.697)"><path class="a" d="M32.572,243.028a3.9,3.9,0,0,1,.067-.662A2.353,2.353,0,0,0,31,244.6v3.248a2.353,2.353,0,0,0,1.639,2.233,3.9,3.9,0,0,1-.067-.662Z" transform="translate(-31 -242.366)" /></g><g transform="translate(40.43 11.001)"><path class="a" d="M219.644,210a2.36,2.36,0,0,0-2.357,2.357v6.391a2.36,2.36,0,0,0,2.357,2.357,2.326,2.326,0,0,0,.675-.11,2.353,2.353,0,0,1-2.247,1.682h-2.5a2.357,2.357,0,1,0,0,1.572h2.5A3.934,3.934,0,0,0,222,220.32v-7.963A2.36,2.36,0,0,0,219.644,210Z" transform="translate(-211 -210)" /></g><g transform="translate(52.936 12.697)"><path class="a" d="M449.722,242.366a3.9,3.9,0,0,1,.067.662v6.391a3.9,3.9,0,0,1-.067.662,2.353,2.353,0,0,0,1.639-2.233V244.6A2.353,2.353,0,0,0,449.722,242.366Z" transform="translate(-449.722 -242.366)" /></g><g transform="translate(31)"><path class="a" d="M42.787,0A11.8,11.8,0,0,0,31,11.787v.02a3.891,3.891,0,0,1,1.608-.73,10.2,10.2,0,0,1,20.359,0,3.892,3.892,0,0,1,1.608.73v-.02A11.8,11.8,0,0,0,42.787,0Z" transform="translate(-31)" /></g></g>
+                                            </svg>
+                                            <span class="nav-text">
+                                                للابلاغ والدعم والمشورة
+                                            </span>
+                                        </a>
+
+                                    </li>
+                                }
+
+                            }
+                          
+                            @if (SecurityRoles.IsWebsiteAdmin())
+                            {
+                                <li>
+                                    <a id="InformationTab" href="@Url.Action("Index", "InformationCategories")">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 23.601 23.835">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path class="a" d="M24.594,2.094a15.438,15.438,0,0,0-2.557-.224,15.249,15.249,0,0,0-8.249,2.416A15.249,15.249,0,0,0,5.538,1.929a15.438,15.438,0,0,0-2.557.224A1.178,1.178,0,0,0,2,3.331V17.473a1.178,1.178,0,0,0,1.379,1.178A12.845,12.845,0,0,1,13.1,20.9l.141.082h.13a1.072,1.072,0,0,0,.825,0h.13l.141-.082a12.845,12.845,0,0,1,9.722-2.381,1.178,1.178,0,0,0,1.379-1.178V3.2a1.178,1.178,0,0,0-.978-1.108ZM12.609,17.756a15.167,15.167,0,0,0-7.071-1.744H4.359V4.227a10.241,10.241,0,0,1,1.178,0,12.8,12.8,0,0,1,7.071,2.121Zm10.606-1.7H22.036A15.167,15.167,0,0,0,14.966,17.8V6.348a12.8,12.8,0,0,1,7.071-2.121,10.241,10.241,0,0,1,1.178,0Zm1.379,4.891a15.438,15.438,0,0,0-2.557-.224,15.249,15.249,0,0,0-8.249,2.416,15.249,15.249,0,0,0-8.249-2.416,15.439,15.439,0,0,0-2.557.224,1.161,1.161,0,1,0,.4,2.286A12.845,12.845,0,0,1,13.1,25.487a1.178,1.178,0,0,0,1.367,0,12.845,12.845,0,0,1,9.722-2.251,1.161,1.161,0,1,0,.4-2.286Z" transform="translate(-1.987 -1.87)" />
+                                        </svg>
+                                        <span class="nav-text">
+                                            معلومات تهمك
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="ServicesTab" href="@Url.Action("ManageServicesPages", "StaticPages", new { ID = "25" })">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 25.332 25.331">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <g transform="translate(0 -0.013)"><g transform="translate(0 11.687)"><g transform="translate(0)"><path class="a" d="M24.539,236.782a2.225,2.225,0,0,0-3.064.185l-2.181,2.342a2.23,2.23,0,0,0-2.126-1.566H13.275c-.3,0-.394-.113-.907-.508a5.206,5.206,0,0,0-6.845.016l-1.431,1.26a2.217,2.217,0,0,0-2.041-.026L.41,239.3a.743.743,0,0,0-.332,1l4.453,8.905a.743.743,0,0,0,1,.332l1.641-.821a2.225,2.225,0,0,0,1.23-2.069h8.77a5.219,5.219,0,0,0,4.156-2.078l3.563-4.75A2.22,2.22,0,0,0,24.539,236.782ZM6.5,247.389l-.977.489L1.738,240.3l.978-.489a.742.742,0,0,1,1,.332l3.125,6.25A.742.742,0,0,1,6.5,247.389ZM23.7,238.929l-3.563,4.75a3.728,3.728,0,0,1-2.968,1.484H7.88L5.1,239.6l1.4-1.236a3.72,3.72,0,0,1,4.9,0,2.627,2.627,0,0,0,1.869.862h3.893a.742.742,0,0,1,0,1.484h-3.79a.742.742,0,0,0,0,1.484h4.287a2.233,2.233,0,0,0,1.629-.709l3.267-3.507a.742.742,0,0,1,1.137.95Z" transform="translate(0 -235.959)" /></g></g><g transform="translate(8.955 0.013)"><path class="a" d="M187.643,5.077a2.956,2.956,0,0,0,.821-2.046A3.009,3.009,0,0,0,185.5.013a3.058,3.058,0,0,0-3.018,3.018,2.913,2.913,0,0,0,.848,2.052,4.527,4.527,0,0,0-2.333,3.934v.742a.742.742,0,0,0,.742.742h7.47a.742.742,0,0,0,.742-.742V9.017A4.524,4.524,0,0,0,187.643,5.077ZM185.5,1.5a1.53,1.53,0,0,1,1.484,1.534A1.486,1.486,0,0,1,185.5,4.515a1.53,1.53,0,0,1-1.534-1.484A1.574,1.574,0,0,1,185.5,1.5Zm-3.018,7.52A3.058,3.058,0,0,1,185.5,6a3,3,0,0,1,2.968,3.018Z" transform="translate(-180.994 -0.013)" /></g></g>
+                                        </svg>
+                                        <span class="nav-text">
+                                            خدمات الدعم القانوني ونفسي
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="ActivitiesTab" href="@Url.Action("Index", "PageBuilder", new { Type = 1 })">
+                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sitemap" class="fa1" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path fill="currentColor" d="M128 352H32c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h96c17.67 0 32-14.33 32-32v-96c0-17.67-14.33-32-32-32zm-24-80h192v48h48v-48h192v48h48v-57.59c0-21.17-17.23-38.41-38.41-38.41H344v-64h40c17.67 0 32-14.33 32-32V32c0-17.67-14.33-32-32-32H256c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h40v64H94.41C73.23 224 56 241.23 56 262.41V320h48v-48zm264 80h-96c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h96c17.67 0 32-14.33 32-32v-96c0-17.67-14.33-32-32-32zm240 0h-96c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h96c17.67 0 32-14.33 32-32v-96c0-17.67-14.33-32-32-32z"></path>
+                                        </svg>
+                                        <span class="nav-text">
+                                            انشطة المجلس
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="PagesTab" href="@Url.Action("Index", "StaticPages")">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 43.437 34.75">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path class="a" d="M25.89,34.406H4.172a2.172,2.172,0,1,0,0,4.344H25.89a2.172,2.172,0,0,0,0-4.344ZM4.172,12.687H21.547a2.172,2.172,0,1,0,0-4.344H4.172a2.172,2.172,0,1,0,0,4.344Zm0,8.687H21.547a2.172,2.172,0,0,0,0-4.344H4.172a2.172,2.172,0,1,0,0,4.344Zm39.093,4.344H4.172a2.172,2.172,0,0,0,0,4.344H43.265a2.172,2.172,0,0,0,0-4.344ZM43.265,4H30.234a2.172,2.172,0,0,0-2.172,2.172V19.2a2.172,2.172,0,0,0,2.172,2.172H43.265A2.172,2.172,0,0,0,45.437,19.2V6.172A2.172,2.172,0,0,0,43.265,4ZM41.093,17.031H32.406V8.344h8.687Z" transform="translate(-2 -4)" />
+                                        </svg>
+                                        <span class="nav-text">
+                                            صفحات الموقع
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="LibraryTab" href="@Url.Action("Index", "PDFLibraries", new { id = 1 })">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 22 18.703">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path class="a" d="M23.466,18.82l-1.048-3.86h0l-3.3-11.59a1.053,1.053,0,0,0-1.278-.71l-4.054,1a1.07,1.07,0,0,0-.765-.33H2.548a1.025,1.025,0,0,0-1.048,1v16a1.025,1.025,0,0,0,1.048,1H13.023a1.025,1.025,0,0,0,1.048-1v-8l2.3,8.22a1.043,1.043,0,0,0,1.048.74,1.262,1.262,0,0,0,.272,0L22.754,20a1.042,1.042,0,0,0,.639-.47,1.007,1.007,0,0,0,.073-.71Zm-16.76.55H3.564v-2H6.706Zm0-4H3.564v-6H6.706Zm0-8H3.564v-2H6.706Zm5.238,12H8.8v-2h3.143Zm0-4H8.8v-6h3.143Zm0-8H8.8v-2h3.143ZM14.3,5.63l3.038-.78.545,1.93-3.038.78Zm2.713,9.66L15.39,9.49l3.038-.78,1.624,5.8Zm1.048,3.86-.545-1.93,3.038-.78.545,1.93Z" transform="translate(-1.5 -2.627)" />
+                                        </svg>
+                                        <span class="nav-text">
+                                            مكتبة حقوق الطفل
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="VideosTab" href="@Url.Action("Index", "VideosLibraries")">
+                                        <svg class="fa1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.5 13.5">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path class="a" d="M23.971,7.294a1.125,1.125,0,0,0-1.125,0L18.875,9.251A3.375,3.375,0,0,0,15.5,6H5.375A3.375,3.375,0,0,0,2,9.375v6.75A3.375,3.375,0,0,0,5.375,19.5H15.5a3.375,3.375,0,0,0,3.375-3.251l4.005,2a1.114,1.114,0,0,0,1.62-1v-9A1.125,1.125,0,0,0,23.971,7.294Zm-7.346,8.831A1.125,1.125,0,0,1,15.5,17.25H5.375A1.125,1.125,0,0,1,4.25,16.125V9.375A1.125,1.125,0,0,1,5.375,8.25H15.5a1.125,1.125,0,0,1,1.125,1.125Zm5.625-.7L18.875,13.74V11.76l3.375-1.687Z" transform="translate(-2 -6)" />
+                                        </svg>
+                                        <span class="nav-text">
+                                            مكتبة الفيديو
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            @if (SecurityRoles.IsMobileAdmin())
+                            {
+                                <li>
+                                    <a id="DayTipsTab" href="@Url.Action("Index", "DayTips")">
+                                        <svg class="fa1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.85 25.5">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                        stroke-width: 0.1px
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path class="a" d="M14.83,20.22l-.191-.153a.969.969,0,0,0-.229-.115l-.23-.1a1.275,1.275,0,0,0-1.16.344,1.466,1.466,0,0,0-.268.421,1.275,1.275,0,0,0,1.657,1.67A1.861,1.861,0,0,0,14.83,22a1.262,1.262,0,0,0,0-1.785ZM19.025,2H8.825A3.825,3.825,0,0,0,5,5.825v17.85A3.825,3.825,0,0,0,8.825,27.5h10.2a3.825,3.825,0,0,0,3.825-3.825V5.825A3.825,3.825,0,0,0,19.025,2ZM20.3,23.675a1.275,1.275,0,0,1-1.275,1.275H8.825A1.275,1.275,0,0,1,7.55,23.675V5.825A1.275,1.275,0,0,1,8.825,4.55h10.2A1.275,1.275,0,0,1,20.3,5.825Z" transform="translate(-5 -2)" />
+                                        </svg>
+                                        <span class="nav-text">
+                                            نبتة مصر
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            @if (SecurityRoles.IsSuperAdmin())
+                            {
+                                <li>
+                                    <a id="UsersTab" href="@Url.Action("Index", "Users")">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 21.97 17">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path class="a" d="M12.3,12.22A4.92,4.92,0,0,0,14,8.5a5,5,0,0,0-10,0,4.92,4.92,0,0,0,1.7,3.72A8,8,0,0,0,1,19.5a1,1,0,1,0,2,0,6,6,0,1,1,12,0,1,1,0,0,0,2,0,8,8,0,0,0-4.7-7.28ZM9,11.5a3,3,0,1,1,3-3A3,3,0,0,1,9,11.5Zm9.74.32A5,5,0,0,0,15,3.5a1,1,0,0,0,0,2,2.995,2.995,0,0,1,1.5,5.59,1,1,0,0,0-.05,1.7l.39.26.13.07a7,7,0,0,1,4,6.38,1,1,0,0,0,2,0A9,9,0,0,0,18.74,11.82Z" transform="translate(-1 -3.5)" />
+                                        </svg>
+                                        <span class="nav-text">
+                                            إدارة المستخدمين
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+
+                            @if (SecurityRoles.IsWebsiteAdmin())
+                            {
+                                <li>
+                                    <a id="SettingsTab" href="@Url.Action("Index", "Images")">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 20 20">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path class="a" d="M21,2H3A1,1,0,0,0,2,3V21a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM8,20H4V10H8Zm6,0H10V10h4Zm6,0H16V10h4ZM20,8H4V4H20Z" transform="translate(-2 -2)" />
+                                        </svg>
+                                        <span class="nav-text">
+                                            تنسيق الصفحة الرئيسية
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="FilesTab" href="@Url.Action("Index", "FormsFiles")">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 22 18.703">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path class="a" d="M23.466,18.82l-1.048-3.86h0l-3.3-11.59a1.053,1.053,0,0,0-1.278-.71l-4.054,1a1.07,1.07,0,0,0-.765-.33H2.548a1.025,1.025,0,0,0-1.048,1v16a1.025,1.025,0,0,0,1.048,1H13.023a1.025,1.025,0,0,0,1.048-1v-8l2.3,8.22a1.043,1.043,0,0,0,1.048.74,1.262,1.262,0,0,0,.272,0L22.754,20a1.042,1.042,0,0,0,.639-.47,1.007,1.007,0,0,0,.073-.71Zm-16.76.55H3.564v-2H6.706Zm0-4H3.564v-6H6.706Zm0-8H3.564v-2H6.706Zm5.238,12H8.8v-2h3.143Zm0-4H8.8v-6h3.143Zm0-8H8.8v-2h3.143ZM14.3,5.63l3.038-.78.545,1.93-3.038.78Zm2.713,9.66L15.39,9.49l3.038-.78,1.624,5.8Zm1.048,3.86-.545-1.93,3.038-.78.545,1.93Z" transform="translate(-1.5 -2.627)" />
+                                        </svg>
+                                        <span class="nav-text">
+                                            ملفات الموقع
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            @if (SecurityRoles.IsSuperAdmin())
+                            {
+                                <li>
+                                    <a id="SystemSettingsTab" href="@Url.Action("Index", "SystemTools")">
+                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="cog" class="fa1" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <defs>
+                                                <style>
+                                                    .a {
+                                                        fill: #fff;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <path class="a" fill="currentColor" d="M487.4 315.7l-42.6-24.6c4.3-23.2 4.3-47 0-70.2l42.6-24.6c4.9-2.8 7.1-8.6 5.5-14-11.1-35.6-30-67.8-54.7-94.6-3.8-4.1-10-5.1-14.8-2.3L380.8 110c-17.9-15.4-38.5-27.3-60.8-35.1V25.8c0-5.6-3.9-10.5-9.4-11.7-36.7-8.2-74.3-7.8-109.2 0-5.5 1.2-9.4 6.1-9.4 11.7V75c-22.2 7.9-42.8 19.8-60.8 35.1L88.7 85.5c-4.9-2.8-11-1.9-14.8 2.3-24.7 26.7-43.6 58.9-54.7 94.6-1.7 5.4.6 11.2 5.5 14L67.3 221c-4.3 23.2-4.3 47 0 70.2l-42.6 24.6c-4.9 2.8-7.1 8.6-5.5 14 11.1 35.6 30 67.8 54.7 94.6 3.8 4.1 10 5.1 14.8 2.3l42.6-24.6c17.9 15.4 38.5 27.3 60.8 35.1v49.2c0 5.6 3.9 10.5 9.4 11.7 36.7 8.2 74.3 7.8 109.2 0 5.5-1.2 9.4-6.1 9.4-11.7v-49.2c22.2-7.9 42.8-19.8 60.8-35.1l42.6 24.6c4.9 2.8 11 1.9 14.8-2.3 24.7-26.7 43.6-58.9 54.7-94.6 1.5-5.5-.7-11.3-5.6-14.1zM256 336c-44.1 0-80-35.9-80-80s35.9-80 80-80 80 35.9 80 80-35.9 80-80 80z"></path>
+                                        </svg>
+                                        <span class="nav-text">
+                                            System Settings
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+
+                            <li>
+                                <a id="AccountTab" href="@Url.Action("Index", "ManageProfile")">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="fa1" viewBox="0 0 19.962 19.979">
+                                        <defs>
+                                            <style>
+                                                .a {
+                                                    fill: #fff;
+                                                }
+                                            </style>
+                                        </defs>
+                                        <path class="a" d="M12,2A10,10,0,0,0,4.65,18.76h0a10,10,0,0,0,14.7,0h0A10,10,0,0,0,12,2Zm0,18a8,8,0,0,1-5.55-2.25,6,6,0,0,1,11.1,0A8,8,0,0,1,12,20ZM10,10a2,2,0,1,1,2,2A2,2,0,0,1,10,10Zm8.91,6A8,8,0,0,0,15,12.62a4,4,0,1,0-6,0A8,8,0,0,0,5.09,16,7.92,7.92,0,0,1,4,12a8,8,0,1,1,16,0A7.92,7.92,0,0,1,18.91,16Z" transform="translate(-2.019 -2)" />
+                                    </svg>
+                                    <span class="nav-text">
+                                        حسابى
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a id="AccountTab" href="@Url.Action("Index", "Home", new { area = ""})">
+                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="globe-asia" class="fa1" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+                                        <defs>
+                                            <style>
+                                                .a {
+                                                    fill: #fff;
+                                                }
+                                            </style>
+                                        </defs>
+                                        <path fill="currentColor" d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm-11.34 240.23c-2.89 4.82-8.1 7.77-13.72 7.77h-.31c-4.24 0-8.31 1.69-11.31 4.69l-5.66 5.66c-3.12 3.12-3.12 8.19 0 11.31l5.66 5.66c3 3 4.69 7.07 4.69 11.31V304c0 8.84-7.16 16-16 16h-6.11c-6.06 0-11.6-3.42-14.31-8.85l-22.62-45.23c-2.44-4.88-8.95-5.94-12.81-2.08l-19.47 19.46c-3 3-7.07 4.69-11.31 4.69H50.81C49.12 277.55 48 266.92 48 256c0-110.28 89.72-200 200-200 21.51 0 42.2 3.51 61.63 9.82l-50.16 38.53c-5.11 3.41-4.63 11.06.86 13.81l10.83 5.41c5.42 2.71 8.84 8.25 8.84 14.31V216c0 4.42-3.58 8-8 8h-3.06c-3.03 0-5.8-1.71-7.15-4.42-1.56-3.12-5.96-3.29-7.76-.3l-17.37 28.95zM408 358.43c0 4.24-1.69 8.31-4.69 11.31l-9.57 9.57c-3 3-7.07 4.69-11.31 4.69h-15.16c-4.24 0-8.31-1.69-11.31-4.69l-13.01-13.01a26.767 26.767 0 0 0-25.42-7.04l-21.27 5.32c-1.27.32-2.57.48-3.88.48h-10.34c-4.24 0-8.31-1.69-11.31-4.69l-11.91-11.91a8.008 8.008 0 0 1-2.34-5.66v-10.2c0-3.27 1.99-6.21 5.03-7.43l39.34-15.74c1.98-.79 3.86-1.82 5.59-3.05l23.71-16.89a7.978 7.978 0 0 1 4.64-1.48h12.09c3.23 0 6.15 1.94 7.39 4.93l5.35 12.85a4 4 0 0 0 3.69 2.46h3.8c1.78 0 3.35-1.18 3.84-2.88l4.2-14.47c.5-1.71 2.06-2.88 3.84-2.88h6.06c2.21 0 4 1.79 4 4v12.93c0 2.12.84 4.16 2.34 5.66l11.91 11.91c3 3 4.69 7.07 4.69 11.31v24.6z"></path>
+                                    </svg>
+                                    <span class="nav-text">
+                                        عودة الى الموقع
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Logout", "Account", new { area = ""})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fa2 a"><path class="a" d="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z" /></svg>
+                                    <span class="nav-text">
+                                        تسجيل خروج
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+
+
+                    </nav>
+                </div>
+
+                <div class="col-md-11">
+                    <div class="container-fluid">
+                        @RenderBody()
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+    <script src="~/Scripts/jquery.steps.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/AdminLayout.js"></script>
+    <script src="~/Scripts/all.min.js"></script>
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

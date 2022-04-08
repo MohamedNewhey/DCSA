@@ -1,0 +1,227 @@
+﻿@model NCCM.Database.DayTip
+
+@{
+    if (ViewBag.ID == null || ViewBag.ID == "")
+    {
+        ViewBag.Title = "اضافة معلومة";
+    }
+    else
+    {
+        ViewBag.Title = "تعديل";
+    }
+}
+
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+<link href="~/assets/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+
+
+<form id="MainForm" action="#">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.ID)
+    <div id="updateProgress" style="position: fixed;display:none; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+        <div style="position:relative; top:40%; width:100%; text-align:center;">
+            <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="example-basic">
+
+                <div class="row">
+
+                    <label for="exampleFormControlInput1" class="form-label">المعلومة <span></span></label>
+
+                    <textarea type="text" class="form-control" placeholder="قم بإدخال المعلومة" rows="5" cols="10" style="resize:none" onkeyup="ValidationRefresh('Name', 'ValidName')" name="Name" id="Name">@Model.Name</textarea>
+                    <span style="color:gray;font-size:11px">الحد الاقصى لعدد الكلمات ‎30 كلمة.</span>
+                    <span class="text-danger" id="ValidName"></span>
+                </div>
+                <br />
+                <div class="row">
+                    <label for="exampleFormControlInput1" class="form-label"> الصورة<span></span></label>
+                    <input type="text" class="form-control upload-icon" placeholder="اسحب الصوره لتحميلها" onclick="document.getElementById('Image').click(); " id="CoverPhoto1" style="cursor:pointer" readonly />
+                    <input type="file" id="Image" style="display:none" onchange="var fileInput = document.getElementById('Image');  var filename = fileInput.files[0].name; document.getElementById('CoverPhoto1').value= filename; removePhoto()" name="Image" />
+                    <span style="color:gray; font-size:11px">برجاء اختيار صورة طولها 168 و عرضها 165.</span>
+                    <span class="text-danger" id="ValidLogo"></span>
+                    @if (Model.Image != null)
+                    {
+                        <a href="@Model.Image" title="click to open full size" target="_blank"><img src="@Model.Image" width="5%" class="mt-4" /></a>
+                    }
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col mb-3">
+                        <div class="col " style="position:relative">
+                            <label for="exampleFormControlInput1" class="form-label">من <span></span></label>
+
+                            <input type="text" class="form-control calnder-icon2" name="FromDate" placeholder="ادخل التاريخ" id="FromDate" onclick="ValidationRefresh('PageDate', 'ValidDate')">
+                            <span class="text-danger" id="ValidFrom"></span>
+                        </div>
+                    </div>
+                    <div class="col mb-3">
+                        <div class="col " style="position:relative">
+                            <label for="exampleFormControlInput1" class="form-label">الى <span></span></label>
+
+                            <input type="text" class="form-control calnder-icon2" name="ToDate" placeholder="ادخل التاريخ" id="ToDate" onclick="ValidationRefresh('PageDate', 'ValidDate')">
+                            <span class="text-danger" id="ValidTo"></span>
+                        </div>
+                    </div>
+                </div>
+                <span class="text-danger" id="ValidPeriod"></span>
+                <div class="row mt-4">
+                    <div class="text-center mt-5 last-buttons">
+                        <button type="button" class="button-history-add" onclick="Save()">حفظ</button>
+                        <button type="button" class="button-history-Cancel" onclick="window.location.href = '@Url.Action("Index", "DayTips")'">إلغاء</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section scripts{
+
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
+    <script src="~/assets/bootstrap-datepicker/dist/js/moment.min.js"></script>
+    <script src="~/assets/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script>
+
+
+        $(document).ready(function(){
+
+
+                $("#latest-news-tab-1").addClass('active').parent().siblings().find('a').removeClass('active');
+
+
+            $("#DayTipsTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
+
+             @if(Model.FromDate != null)
+{
+
+            @:$('#FromDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+        @:date: '@Model.FromDate'
+            @:});
+
+        }
+        else {
+             @:$('#FromDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+        @:date: '@DateTime.Now'
+            @:});
+        }
+
+
+            @if(Model.ToDate != null)
+{
+
+            @:$('#ToDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+        @:date: '@Model.ToDate'
+            @:});
+
+        }
+        else {
+             @:$('#ToDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+        @:date: '@DateTime.Now'
+            @:});
+        }
+
+
+
+        })
+
+        function Save() {
+            var formdata = new FormData($('#MainForm').get(0));
+
+            var fromDate = new Date(document.getElementById('FromDate').value);
+            var ToDate = new Date(document.getElementById('ToDate').value);
+
+            if (ToDate < fromDate) {
+                swal({
+                    title: "خطأ!",
+                    text: "من فضلك اختر تاريخ انتهاء صحيح",
+                    type: "error",
+                });
+                document.getElementById('ValidTo').innerText = "من فضلك اختر تاريخ انتهاء صحيح";
+
+                return;
+            }
+
+            var tag = document.getElementById('updateProgress');
+            tag.style.display = 'block';
+        $.ajax({
+        url: '@Url.Action("Manage", "DayTips")',
+        type: 'POST',
+        data: formdata,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            if (data.IsValid) {
+                swal({
+                    title: data.Message,
+                    text: "نجاح",
+                    type: "success",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "تم",
+                    closeOnConfirm: false
+                }, function () {
+                    window.location.href = "@Url.Action("Index", "DayTips")";
+
+                });
+
+
+                tag.style.display = 'none';
+            }
+            else {
+                swal({
+                    title: "خطأ!",
+                    text: data.Message,
+                    type: "error",
+                });
+                tag.style.display = 'none';
+
+                if (data.ValidFieldID != "") {
+                    document.getElementById(data.ValidFieldID).innerText = data.Message;
+                    $("#" + data.FieldID).css('border-color', 'red');
+
+                    if (data.FieldID == "Date") {
+                        document.getElementById(data.ValidFieldID).innerText = data.Message;
+                        $("#FromDate").css('border-color', 'red');
+                        $("#ToDate").css('border-color', 'red');
+                    }
+                }
+            }
+        },
+        error: function () {
+
+            swal({
+                title: "خطأ!",
+                text: "حدث خطأ",
+                type: "error",
+            });
+            tag.style.display = 'none';
+
+        }
+    });
+
+        }
+
+        function ValidationRefresh(inputid, validid) {
+
+                document.getElementById(validid).innerText = "";
+                $("#" + inputid).css('border-color', '');
+
+        }
+
+          function removePhoto() {
+            @if (Model.Image != null)
+            {
+                @:$("img").css('display', 'none');
+            }
+        }
+
+    </script>
+}

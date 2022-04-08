@@ -1,0 +1,218 @@
+﻿@model NCCM.Database.VideosLibrary
+
+@{
+    if (Model.ID == -1)
+    {
+        ViewBag.Title = "اضافة فيديو جديدة";
+    }
+    else
+    {
+        ViewBag.Title = "تعديل فيديو";
+    }
+}
+
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+<link href="~/assets/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    <div id="updateProgress" style="position: fixed;display:none; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+        <div style="position:relative; top:40%; width:100%; text-align:center;">
+            <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-12">
+            <div id="example-basic">
+
+                @Html.HiddenFor(x => x.ID)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class=" col-lg-6 mb-4">
+                        <label for="exampleFormControlInput1" class="form-label">الاسم</label>
+                        @*<div class="col-md-10">*@
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "Name", @onkeyup = "ValidationRefresh('Name', 'ValidName')", @placeholder = "الأسم" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "ValidName" })
+                        @*</div>*@
+                    </div>
+
+                    <div class=" col-lg-6 mb-5">
+                        <label for="exampleFormControlInput1" class="form-label">المسار</label>
+                        @*<div class="col-md-10">*@
+
+                        @Html.EditorFor(model => model.URL, new { htmlAttributes = new { @class = "form-control", @id = "URL", @onkeyup = "ValidationRefresh('URL', 'ValidURL')", @placeholder = "الرابط" } })
+                        @Html.ValidationMessageFor(model => model.URL, "", new { @class = "text-danger", @id = "ValidURL" })
+                        <a href="@Model.URL" target="_blank" style="color: #576271">عرض الفيديو</a>
+                        @*</div>*@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-lg-6 mb-4">
+                        <label for="exampleFormControlInput1" class="form-label">الترتيب</label>
+
+                        @if (Model.ID == -1)
+                        {
+                            @Html.EditorFor(model => model.VideoOrder, new { htmlAttributes = new { @class = "form-control", @id = "VideoOrder", @Value = "1", @onkeyup = "ValidationRefresh('VideoOreder', 'ValidOrder')", @onkeypress = "return isNumber(event)", @placeholder = "الترتيب" } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.VideoOrder, new { htmlAttributes = new { @class = "form-control", @id = "VideoOrder", @onkeyup = "ValidationRefresh('VideoOreder', 'ValidOrder')", @onkeypress = "return isNumber(event)", @placeholder = "الترتيب" } })
+                        }
+                        @Html.ValidationMessageFor(model => model.VideoOrder, "", new { @class = "text-danger", @id = "ValidOrder" })
+                        @*</div>*@
+                    </div>
+
+                    <div class="col mb-3">
+                        <div class="col mb-3" style="position:relative">
+                            <label for="exampleFormControlInput1" class="form-label">التاريخ</label>
+
+                            <input type="text" class="form-control calnder-icon2" name="PublishDate" id="PublishDate" onclick="ValidationRefresh('PublishDate', 'ValidDate')">
+                            <span class="text-danger" id="ValidDate"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="exampleFormControlInput1" class="form-label">الوصف</label>
+
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @id = "Description", @onkeyup = "ValidationRefresh('Description', 'ValidDes')", @placeholder = "الوصف" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger", @id = "ValidDes" })
+
+                    @*</div>*@
+                    @*</div>*@
+                </div>
+                <br />
+
+                <div class="row">
+                    <div class="col col-md-3 video-center">
+                        <iframe class="videos" src="@Model.URL" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=allowfullscreen></iframe>
+                    </div>
+                 </div>
+                
+                    <div class="row mt-4">
+                        <div class="text-center mt-5 last-buttons">
+                            <button type="button" class="button-history-add" onclick="Save()">حفظ</button>
+                            <button type="button" class="button-history-Cancel" onclick="window.location.href = '@Url.Action("Index", "VideosLibraries")'">إلغاء</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+}
+
+
+@section scripts{
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
+    <script src="~/assets/bootstrap-datepicker/dist/js/moment.min.js"></script>
+    <script src="~/assets/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script>
+
+         $(document).ready(function(){
+         $("#latest-news-tab-Videos").addClass('active').parent().siblings().find('a').removeClass('active');
+         $("#VideosTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
+
+        @if(Model.PublishDate != null)
+{
+                @:$('#PublishDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+        @:date: '@Model.PublishDate'
+            @:});
+        }
+        else
+        {
+              @:$('#PublishDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+        @:date: '@DateTime.Now'
+            @:});
+        }
+
+        })
+            function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+
+}
+
+        function Save() {
+            var formdata = new FormData($('form').get(0));
+            var tag = document.getElementById('updateProgress');
+            tag.style.display = 'block';
+        $.ajax({
+        url: '@Url.Action("Manage", "VideosLibraries")',
+        type: 'POST',
+        data: formdata,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            if (data.IsValid) {
+                swal({
+                    title: data.Message,
+                    text: "نجاح",
+                    type: "success",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "تم",
+                    closeOnConfirm: false
+                }, function () {
+                    window.location.href = "@Url.Action("Index", "VideosLibraries")";
+
+                });
+
+
+                tag.style.display = 'none';
+            }
+            else {
+                swal({
+                    title: "خطأ!",
+                    text: data.Message,
+                    type: "error",
+                });
+
+                tag.style.display = 'none';
+
+                if (data.ValidFieldID != "") {
+                    document.getElementById(data.ValidFieldID).innerText = data.Message;
+                    $("#" + data.FieldID).css('border-color', 'red');
+
+                }
+       }
+        },
+        error: function () {
+
+            swal({
+                title: "خطأ!",
+                text: "حدث خطأ",
+                type: "error",
+            });
+            tag.style.display = 'none';
+
+        }
+    });
+
+        }
+
+        function ValidationRefresh(inputid, validid) {
+
+
+
+
+
+
+            document.getElementById(validid).innerText = "";
+            $("#" + inputid).css('border-color', '');
+
+
+
+        }
+
+
+
+
+    </script>
+}

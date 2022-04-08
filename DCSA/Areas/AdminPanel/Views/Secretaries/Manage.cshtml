@@ -1,0 +1,152 @@
+﻿@model NCCM.Database.Secretary
+@{
+    if (Model.ID == -1)
+    {
+        ViewBag.Title = "اضافة امين";
+    }
+    else
+    {
+        ViewBag.Title = "تعديل " + Model.Name;
+    }
+}
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    <div id="updateProgress" style="position: fixed;display:none; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+        <div style="position:relative; top:40%; width:100%; text-align:center;">
+            <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(x => x.ID)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="example-basic">
+
+                <div class="row">
+                    <div class="col-lg-12  mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">اسم الامين <span></span></label>
+                        <input class="form-control " type="text" placeholder="ادخل اسم الامين" value="@Model.Name" name="Name" id="Name" onkeyup="ValidationRefresh('Name', 'ValidName')">
+                        <span class="text-danger" id="ValidName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">صورة الامين <span></span></label>
+                        <input type="text" class="form-control upload-icon " id="Image" placeholder="اسحب صورة الامين لتحميلها" onclick="document.getElementById('file').click(); " style="cursor:pointer" readonly />
+                        <input type="file" id="file" name="Image" style="display:none" onchange="var fileInput = document.getElementById('file'); var filename = fileInput.files[0].name; document.getElementById('Image').value = filename; ValidationRefresh('Image', 'ValidImage'); removePhoto()" />
+                        <span class="text-danger" id="ValidImage"></span>
+                        @if (Model.Image != null)
+                        {
+                    <a href="@Model.Image" title="click to open full size" target="_blank"><img src="@Model.Image" width="5%" class="mt-4" /></a>
+                        }
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">نبذة عن الامين <span></span></label>
+
+                        <textarea class="form-control" id="exampleFormControlTextarea1" name="Description" rows="5" placeholder="ادخل نبذة عن الأمين" onkeyup="ValidationRefresh('Description', 'ValidDes')">@Model.Description</textarea>
+                        <span class="text-danger" id="ValidDes"></span>
+                    </div>
+
+
+                    <div class="text-center mt-2 last-buttons">
+                        <button type="button" class="button-history-add" onclick="Save()">حفظ</button>
+                        <button type="button" class="button-history-Cancel" onclick="window.location.href = '@Url.Action("Index", "Secretaries")'">إلغاء</button>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+}
+@section scripts{
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
+
+    <script>
+
+
+        $(document).ready(function () {
+            $("#latest-news-tab-Secretaries").addClass('active').parent().siblings().find('a').removeClass('active');
+                              $("#AboutTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
+
+                });
+
+                function Save() {
+            var formdata = new FormData($('form').get(0));
+            var tag = document.getElementById('updateProgress');
+            tag.style.display = 'block';
+        $.ajax({
+        url: '@Url.Action("Manage", "Secretaries")',
+        type: 'POST',
+        data: formdata,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            if (data.IsValid) {
+                swal({
+                    title: data.Message,
+                    text: "نجاح",
+                    type: "success",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "تم",
+                    closeOnConfirm: false
+                }, function () {
+                    window.location.href = "@Url.Action("Index", "Secretaries")";
+
+                });
+
+
+                tag.style.display = 'none';
+            }
+            else {
+                swal({
+                    title: "خطأ!",
+                    text: data.Message,
+                    type: "error",
+                });
+
+                tag.style.display = 'none';
+
+                if (data.ValidFieldID != "") {
+                    document.getElementById(data.ValidFieldID).innerText = data.Message;
+                    $("#" + data.FieldID).css('border-color', 'red');
+                }
+       }
+        },
+        error: function () {
+
+            swal({
+                title: "خطأ!",
+                text: "حدث خطأ",
+                type: "error",
+            });
+            tag.style.display = 'none';
+
+        }
+    });
+
+        }
+
+        function ValidationRefresh(inputid, validid) {
+
+            document.getElementById(validid).innerText = "";
+            $("#" + inputid).css('border-color', '');
+
+
+
+        }
+
+         function removePhoto() {
+            @if (Model.Image != null)
+            {
+                @:$("img").css('display', 'none');
+            }
+        }
+    </script>
+}

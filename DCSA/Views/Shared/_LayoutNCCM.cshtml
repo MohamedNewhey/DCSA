@@ -1,0 +1,321 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+
+    <title>@ViewBag.Title</title>
+
+    @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/Content/Icons/globe.ico" />
+    <link href="~/Content/bootstrap.rtl.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-utilities.rtl.min.css" rel="stylesheet" />
+    <link href="~/Content/FormTab.css" rel="stylesheet" />
+    <link href="~/Content/NCCM.css" rel="stylesheet" />
+    <link href="~/Content/helvatica font/HelvaticaFont.css" rel="stylesheet" />
+    <link href="~/Content/Responsive.css" rel="stylesheet" />
+	<link href="~/Content/all.min.css" rel="stylesheet" />
+</head>
+
+<style>
+    .top-bar {
+        padding: 20px 0 6px 0;
+    }
+
+    .navbar-tabs {
+        margin-top: 27px;
+    }
+</style>
+
+<body>
+	@{
+		var controllerName = string.Empty;
+		object controllerObj;
+		object methodObj;
+		var actionName = string.Empty;
+		ViewContext.RouteData.Values.TryGetValue("controller", out controllerObj);
+		ViewContext.RouteData.Values.TryGetValue("action", out methodObj);
+	}
+
+	<div style="box-shadow: 0px 3px 6px #00000029;background-color:#fff">
+		<section>
+			<div class="container-fluid topbar">
+				<div class="row">
+					<div class="col-lg-7">
+
+					</div>
+					<div class="col-lg-5 top-bar  d-none d-sm-block 	d-md-none d-lg-block 	d-sm-none d-md-block" ">
+
+						<ul class="top-bar-menu">
+							<li class="dropdown" style="cursor:pointer">
+								<a id="search" data-bs-toggle="dropdown" aria-expanded="false">
+									<svg style=" transform: rotate( 90deg );" xmlns="http://www.w3.org/2000/svg" width="20.34" height="20.343" viewBox="0 0 24 24"><path fill="#707070" d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z" /></svg>
+
+									بحث
+								</a>
+								<div class="search-container dropdown-menu  x" aria-labelledby="search">
+									<label class="form-label">بحث</label>
+									<input id="SearchWordTxt" type="search" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+
+
+								</div>
+							</li>
+							<li>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20.34" height="20.343" fill="#707070" viewBox="0 0 25.3 25.3">
+									<g id="Group_9387" data-name="Group 9387" transform="translate(0.15 0.15)">
+										<path id="Path_2155" data-name="Path 2155" d="M12.5,0A12.5,12.5,0,0,0,1.893,19.116c-.494,1.73-1.386,5-1.4,5.036a.481.481,0,0,0,.605.586l4.955-1.524A12.5,12.5,0,1,0,12.5,0Zm0,24.038a11.51,11.51,0,0,1-6.121-1.755.481.481,0,0,0-.255-.073.489.489,0,0,0-.141.021L1.656,23.563c.318-1.16.889-3.235,1.22-4.389a.482.482,0,0,0-.059-.395,11.54,11.54,0,1,1,9.682,5.26Z" fill="#707070" stroke="#707070" stroke-width="0.3" />
+										<path id="Path_2156" data-name="Path 2156" d="M25.515,20.521c-.887-.493-1.643-.987-2.195-1.348-.421-.275-.725-.474-.949-.586a1.092,1.092,0,0,0-1.276.09.48.48,0,0,0-.06.073A6.758,6.758,0,0,1,19.295,20.7a11.576,11.576,0,0,1-2.956-1.914A6.4,6.4,0,0,1,14,15.833c.872-.9,1.186-1.462,1.186-2.1a13.606,13.606,0,0,0-1.824-3.705c-.28-.28-.912-.324-1.876-.131a.485.485,0,0,0-.246.131c-.117.117-2.85,2.9-1.551,6.282,1.426,3.707,5.086,8.016,9.752,8.716a10.111,10.111,0,0,0,1.493.119,4.426,4.426,0,0,0,4.822-4.121A.479.479,0,0,0,25.515,20.521Zm-5.931,3.551c-4.935-.74-8.043-5.629-9-8.111-.947-2.462.8-4.656,1.238-5.152a3.627,3.627,0,0,1,.889-.062,17.266,17.266,0,0,1,1.511,2.983c0,.252-.082.6-1.061,1.583a.479.479,0,0,0-.141.34c0,2.517,5.31,6.01,6.25,6.01.818,0,1.884-1.375,2.491-2.27a.456.456,0,0,1,.178.056c.173.087.473.283.852.531.5.327,1.166.762,1.952,1.212C24.39,22.908,23.393,24.644,19.584,24.071Z" transform="translate(-4.849 -5.076)" fill="#707070" stroke="#707070" stroke-width="0.3" />
+									</g>
+								</svg>
+
+
+								<a href="https://api.whatsapp.com/send?phone=+2001016609579&text=">
+									خدمات الواتساب
+								</a>
+							</li>
+							<li>
+								<svg xmlns="http://www.w3.org/2000/svg" width="25.574" height="25.343" viewBox="0 0 25.574 25.343">
+									<g id="call-center" transform="translate(0.491 0.254)">
+										<g id="Group_63" data-name="Group 63">
+											<path id="Path_214" data-name="Path 214" d="M21.919,8.776a9.509,9.509,0,0,0-18.961,0A3.771,3.771,0,0,0,1.11,9.783a3.725,3.725,0,0,0,2.035,6.308.413.413,0,0,0,.188.052.5.5,0,0,0,.078-.008l.032-.01c.1.008.2.018.3.018h.828a.414.414,0,0,0,.414-.414V9.107a.414.414,0,0,0-.414-.414H3.8a8.681,8.681,0,0,1,17.286,0H20.3a.414.414,0,0,0-.414.414v6.622a.414.414,0,0,0,.414.414h.828v.828a5.839,5.839,0,0,1-5.858,5.779,1.652,1.652,0,1,0,.01.828,6.649,6.649,0,0,0,6.676-6.607v-.923a3.785,3.785,0,0,0,1.809-1,3.729,3.729,0,0,0-1.847-6.277ZM4.16,9.521v5.794H3.747a3.072,3.072,0,0,1-.363-.022,2.9,2.9,0,0,1,.009-5.753,2.948,2.948,0,0,1,.354-.02H4.16ZM13.68,24.007a.828.828,0,1,1,.828-.828A.828.828,0,0,1,13.68,24.007Zm7.814-8.714a3.028,3.028,0,0,1-.364.022h-.414V9.521h.414a2.9,2.9,0,0,1,.364,5.772Z" transform="translate(-0.021 0)" fill="#707070" stroke="#707070" stroke-width="0.5" />
+										</g>
+									</g>
+								</svg>
+
+								<a href="@Url.Action("HelpLine", "DisplayPages")">16000 خط نجدة الطفل </a>
+							</li>
+							<li>
+								<svg id="phone_1_" data-name="phone (1)" xmlns="http://www.w3.org/2000/svg" width="22.667" height="22.667" viewBox="0 0 22.667 22.667">
+									<path id="Path_211" data-name="Path 211" d="M16.291,22.667a6.315,6.315,0,0,1-2.167-.387,23.1,23.1,0,0,1-8.389-5.347A23.1,23.1,0,0,1,.388,8.543a6.269,6.269,0,0,1-.32-3.082A6.429,6.429,0,0,1,3.372.755,6.312,6.312,0,0,1,6.394,0a.708.708,0,0,1,.693.56L8.2,5.748a.708.708,0,0,1-.192.649l-1.9,1.9A18.645,18.645,0,0,0,14.37,16.56l1.9-1.9a.709.709,0,0,1,.649-.192l5.188,1.112a.708.708,0,0,1,.56.693,6.311,6.311,0,0,1-.755,3.022,6.429,6.429,0,0,1-4.706,3.3,6.3,6.3,0,0,1-.915.067ZM5.828,1.448A4.963,4.963,0,0,0,1.719,8.059,21.484,21.484,0,0,0,14.608,20.948a4.963,4.963,0,0,0,6.612-4.109L17,15.935l-1.984,1.984a.708.708,0,0,1-.8.14,20.056,20.056,0,0,1-9.6-9.6.708.708,0,0,1,.14-.8L6.732,5.668Z" transform="translate(0 0)" fill="#707070" />
+								</svg>
+
+								<a href="@Url.Action("ContactUS","DisplayPages")">اتصل بنا</a>
+							</li>
+						</ul>
+
+
+
+					</div>
+
+
+				</div>
+			</div>
+		</section>
+
+
+		<div class="navbar-homepage">
+			<div class="container-fluid">
+
+				<nav class="navbar navbar-expand-lg navbar-light">
+					<div class="container-fluid">
+						<a class="navbar-brand" href="@Url.Action("Index", "Home")"><img class="img-fluid   " src="~/images/0-45.png" /></a>
+						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+
+						<div class="collapse navbar-collapse" id="navbarSupportedContent">
+							<ul id="navbar-tabs" class="navbar-nav mr-auto mb-2 mb-lg-0 navbar-tabs">
+								<li class="nav-item">
+
+									<a class="nav-link" aria-current="page" href="@Url.Action("index","Home")">الرئيسية </a>
+
+								</li>
+
+
+								<li class="nav-item dropdown">
+									<a class="nav-link" data-bs-toggle="dropdown" id="navbarDropdown" style="display:inline" aria-expanded="false">
+										عن المجلس
+									</a>
+									<a class="dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown" style="display:inline" aria-expanded="false"></a>
+									<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<li><a class="dropdown-item" href="@Url.Action("index", "Activities")">انشطة المجلس</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("History", "DisplayPages")">تاريخ المجلس</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("SecretaryWord", "DisplayPages")">كلمة الامين العام</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("Message", "DisplayPages")">الرؤية و الرسالة</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("Role", "DisplayPages")">دور المجلس</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("Secretaries", "DisplayPages")">أمناء المجلس</a></li>
+									</ul>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="@Url.Action("News","Activities")" aria-current="page">أخبار المجلس </a>
+								</li>
+
+								<li class="nav-item dropdown">
+									<a class="nav-link " href="@Url.Action("index","Services")">
+										خدمات الدعم
+
+									</a>
+									<a class="dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown2" style="display:inline" aria-expanded="false"></a>
+
+									<ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+										<li><a class="dropdown-item" href="@Url.Action("LegalServices", "Services")">خدمات الدعم القانوني</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("PsychicServices", "Services")">خدمات الدعم النفسي </a></li>
+
+									</ul>
+								</li>
+
+								<li class="nav-item dropdown">
+									<a class="nav-link" data-bs-toggle="dropdown" id="navbarDropdown3" style="display:inline" aria-expanded="false">
+										مكتبة حقوق الطفل
+
+									</a>
+									<a class="dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown" style="display:inline" aria-expanded="false"></a>
+
+									<ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+										<li><a class="dropdown-item" href="@Url.Action("index","ChildKidsLibrary",new { name="المطبوعات"})">المطبوعات</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("index","ChildKidsLibrary",new { name="دراسات"})">دراسات </a></li>
+										<li><a class="dropdown-item" href="@Url.Action("index","ChildKidsLibrary",new { name="استراتيجيات"})">استراتيجيات</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("index","ChildKidsLibrary",new { name="تقارير-محلية-و-دولية"})">تقارير محلية و دولية</a></li>
+										<li><a class="dropdown-item" title="الأليات الوطنية و الإقليمية و الدولية لحماية الطفل" href="@Url.Action("index", "ChildKidsLibrary", new { name = "الأليات-الوطنية-و-الإقليمية-و-الدولية-لحماية-الطفل" })">الأليات الوطنية...</a></li>
+
+									</ul>
+								</li>
+
+								<li class="nav-item dropdown">
+									<a class="nav-link " href="@Url.Action("ImportantInfoIndex","PublicInformation")">
+										معلومات تهمك
+
+									</a>
+									<a class="dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown4" style="display:inline" aria-expanded="false"></a>
+
+									<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+										@foreach (var item in ViewBag.ImportantInfo)
+										{
+											<li><a class="dropdown-item" href="@Url.Action("ImportantInfo", "PublicInformation",new {name=item.URL })">@item.Name</a></li>
+										}
+
+									</ul>
+
+								</li>
+
+								<li class="nav-item dropdown">
+									<a class="nav-link " href="@Url.Action("Index","Reporting")">
+										للابلاغ والدعم والمشورة
+
+									</a>
+									<a class="dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown5" style="display:inline" aria-expanded="false"></a>
+
+									<ul class="dropdown-menu" aria-labelledby="navbarDropdown5">
+										<li><a class="dropdown-item" href="@Url.Action("MissingKidsIndex", "ReportMissingChild")">الاطفال المفقودين</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("Index", "FoundChildrenHome")">الاطفال المعثور عليهم</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("Index", "ReportMissingChild")">الابلاغ عن طفل مفقود</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("Index", "ReportAbuse")">الابلاغ عن طفل في خطر</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("Index", "ReportFoundChild")">الإبلاغ عن طفل معثور عليه</a></li>
+										<li><a class="dropdown-item" href="@Url.Action("Index", "AskForAdvice")">الدعم و المشورة الاسرية</a></li>
+
+									</ul>
+
+								</li>
+
+								<li class="nav-item  d-lg-none 	d-xxl-none	d-xl-none">
+									<a class="nav-link" href="#">16000 خط نجدة الطفل </a>
+								</li>
+
+								<li class="nav-item  d-lg-none 	d-xxl-none	d-xl-none">
+									<a class="nav-link" href="@Url.Action("ContactUS","DisplayPages")">اتصل بنا</a>
+								</li>
+
+								<li class="nav-item  d-lg-none 	d-xxl-none	d-xl-none">
+									<a class="nav-link" href="https://api.whatsapp.com/send?phone=+2001016609579&text=">
+										خدمات الواتساب
+									</a>
+								</li>
+
+								<li class="nav-item  d-lg-none 	d-xxl-none	d-xl-none">
+									<a href="#" class="nav-link">
+										بحث
+									</a>
+								</li>
+							</ul>
+
+						</div>
+					</div>
+				</nav>
+
+			</div>
+		</div>
+
+
+
+
+	</div>
+
+
+
+
+	@RenderBody()
+
+
+	<footer class="footer">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-6 footer-content">
+					<img class="img-fluid " src="~/images/0-45.png" />
+					<h4 class="footer-title">المجلس القومى للطفولة والأمومة</h4>
+				</div>
+                <div class="col-lg-6 footer-social">
+
+                    <a href="https://play.google.com/store/apps/details?id=com.nabttmasr.nbtt_masr" class="application-andriod"><img class="mobile-app" src="~/images/Group 9383.svg" /></a>
+                    <a class="application-ios"><img class="mobile-app" src="~/images/Group 9377.svg" /></a>
+                    <a href="https://www.youtube.com/channel/UC0Q-bhJZ4Dr0SfmEx_HOXcQ?view_as=subscriber"><img class="footer-socialimg" src="~/images/Circle youtube.svg" /></a>
+                    <a href="https://www.instagram.com/national_council_for_childhood/"><img class="footer-socialimg" src="~/images/instgram.svg" /></a>
+                    <a target="_blank" href="https://twitter.com/NCCMEgypt"><img class="footer-socialimg" src="~/images/Circle Button-1.svg" /></a>
+                    <a target="_blank" href="https://www.facebook.com/NCCMEgypt"><img class="footer-socialimg" src="~/images/Circle Button.svg" /></a>
+
+                </div>
+				<p class="footer-copyright">جميع الحقوق محفوظة للمجلس القومى للطفولة والأمومة ＠ 2021</p>
+
+			</div>
+		</div>
+	</footer>
+
+
+
+
+	@Scripts.Render("~/bundles/jquery")
+
+	<script src="~/Scripts/jquery.js"></script>
+
+	<script src="~/Scripts/bootstrap.bundle.min.js"></script>
+	<script src="~/Scripts/jquery.steps.js"></script>
+	<script src="~/Scripts/jquery-ui.js"></script>
+
+	<script src="~/Scripts/all.min.js"></script>
+
+	<script>
+		function openNav() {
+			document.getElementById("myNav").style.height = "100%";
+		}
+
+		function closeNav() {
+			document.getElementById("myNav").style.height = "0%";
+		}
+
+
+	</script>
+	<script>
+		$(document).ready(function () {
+			$("[type*='search']").focus(function () {
+				$(this).removeClass("search-input")
+			});
+			$("[type*='search']").mouseout(function () {
+				$(this).addClass("search-input")
+    
+			});
+
+			$(function () {
+                $("#SearchWordTxt").keyup(function (evt) {
+                    if (evt.which == 13) {
+                        location.href = "/نتائج-البحث/" + $("#SearchWordTxt").val();
+                    }
+                });
+			});
+		});
+	</script>
+
+	@RenderSection("scripts", required: false)
+</body>
+</html>

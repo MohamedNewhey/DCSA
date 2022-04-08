@@ -1,0 +1,175 @@
+﻿@model NCCM.Database.Partner
+
+@{
+    if (Model.ID == -1)
+    {
+        ViewBag.Title = "اضافة شريك جديدة";
+    }
+    else
+    {
+        ViewBag.Title = "تعديل الشريك";
+    }
+    
+}
+
+<link href="~/assets/select2/dist/css/select2-bootstrap.min.css" rel="stylesheet" />
+<link href="~/assets/select2/dist/css/select2.css" rel="stylesheet" />
+<link href="~/assets/select2/dist/css/select2.min.css" rel="stylesheet" />
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+        @Html.HiddenFor(x => x.ID)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div id="updateProgress" style="position: fixed;display:none; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+            <div style="position:relative; top:40%; width:100%; text-align:center;">
+                <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="example-basic">
+
+                        <div class="row">
+                            <div class=" col-lg-6 mb-4">
+                                <label for="exampleFormControlInput1" class="form-label"> الاسم<span></span></label>
+
+                                <input type="text" class="form-control" placeholder="ادخل الاسم" value="@Model.Name" onkeyup="ValidationRefresh('Name', 'ValidName')" name="Name" id="Name">
+                                <span class="text-danger" id="ValidName"></span>
+                            </div>
+                            <div class=" col-lg-6 mb-5">
+                                <label for="exampleFormControlInput1" class="form-label"> المسار<span></span></label>
+                                <input type="text" class="form-control" placeholder="ادخل المسار" value="@Model.URL" onkeyup="ValidationRefresh('URL', 'ValidURL')" name="URL" id="URL">
+                                <span class="text-danger" id="ValidURL"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label"> الصورة<span></span></label>
+                                <input type="text" class="form-control upload-icon" placeholder="اسحب الصوره لتحميلها" onclick="document.getElementById('CoverPhoto').click(); " id="CoverPhoto1" style="cursor:pointer" readonly />
+                                <input type="file" id="CoverPhoto" style="display:none" onchange="var fileInput = document.getElementById('CoverPhoto');  var filename = fileInput.files[0].name; document.getElementById('CoverPhoto1').value= filename;ValidationRefresh('CoverPhoto1', 'ValidLogo'); removePhoto()" name="Logo" />
+                                <span class="text-danger" id="ValidLogo"></span>
+                                @if (Model.Logo != null)
+                                {
+                                    <a href="@Model.Logo" title="click to open full size" target="_blank"><img src="@Model.Logo" width="5%" class="mt-4" /></a>
+                                }
+                            </div>
+
+                        </div>
+
+                        <div class="text-center mt-5 last-buttons">
+                            <button type="button" class="button-history-add" value="اضافة" onclick="Save()">حفظ</button>
+                            <button type="button" class="button-history-Cancel" onclick="window.location.href = '@Url.Action("Index", "Partners")'">إلغاء</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
+
+
+
+}
+
+
+
+
+@section scripts{
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
+    <script src="~/assets/select2/dist/js/select2.full.js"></script>
+    <script src="~/assets/select2/dist/js/select2.full.min.js"></script>
+    <script src="~/assets/select2/dist/js/select2.js"></script>
+    <script src="~/assets/select2/dist/js/select2.min.js"></script>
+    <script>
+
+
+         $(document).ready(function(){
+         $("#latest-news-tab-2").addClass('active').parent().siblings().find('a').removeClass('active');
+         $("#SettingsTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
+        })
+        function Save() {
+            var formdata = new FormData($('form').get(0));
+            var tag = document.getElementById('updateProgress');
+            tag.style.display = 'block';
+        $.ajax({
+        url: '@Url.Action("Manage", "Partners")',
+        type: 'POST',
+        data: formdata,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            if (data.IsValid) {
+                swal({
+                    title: data.Message,
+                    text: "نجاح",
+                    type: "success",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "تم",
+                    closeOnConfirm: false
+                }, function () {
+                    window.location.href = "@Url.Action("Index", "Partners")";
+
+                });
+
+
+                tag.style.display = 'none';
+            }
+            else {
+                swal({
+                    title: "خطأ!",
+                    text: data.Message,
+                    type: "error",
+                });
+
+                tag.style.display = 'none';
+
+                if (data.ValidFieldID != "") {
+                    document.getElementById(data.ValidFieldID).innerText = data.Message;
+                    $("#" + data.FieldID).css('border-color', 'red');
+                }
+       }
+        },
+        error: function () {
+
+            swal({
+                title: "خطأ!",
+                text: "حدث خطأ",
+                type: "error",
+            });
+            tag.style.display = 'none';
+
+        }
+    });
+
+        }
+
+        function ValidationRefresh(inputid, validid) {
+
+
+
+           
+
+
+            document.getElementById(validid).innerText = "";
+            $("#" + inputid).css('border-color', '');
+
+
+
+        }
+
+         function removePhoto() {
+            @if (Model.Logo != null)
+            {
+                @:$("img").css('display', 'none');
+            }
+        }
+
+    </script>
+}
+

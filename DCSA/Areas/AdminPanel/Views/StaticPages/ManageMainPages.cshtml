@@ -1,0 +1,305 @@
+﻿@model NCCM.Database.StaticPage
+@{
+	ViewBag.Title = "تعديل " + Model.Name;
+}
+<link href="~/assets/select2/dist/css/select2-bootstrap.min.css" rel="stylesheet" />
+<link href="~/assets/select2/dist/css/select2.css" rel="stylesheet" />
+<link href="~/assets/select2/dist/css/select2.min.css" rel="stylesheet" />
+<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+<link href="~/assets/Dropzone/dropzone.css" rel="stylesheet" />
+<link href="~/assets/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<style>
+	td {
+		width: auto;
+		padding: 0;
+		font-size: initial
+	}
+</style>
+<form action="/file-upload" id="DPArea" enctype="multipart/form-data" class="dropzone">
+	<div class="fallback">
+		<input name="file" type="file" multiple />
+		<span id="filePath"></span>
+	</div>
+</form>
+<button type="button" class="table-button-show" style="float: left; margin-top: 20px" onclick="window.location.href = '@ViewBag.URL'">عرض الصفحه</button>
+	
+<table class="table1" id="UploadedImages" style="width: 100%;">
+	<tr>
+		<th></th>
+		<th></th>
+
+	</tr>
+
+</table>
+@using (Html.BeginForm())
+{
+	<div id="updateProgress" style="position: fixed;display:none; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+		<div style="position:relative; top:40%; width:100%; text-align:center;">
+			<i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		@Html.HiddenFor(x => x.ID)
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		<input name="MainPage" value="1" style="display:none" />
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<div id="example-basic">
+						<!-------------------اسم مسار الصفحة---------------------->
+						<div class="row  mt-4">
+							<div class="col mb-3">
+								<label for="exampleFormControlInput1" class="form-label">اسم الصفحة <span></span></label>
+								<input type="text" class="form-control" placeholder="اسم الصفحة" value="@Model.Name" onkeyup="ValidationRefresh('Name', 'ValidName');" name="Name" id="Name">
+								<span class="text-danger" id="ValidName"></span>
+							</div>
+
+						</div>
+
+
+
+						<!-------------------الترتيب التاريخ---------------------->
+						<div class="row">
+							<div class="col mb-3">
+								<label for="exampleFormControlInput1" class="form-label">الترتيب <span></span></label>
+								@if (Model.ID != -1)
+								{
+									if (Model.PageOrder == null)
+									{
+										<input type="text" class="form-control" placeholder="الترتيب" value="1" onkeyup="ValidationRefresh('PageOrder', 'ValidOrder');" onkeypress="return isNumber(event)" name="PageOrder" id="PageOrder">
+									}
+									else
+									{
+										<input type="text" class="form-control" placeholder="الترتيب" value="@Model.PageOrder" onkeyup="ValidationRefresh('PageOrder', 'ValidOrder');" onkeypress="return isNumber(event)" name="PageOrder" id="PageOrder">
+									}
+								}
+								else
+								{
+									<input type="text" class="form-control" placeholder="الترتيب" value="1" onkeyup="ValidationRefresh('PageOrder', 'ValidOrder');" onkeypress="return isNumber(event)" name="PageOrder" id="PageOrder">
+								}
+								<span class="text-danger" id="ValidOrder"></span>
+							</div>
+							<div class="col mb-3">
+								<div class="col mb-3" style="position:relative">
+									<label for="exampleFormControlInput1" class="form-label">التاريخ</label>
+									
+										<input type="text" class="form-control calnder-icon2" name="PageDate" id="PageDate" onclick="ValidationRefresh('PageDate', 'ValidDate')">
+                                  
+									<span class="text-danger" id="ValidDate"></span>
+								</div>
+							</div>
+						</div>
+
+
+						<!-------------------محتوى الصفحة---------------------->
+						<div class="row">
+							<div class="col mb-3">
+								<span class="board-history-title">محتوى الصفحة</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col mb-3">
+								<textarea id="Content" name="Content" onkeyup="ValidationRefresh('Content', 'ValidContent')" rows="5" cols="10">@Model.PageContent
+                                </textarea>
+								<span class="text-danger" id="ValidContent"></span>
+							</div>
+						</div>
+
+						<!-------------------Paragraph---------------------->
+						<div class="row">
+							<div class="col">
+								<p class="last-p-board-history">يجب مراعاة عند كتابة المحتوى ان لا يكون النص بدون تنسيق سابق وان يتم التنسيق من خلال محرر النص الخاص بالموقع</p>
+							</div>
+						</div>
+						<!-------------------buttons---------------------->
+						<div class="row mt-4">
+							<div class="text-center mt-5 last-buttons">
+                                <button type="button" class="button-history-add" onclick="Save()">حفظ</button>
+								<button type="button" class="button-history-Cancel" onclick="window.location.href = '@Url.Action("ManageMainPages", "StaticPages", new { id = Model.ID})'">إلغاء</button>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+}
+@section scripts{
+	<script src="~/assets/sweetalert/sweetalert.min.js"></script>
+	<script src="~/assets/select2/dist/js/select2.full.js"></script>
+	<script src="~/assets/select2/dist/js/select2.full.min.js"></script>
+	<script src="~/assets/select2/dist/js/select2.js"></script>
+	<script src="~/assets/select2/dist/js/select2.min.js"></script>
+	<script src="~/assets/Dropzone/dropzone.js"></script>
+	<script src="~/assets/tiny/tinymce.min.js"></script>
+	<script src="~/assets/bootstrap-datepicker/dist/js/moment.min.js"></script>
+	<script src="~/assets/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script>
+
+
+            Dropzone.autoDiscover = false;
+
+        $(document).ready(function () {
+                  $("#latest-news-tab-@Model.ID").addClass('active').parent().siblings().find('a').removeClass('active');
+                      $("#AboutTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
+        @if(Model.PageDate != null)
+{
+             @:$('#PageDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+       @: date: '@Model.PageDate'
+           @: });
+        }
+        else
+        {
+             @:$('#PageDate').datetimepicker({
+    @:format: 'MM/DD/YYYY',
+       @: date: '@DateTime.Now'
+           @: });
+        }
+ tinymce.init({
+selector: '#Content',
+                height: 600,
+                menubar: true,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar: 'undo redo | formatselect | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help',
+                content_css: ['/Content/EditorOnly.css'],
+
+                branding: false
+
+            });
+
+            var myDropzone = new Dropzone("#DPArea", { url: '@Url.Action("SaveFile", "PageBuilder", new { area = "AdminPanel"})' });
+
+            myDropzone.on("complete", function (data) {
+                // Will send the filesize along with the file as POST data.
+                var res = JSON.parse(data.xhr.response);
+                console.log(data);
+
+
+                var mark = '<tr class="edit-tr" >';
+                mark += '<td class="first-tr"><img class="add-img" style="width:50px" src="' + res.FilePath + '" ></td>';
+                mark += '<td class="sec-tr">' + res.FilePath+ '</td>';
+                mark += '</tr>';
+
+                var table = $("#UploadedImages tbody");
+
+                table.append(mark);
+
+
+
+            });
+
+
+            })
+
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+
+        }
+
+        function Save() {
+            var formdata = new FormData($('form').get(1));
+            formdata.delete('Content');
+
+            formdata.append('Content', tinyMCE.activeEditor.getContent());
+            var tag = document.getElementById('updateProgress');
+            tag.style.display = 'block';
+            $.ajax({
+                url: '@Url.Action("Manage", "StaticPages")',
+                type: 'POST',
+                data: formdata,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            if (data.IsValid) {
+                swal({
+                    title: data.Message,
+                    text: "نجاح",
+                    type: "success",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "تم",
+                    closeOnConfirm: false
+                }, function () {
+                    window.location.href = '@Url.Action("ManageMainPages", "StaticPages", new { id = Model.ID})';
+
+                });
+
+
+                tag.style.display = 'none';
+            }
+            else {
+                swal({
+                    title: "خطأ!",
+                    text: data.Message,
+                    type: "error",
+                });
+
+                tag.style.display = 'none';
+
+                if (data.ValidFieldID != "") {
+                    document.getElementById(data.ValidFieldID).innerText = data.Message;
+                    $("#" + data.FieldID).css('border-color', 'red');
+                 if (data.FieldID == "MainPage" ) {
+                        var inputs = document.getElementsByName(data.FieldID);
+                        for (var i = 0; i < inputs.length; i++) {
+                            $(inputs[i]).css('border-color', 'red');
+                            $(inputs[i].labels[0]).css('color', 'red');
+                        }
+                    }
+                }
+       }
+        },
+        error: function () {
+
+            swal({
+                title: "خطأ!",
+                text: "حدث خطأ",
+                type: "error",
+            });
+            tag.style.display = 'none';
+
+        }
+    });
+
+        }
+
+        function ValidationRefresh(inputid, validid) {
+            if (inputid == "MainPage" ) {
+        var inputs = document.getElementsByName(inputid);
+        for (var i = 0; i < inputs.length; i++) {
+            $(inputs[i]).css('border-color', '');
+            $(inputs[i].labels[0]).css('color', '');
+        }
+    }
+
+            document.getElementById(validid).innerText = "";
+            $("#" + inputid).css('border-color', '');
+
+
+
+        }
+
+
+
+    </script>
+}
