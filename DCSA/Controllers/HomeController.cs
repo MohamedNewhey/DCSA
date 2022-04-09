@@ -9,6 +9,11 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Moyasar;
+using Moyasar.Models;
+using Moyasar.Services;
+
+
 
 namespace DCSA.Controllers
 {
@@ -38,17 +43,108 @@ namespace DCSA.Controllers
 
         }
 
+        public ActionResult DonationCart()
+        {
+            var Cart = Session["Cart"] as List<CartItem>;
+            if (Cart == null)
+                Cart = new List<CartItem>();
+            return View(Cart);
+        }
+
+        public ActionResult RefreshCart() {
+            var Cart = Session["Cart"] as List<CartItem>;
+            if (Cart == null)
+                Cart = new List<CartItem>();
+            return PartialView("_PartialCart", Cart);
+        }
+
         [HttpPost]
         public ActionResult AddToSession(CartItem model)
         {
             var Cart = Session["Cart"] as List<CartItem>;
             if(Cart==null)
                 Cart = new List<CartItem>();
+            var ParsedID = int.Parse(model.ID);
+            model.Currency = db.Causes.FirstOrDefault(x => x.ID == ParsedID).Currency;
+            model.CoverPhoto = db.Causes.FirstOrDefault(x => x.ID == ParsedID).CoverPhoto;
             Cart.Add(model);
             Session.Add("Cart", Cart);
 
             return Json(new { Count = Cart.Count }, JsonRequestBehavior.AllowGet) ;
         }
+
+        [HttpPost]
+        public ActionResult AddFreeDonation(double Amount)
+        {
+            var Cart = Session["Cart"] as List<CartItem>;
+            if (Cart == null)
+                Cart = new List<CartItem>();
+            CartItem model = new CartItem();
+            model.Name = "تبرع سريع";
+            Guid GeneratedID = Guid.NewGuid();
+            model.ID = GeneratedID.ToString();
+            model.Amount = Amount;
+            Cart.Add(model);
+            Session.Add("Cart", Cart);
+
+            return Json(new { Count = Cart.Count }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFromCart(string id)
+        {
+            var Cart = Session["Cart"] as List<CartItem>;
+            if (Cart == null)
+                Cart = new List<CartItem>();
+
+           var Wanted= Cart.First(x=>x.ID==id);
+            Cart.Remove(Wanted);
+            Session.Add("Cart", Cart);
+
+            return PartialView("_PartialCart",Cart);
+        }
+
+        public ActionResult Thanks(string id, string status, string amount,string message) {
+
+            MoyasarService.ApiKey = "sk_test_QtHqu8NyBqMZ66ePEYh7599mMv8HMcXqeBHUnGtF";
+            var payment = Payment.Fetch(id);
+
+            if (payment.Status == "paid")
+            {
+                string PaymentString = Newtonsoft.Json.JsonConvert.SerializeObject(payment);
+
+                PaymentsRequest PR = new PaymentsRequest();
+                PR.Status = payment.Status;
+                PR.Amount = payment.Amount;
+                PR.RequestContent = PaymentString;
+                db.PaymentsRequests.Add(PR);
+
+
+                var Cart = Session["Cart"] as List<CartItem>;
+                foreach (var item in Cart)
+                {
+                    Donation dono = new Donation();
+                    dono.Amount = item.Amount;
+                    int CauseID;
+                    var ParseCheck = int.TryParse(item.ID, out CauseID);
+                    if (ParseCheck)
+                        dono.CauseID = CauseID;
+                    else
+                        dono.CauseID = null;
+
+                    dono.PaymentMethod = payment.Source.Type;
+                    db.Donations.Add(dono);
+
+                }
+                db.SaveChanges();
+                Cart = new List<CartItem>();
+                Session.Add("Cart", Cart);
+            }
+
+            TempData["ThanksModal"] = true;
+            return RedirectToAction("DonationCart");
+        }
+
 
         [Route("نتائج-البحث/{SearchWord?}")]
         public ActionResult SearchResult(string SearchWord)

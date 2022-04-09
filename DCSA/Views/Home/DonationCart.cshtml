@@ -1,0 +1,171 @@
+﻿@model IEnumerable<DCSA.Models.CartItem>
+@{
+    ViewBag.Title = "سله التبرعات";
+    var ShareURL = string.Format("{0}://{1}{2}{3}",
+       System.Web.HttpContext.Current.Request.Url.Scheme,
+       System.Web.HttpContext.Current.Request.Url.Host,
+       System.Web.HttpContext.Current.Request.Url.Port == 80 ? string.Empty : ":" + System.Web.HttpContext.Current.Request.Url.Port,
+       System.Web.HttpContext.Current.Request.ApplicationPath);
+
+    ShareURL += "Home/Thanks";
+}
+
+<link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.5.6/moyasar.css">
+
+<div class="modal fade" id="ThanksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center thanksSection">
+                <h2 class="thanksdonation">شكرا علي تبرعك <br /><br /><i class=" donate-mark fa-solid fa-check fa-2x"></i></h2>
+
+
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">تم</button>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<div class="defult-margin" id="DataDiv">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h4 class="Cart-title">
+                    <img class="cart-img" src="~/images/money.svg" />	سلة التبرعات
+
+                </h4>
+                <div class="basket-scroll">
+                    @if (Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <div class="basketCard mb-4" id="CartItem-@item.ID">
+                                <div class="basketimg">
+                                    <div class="itemimg" style="background-image: url(@item.CoverPhoto );"></div>
+                                </div>
+                                <div class="BasketCard_title">@item.Name</div>
+                                <div class="basketamout">@item.Amount @item.Currency</div>
+                                <button class="bassketRemove-item" onclick="RemoveFromCart('@item.ID','@item.Name')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19.243" height="19.074" viewBox="0 0 19.243 19.074">
+                                        <g id="Group_1978" data-name="Group 1978" transform="translate(-183.379 -445.547)">
+                                            <line id="Line_31" data-name="Line 31" y1="14.832" x2="15" transform="translate(185.5 447.668)" fill="none" stroke="#d17169" stroke-linecap="round" stroke-width="3" />
+                                            <line id="Line_32" data-name="Line 32" x1="15" y1="14.832" transform="translate(185.5 447.668)" fill="none" stroke="#d17169" stroke-linecap="round" stroke-width="3" />
+                                        </g>
+                                    </svg>
+                                </button>
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <div class="Noitems text-center">
+                            <h2>لا يوجد تبرعات ف السلة</h2>
+                        </div>
+                    }
+
+                </div>
+
+            </div> 
+            @if (Model.Count() > 0)
+            {
+                <div class="col">
+
+                    <div class="text-center">
+                        <h3 class="Cart-title">
+                            مجموع التبرع
+                        </h3>
+                        <p class="donations-total">@Model.Sum(x => x.Amount) ريال</p>
+                    </div>
+
+                    <h4 class="paymentMethods-title">طرق الدفع</h4>
+
+
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label>
+                                <input type="radio" name="test" value="mada" checked>
+
+                                <img class="payment-img-donation" src="~/images/mada.png" />
+                            </label>
+                        </div>
+                        <div class="col mb-3">
+                            <label>
+                                <input type="radio" name="test" value="master-visa">
+
+                                <img class="payment-img-donation" src="~/images/54e30edf9d8e3f86b1935d5d3d1317d8.png" />
+                            </label>
+                        </div>
+                        <div class="col mb-3">
+                            <label>
+                                <input type="radio" name="test" value="paypal">
+
+                                <img class="payment-img-donation" src="~/images/How-Does-PayPal-account-Work-removebg-preview.png" />
+                            </label>
+                        </div>
+                        <div class="col mb-3">
+                            <label>
+                                <input type="radio" name="test" value="paypal">
+                                <img class="payment-img-donation" src="~/images/Apple_Pay-Logo.wine-removebg-preview.png" />
+
+                            </label>
+                        </div>
+
+                        <div class="col mb-3">
+                            <label>
+                                <input type="radio" name="test" value="bank-transfer">
+
+                                <img class="payment-img-donation" src="~/images/png-transparent-wire-transfer-bank-account-payment-exchange-rate-payment-method-text-service-logo-removebg-preview.png" />
+
+                            </label>
+                        </div>
+                    </div>
+
+
+
+                    <div class="mysr-form"></div>
+
+
+
+                </div>
+            }
+            </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/Homepage.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=fetch"></script>
+    <script src="https://cdn.moyasar.com/mpf/1.5.6/moyasar.js"></script>
+    <script>
+        var DeleteURL = '@Url.Action("DeleteFromCart", "Home")';
+        var FreeDonation = '@Url.Action("AddFreeDonation", "Home")';
+        var RefreshLink = '@Url.Action("RefreshCart", "Home")';
+
+        $(document).ready(function () {
+            @if (TempData["ThanksModal"] != null) {
+                
+            @:$("#ThanksModal").modal('show');
+            
+                }
+
+            })
+      
+        var ItemsSum =@Model.Sum(x => x.Amount);
+        if (ItemsSum > 0) {
+            Moyasar.init({
+                element: '.mysr-form',
+                amount: @Model.Sum(x => x.Amount),
+                currency: 'SAR',
+                description: 'DSCA Donation',
+                publishable_api_key: 'pk_test_TyzoXo9ggsPQi6Yraqxy82GnvNuibNV9MXXoJFws',
+                callback_url: '@ShareURL',
+                methods: [
+                    'creditcard'
+                ],
+            });
+        }
+    </script>
+}

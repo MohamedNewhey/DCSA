@@ -7,9 +7,11 @@ namespace DCSA.Models
 {
     public class CartItem
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
-        public string Amount { get; set; }  
+        public double Amount { get; set; }  
         
+        public string CoverPhoto { get; set; }
+        public string Currency { get; set; }
     }
 }

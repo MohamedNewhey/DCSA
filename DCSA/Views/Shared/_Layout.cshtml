@@ -117,22 +117,22 @@
 						<a class="nav-link" href="#">	كبار المتبرعين اوقف فصل تعليمي</a>
 					</li>
 
-					<div class="donation-btns">
-						<button class="btn btn-Donation position-relative" type="button">
-							<img width="25" src="~/images/cart (2).svg" />   سلة التبرع
+                    <div class="donation-btns">
+                         <a class="btn btn-Donation position-relative" href="@Url.Action("DonationCart","Home")">
+                            <img width="25" src="~/images/cart (2).svg" />   سلة التبرع
 
 
-							<span id="CartItemsSpan" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-								@ViewBag.CartItems
-								<span class="visually-hidden">unread messages</span>
-							</span>
+                            <span id="CartItemsSpan" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                @ViewBag.CartItems
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
 
 
-						</button>
-						<button data-bs-toggle="modal" data-bs-target="#FastDonation" class="btn btn-Donation" type="button">
-							<img width="25" src="~/images/hand-donate.svg" />   التبرع السريع
-						</button>
-					</div>
+                        </a>
+                        <button data-bs-toggle="modal" data-bs-target="#FastDonation" class="btn btn-Donation" type="button">
+                            <img width="25" src="~/images/hand-donate.svg" />   التبرع السريع
+                        </button>
+                    </div>
 				</ul>
 				<div>
 					<img height="80" src="~/images/DSCA LOGO1.png">
@@ -271,11 +271,11 @@
 				</div>
 				<div class="modal-body">
 				<label class="form-label"> مبلغ التبرع</label>
-					<input class="form-control"/>
+					<input id="FreeDonationInput" class="form-control" onkeypress="return isNumber(event)"/>
 				</div>
 				<div class="modal-footer">
 				
-					<button type="button" class="fast-donation">تبرع</button>
+					<button type="button" class="fast-donation" onclick="CollectFreeDonation()">تبرع</button>
 				</div>
 			</div>
 		</div>
@@ -290,6 +290,9 @@
 	<script src="~/assets/sweetalert/sweetalert.min.js"></script>
 	<script>
 		new WOW().init();
+
+
+     
 	</script>
 
 	@RenderSection("scripts", required: false)

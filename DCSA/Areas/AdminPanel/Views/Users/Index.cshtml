@@ -117,35 +117,35 @@
 
         function Delete(id, name) {
 
-    swal({
-    title: "هل انت متأكد؟",
-    text: "هل تريد مسح " + name + " ؟" ,
-    type: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#DD6B55",
-    confirmButtonText: "نعم",
-    closeOnConfirm: false
-    }, function () {
-    $.ajax({
-    type: "Post",
+            swal({
+                title: "هل انت متأكد؟",
+                text: "هل تريد مسح " + name + " ؟",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "نعم",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "Post",
 
-    url: '@Url.Action("DeleteUser", "Users", new { area = "AdminPanel"})',
-    data: { id: id },
-    success: function (data) {
-    if (data.IsValid) {
-    $('#Tr-' + id).remove();
+                    url: '@Url.Action("DeleteUser", "Users", new { area = "AdminPanel"})',
+                    data: { id: id },
+                    success: function (data) {
+                        if (data.IsValid) {
+                            $('#Tr-' + id).remove();
 
-    swal("نجاح!", data.Message, "success");
+                            swal("نجاح!", data.Message, "success");
 
 
-    }
-    else {
-    swal("فشل!", data.Message, "Fail");
-    }
-    }
-    });
+                        }
+                        else {
+                            swal("فشل!", data.Message, "Fail");
+                        }
+                    }
+                });
 
-    });
+            });
         }
 
         function Search() {

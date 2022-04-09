@@ -1,6 +1,4 @@
 ﻿
-
-
 function AddToCart(id, Name, Type) {
     var model = new Object();
     model.ID = id;
@@ -20,7 +18,7 @@ function AddToCart(id, Name, Type) {
         data: { model: model },
         success: function (data) {
 
-            swal("نجاح!", data.Message, "success");
+            swal("نجاح!", "تم اضافة للسلة", "success");
 
             document.getElementById("CartItemsSpan").innerText = data.Count;
 
@@ -55,5 +53,69 @@ function isNumber(evt) {
         return false;
     }
     return true;
+
+}
+
+
+function RemoveFromCart(id,name) {
+
+    swal({
+        title: "هل انت متأكد؟",
+        text: "هل تريد مسح " + name + " ؟",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "نعم",
+        closeOnConfirm: false
+    }, function () {
+        $.ajax({
+            type: "Post",
+            url: DeleteURL,
+            data: { id: id },
+            success: function (data) {
+                $('#DataDiv').html(data);
+                swal("نجاح!", "تم المسح", "success");
+              
+            }
+        });
+
+    });
+
+}
+
+
+function CollectFreeDonation() {
+    var Amount = 0;
+    Amount = parseInt(document.getElementById("FreeDonationInput").value);
+    if (Amount <= 0) {
+        swal("فشل!", "من فضلك ادخل قيمة اكبر من ال 0", "error");
+    }
+    $.ajax({
+        type: "Post",
+        url: FreeDonation,
+        data: { Amount: Amount },
+        success: function (data) {
+
+            if (RefreshLink != "No") {
+                $.ajax({
+                    type: "Get",
+                    url: RefreshLink,
+                    success: function (ContentData) {
+                        $('#DataDiv').html(ContentData);
+                        swal("نجاح!", "تم اضافة للسلة", "success");
+
+                        document.getElementById("CartItemsSpan").innerText = data.Count;
+                        $("#FastDonation").modal('hide');
+                    }
+                });
+            }
+            else {
+                swal("نجاح!", "تم اضافة للسلة", "success");
+
+                document.getElementById("CartItemsSpan").innerText = data.Count;
+                $("#FastDonation").modal('hide');
+            }
+        }
+    });
 
 }

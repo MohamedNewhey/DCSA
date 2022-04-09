@@ -98,10 +98,10 @@
                                 <div class="cardfooter-action">
                                     <div class="action-btns">
                                         <button class="donation-btn">تبرع سريع</button>
-                                        <button class="donation-btn-outline" onclick="AddToCart('@item.ID', '@item.Header', '@item.TypeID')">إضافه للسلة</button>
+                                        <button class="donation-btn-outline" onclick="AddToCart('@item.ID','@item.Header','@item.TypeID')">اضافة للسلة</button>
                                     </div>
                                     <div class="gift-donation">
-                                        <img src="../images/gift.svg" />
+                                        <img src="~/images/gift.svg" />
                                     </div>
                                 </div>
 
@@ -125,5 +125,7 @@
     <script src="~/Scripts/Homepage.js"></script>
     <script>
         var CartURL = '@Url.Action("AddToSession", "Home")';
+        var FreeDonation = '@Url.Action("AddFreeDonation", "Home")';
+        var RefreshLink = "No";
     </script>
 }
