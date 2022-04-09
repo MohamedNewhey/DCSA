@@ -13,5 +13,10 @@ namespace DCSA.Controllers
         {
             return View();
         }
+
+        public ActionResult CartPage()
+        {
+            return View();
+        }
     }
 }
