@@ -1,0 +1,227 @@
+﻿@model DCSA.Database.Caus
+@{
+    ViewBag.Title = "تفاصيل " + Model.Header;
+    double left = Model.TargetMoney.Value - Model.Donations.Sum(x => x.Amount).Value;
+    double Perc = Math.Round(Model.Donations.Sum(x => x.Amount).Value / Model.TargetMoney.Value * 100, 0);
+    string PColor = "#fff";
+    if (Perc == 0)
+    {
+        PColor = "#4f5152";
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var ShareURL = string.Format("{0}://{1}{2}{3}",
+         System.Web.HttpContext.Current.Request.Url.Scheme,
+         System.Web.HttpContext.Current.Request.Url.Host,
+         System.Web.HttpContext.Current.Request.Url.Port == 80 ? string.Empty : ":" + System.Web.HttpContext.Current.Request.Url.Port,
+         System.Web.HttpContext.Current.Request.ApplicationPath);
+
+    var CauseURL = ShareURL + "Home/CauseDetails?id="+Model.ID;
+    string ShareText = "ساهم معنا فى " + Model.ShortDescription;
+}
+
+
+<style>
+    .curr {
+        color: #4f5152;
+        position: absolute;
+        left: 20%;
+        top: 60%;
+    }
+
+    .ahda {
+        cursor: pointer;
+        user-select: none;
+        font-size: 15px;
+    }
+
+    .add-number {
+        position: relative;
+        text-align: center;
+    }
+
+    .donation-method .form-control {
+        margin: 0 auto;
+    }
+
+    .donation-btn {
+        border-radius: 19px;
+        background: var(--main-Color);
+        border: 1px solid #fff;
+        width: 90px;
+        margin: 30px 0;
+        height: 33px;
+        font-size: 15px;
+        color: var(--white-color);
+    }
+
+    .donation-btn-outline {
+        border-radius: 19px;
+        background: transparent;
+        border: 1px solid var(--main-Color);
+        width: 90px;
+        height: 33px;
+        font-size: 13px;
+        color: var(--paragraph-color);
+    }
+
+    .arrowsControl {
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .card-mada {
+        margin: 30px 0;
+    }
+</style>
+
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-8">
+            <div class="donation-card-Detalils">
+                <div class="Cardimg-holder"
+                     style="background-image: url(@Model.CoverPhoto );"></div>
+                <div class="card-mainbody">
+                    <div class="card-maintitle">
+                        <p class="card-title">@Model.Header</p>
+                    </div>
+                    <div class="Card-content">
+                        <p>
+                         @Model.CauseContent
+                        </p>
+                    </div>
+
+
+                    <div class="progressBar" style="margin: 30px 0;">
+                        <div class="progressBar-section">
+                            <div class="progress-fill" style="width: @Perc%">
+                                <div class="persentage" style="color:@PColor !important">@Perc%</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="card-footer">
+                    <div class="shareLinks">
+                        <div class="ShareLinks__copyLink">
+                            <i class="fa-solid fa-share-from-square shareicon"></i>
+                            أنشر مساهمتك
+                        </div>
+                        <div class="ShareLinks__social">
+                            <a  href="https://api.whatsapp.com/send?text=@CauseURL" target="_blank"><i class="fa-brands fa-whatsapp social"></i></a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=@CauseURL&amp;src=sdkpreparse.com/" target="_blank" ><i class="fa-brands fa-facebook-f social"></i></a>
+                            <a   href="http://twitter.com/share?text=@ShareText&url=@CauseURL&hashtags=DSCA" target="_blank"><i class="fa-brands fa-twitter social"></i></a>
+                            <a href="https://t.me/share/url?url=@CauseURL&text=@ShareText" target="_blank"><i class="fa-brands fa-telegram social"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="donation-card-Detalils">
+                <div class="card-mainbody">
+                    <ul class="card-mada">
+                        <li class="preview-info-list__item">
+                            <span class="preview-info-list__label">المطلوب</span>
+                            <div data-v-6325d1f0="" class="title">@Model.TargetMoney</div>
+                            <div class="descrption">@Model.Currency</div>
+                        </li>
+                        <li class="preview-info-list__item">
+                            <span class="preview-info-list__label">المتبقي</span>
+                            <div data-v-6325d1f0="" class="title">@left</div>
+                            <div class="descrption">@Model.Currency</div>
+                        </li>
+                    </ul>
+
+
+
+                    <div class="donation-method text-center">
+                        <div class="add-number">
+
+                            @if (Model.TypeID == 1)
+                            {
+                                <label for="donateNumber" class="col-form-label">مبلغ التبرع</label>
+                                <input id="donateNumber-@Model.ID" class="form-control form-control-sm" type="text" value="30" onkeypress="return isNumber(event)" aria-label="default input example">
+                            }
+                            else
+                            {
+
+                                <label for="donateNumber" class="col-form-label">عدد الاسهم</label>
+                                <div class="arrowsControl">
+                                    <button onclick="AddValueSpan('@Model.StockPrice.Value', '@Model.ID', '@left')">+</button>
+                                    <span class="numberOFarrows" id="ArrowNo-@Model.ID">1</span>
+                                    <button onclick="MinusValueSpan('@Model.StockPrice.Value', '@Model.ID')">-</button>
+                                    <span id="PriceValue-@Model.ID" class="arrows-increase">@Model.StockPrice.Value</span>
+                                    <span class="arrows-increase"> @Model.Currency</span>
+                                </div>
+                            }
+
+                        </div>
+
+                        <button class="donation-btn">تبرع</button>
+                        <button class="donation-btn-outline" onclick="AddToCart('@Model.ID', '@Model.Header', '@Model.TypeID')">إضافه للسلة</button>
+                        <p class="ahda">اهداء</p>
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- GiftDonation Section And Form-->
+
+                <div class="GiftDonationCard d-none">
+                    <div class="GiftDonationBody">
+                        <div class="Giftcard-header">
+                            <div class="card-title text-center">بيانات الإهداء</div>
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                        </div>
+
+                        <div class="GiftContentBody">
+                            <form>
+                                <input class="form-control form-control-sm"
+                                       type="text"
+                                       placeholder="اسم المتبرع"
+                                       aria-label=".form-control-sm example" />
+                                <input class="form-control form-control-sm"
+                                       type="text"
+                                       placeholder="اسم المهدي له"
+                                       aria-label=".form-control-sm example" />
+                                <input class="form-control form-control-sm"
+                                       type="text"
+                                       placeholder="رقم جوال المهدي له 05xxxxxxx"
+                                       aria-label=".form-control-sm example" />
+                                <div class="form-floating">
+                                    <textarea class="form-control"
+                                              placeholder="اكتب رسالتك"
+                                              id="floatingTextarea2"
+                                              style="height: 150px; resize: none"></textarea>
+                                </div>
+
+                                <div class="text-center Giftbtn">
+                                    <button>اهداء</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+
+    <script src="~/Scripts/Homepage.js"></script>
+    <script>
+        var CartURL = '@Url.Action("AddToSession", "Home")';
+    </script>
+}

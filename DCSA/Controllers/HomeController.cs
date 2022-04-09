@@ -19,24 +19,23 @@ namespace DCSA.Controllers
         [Route("")]
         [Route("Home/Index")]
         [Route("Home")]
-        [Route("الصفحة الرئيسية")]
         public ActionResult Index()
         {
-           
-            ViewBag.Causes = GlobalHelper.GetCauses().Take(4).ToList();
-            //ViewBag.Initives = GlobalHelper.OrderPages(1).Take(3).ToList();
-            //ViewBag.Programs = GlobalHelper.OrderPages(2).Take(4).ToList();
 
-            //ViewBag.Partners = db.Partners.Where(x => x.Publish.Value).ToList();
-
-            //ViewBag.SliderData = db.Images.Where(x => x.Publish.Value).OrderBy(x=>x.No).ToArray();
-
-            //ViewBag.News = GlobalHelper.OrderPages(4).Take(4).ToList();
-
-            //ViewBag.PopUp = db.PopUpUpdates.FirstOrDefault();
-
-            var Cart = Session["Cart"] as List<CartItem>;
+            ViewBag.Causes = GlobalHelper.GetCauses();
             return View();
+        }
+        public ActionResult CauseDetails(int? id)
+        {
+            if (!id.HasValue)
+                return RedirectToAction("Index");
+
+            var Model = db.Causes.FirstOrDefault(x => x.ID == id);
+            if (Model == null)
+                return RedirectToAction("Index");
+
+            return View(Model);
+
         }
 
         [HttpPost]
@@ -48,7 +47,7 @@ namespace DCSA.Controllers
             Cart.Add(model);
             Session.Add("Cart", Cart);
 
-            return Json(new { Count=Cart.Count }, JsonRequestBehavior.AllowGet);
+            return Json(new { Count = Cart.Count }, JsonRequestBehavior.AllowGet) ;
         }
 
         [Route("نتائج-البحث/{SearchWord?}")]
