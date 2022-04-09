@@ -1,186 +1,129 @@
 ﻿@using DCSA.Database
 @{
-	ViewBag.Title = "مشروع المتجر الإلكتروني";
+    ViewBag.Title = "مشروع المتجر الإلكتروني";
 
 }
 
-<link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
 
 <div>
 
-	<div class="container-fluid">
-		<h3 class="sectionTitle text-center mt-5">	فرص وطرق التبرعات للمبنى </h3>
+    <div class="container-fluid">
+        <h3 class="sectionTitle text-center mt-5">	فرص وطرق التبرعات للمبنى </h3>
 
-		<div class="container">
-			<div class="row">
+        <div class="container">
+            <div class="row">
 
-				@foreach (Caus item in ViewBag.Causes)
-				{
-					double left = item.TargetMoney.Value - item.Donations.Sum(x => x.Amount).Value;
-					double Perc = Math.Round(item.Donations.Sum(x => x.Amount).Value / item.TargetMoney.Value * 100, 0);
-					string PColor = "#fff";
-					if (Perc == 0)
-					{
-						PColor = "#4f5152";
-					}
+                @foreach (Caus item in ViewBag.Causes)
+                {
+                    double left = item.TargetMoney.Value - item.Donations.Sum(x => x.Amount).Value;
+                    double Perc = Math.Round(item.Donations.Sum(x => x.Amount).Value / item.TargetMoney.Value * 100, 0);
+                    string PColor = "#fff";
+                    if (Perc == 0)
+                    {
+                        PColor = "#4f5152";
+                    }
 
-					<div class="col-md-6 d-flex justify-content-center mb-5">
+                    <div class="col-md-6 d-flex justify-content-center mb-5">
 
-						<div class="donation-card wow bounceInUp" >
-
-
-
-							<div class="Cardimg-holder" style="background-image: url(@item.CoverPhoto );">
-
-							</div>
-							<div class="card-mainbody">
-								<div class="card-maintitle">
-									<a class="card-title" href="#">	@item.Header</a>
-									<div class="card-details">
-										<a class="card-title" href="#">التفاصيل</a>
-									</div>
-								</div>
-								<div class="Card-content">
-									<p>@item.ShortDescription....</p>
-								</div>
-
-								<ul class="card-mada">
-									<li class="preview-info-list__item">
-										<span class="preview-info-list__label">المطلوب</span>
-										<div data-v-6325d1f0="" class="title">
-											@item.TargetMoney
-										</div>
-										<div class="descrption">@item.Currency</div>
-									</li>
-									<li class="preview-info-list__item">
-										<span class="preview-info-list__label">المتبقي</span>
-										<div data-v-6325d1f0="" class="title">
-											@left
-										</div>
-										<div class="descrption">@item.Currency</div>
-									</li>
-								</ul>
-
-								<div class="progressBar">
-									<div class="progressBar-section">
-										<div class="progress-fill" style="width:@Perc%">
-											<div class="persentage" style="color:@PColor !important">@Perc%</div>
-										</div>
-									</div>
-								</div>
-
-
-								<div class="donation-method">
-									<div class="add-number">
-
-										@if (item.TypeID == 1)
-										{
-											<label for="donateNumber" class="col-form-label">مبلغ التبرع</label>
-											<input id="donateNumber-@item.ID" class="form-control form-control-sm" type="text" value="30" onkeypress="return isNumber(event)" aria-label="default input example">
-										}
-										else
-										{
-
-											<label for="donateNumber" class="col-form-label">عدد الاسهم</label>
-											<div class="arrowsControl">
-												<button onclick="AddValueSpan('@item.StockPrice.Value', '@item.ID', '@left')">+</button>
-												<span class="numberOFarrows" id="ArrowNo-@item.ID">1</span>
-												<button onclick="MinusValueSpan('@item.StockPrice.Value', '@item.ID')">-</button>
-												<span id="PriceValue-@item.ID" class="arrows-increase">@item.StockPrice.Value</span>
-												<span class="arrows-increase"> @item.Currency</span>
-											</div>
-										}
-
-									</div>
-								</div>
-							</div>
-
-							<div class="card-footer">
-								<div class="cardfooter-action">
-									<div class="action-btns">
-										<button class="donation-btn">تبرع سريع</button>
-										<button class="donation-btn-outline" onclick="AddToCart('@item.ID', '@item.Header', '@item.TypeID')">إضافه للسلة</button>
-									</div>
-									<div class="gift-donation">
-										<img src="../images/gift.svg" />
-									</div>
-								</div>
-
-							</div>
-
-
-						</div>
+                        <div class="donation-card wow bounceInUp">
 
 
 
-					</div>
-				}
+                            <div class="Cardimg-holder" style="background-image: url(@item.CoverPhoto );">
+
+                            </div>
+                            <div class="card-mainbody">
+                                <div class="card-maintitle">
+                                    <a class="card-title" href="#">	@item.Header</a>
+                                    <div class="card-details">
+                                        <a class="card-title" href="@Url.Action("CauseDetails", "Home", new { id = item.ID})">التفاصيل</a>
+                                    </div>
+                                </div>
+                                <div class="Card-content">
+                                    <p>@item.ShortDescription....</p>
+                                </div>
+
+                                <ul class="card-mada">
+                                    <li class="preview-info-list__item">
+                                        <span class="preview-info-list__label">المطلوب</span>
+                                        <div data-v-6325d1f0="" class="title">
+                                            @item.TargetMoney
+                                        </div>
+                                        <div class="descrption">@item.Currency</div>
+                                    </li>
+                                    <li class="preview-info-list__item">
+                                        <span class="preview-info-list__label">المتبقي</span>
+                                        <div data-v-6325d1f0="" class="title">
+                                            @left
+                                        </div>
+                                        <div class="descrption">@item.Currency</div>
+                                    </li>
+                                </ul>
+
+                                <div class="progressBar">
+                                    <div class="progressBar-section">
+                                        <div class="progress-fill" style="width:@Perc%">
+                                            <div class="persentage" style="color:@PColor !important">@Perc%</div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
-			</div>
-		</div>
-	</div>
+                                <div class="donation-method">
+                                    <div class="add-number">
+
+                                        @if (item.TypeID == 1)
+                                        {
+                                            <label for="donateNumber" class="col-form-label">مبلغ التبرع</label>
+                                            <input id="donateNumber-@item.ID" class="form-control form-control-sm" type="text" value="30" onkeypress="return isNumber(event)" aria-label="default input example">
+                                        }
+                                        else
+                                        {
+
+                                            <label for="donateNumber" class="col-form-label">عدد الاسهم</label>
+                                            <div class="arrowsControl">
+                                                <button onclick="AddValueSpan('@item.StockPrice.Value', '@item.ID', '@left')">+</button>
+                                                <span class="numberOFarrows" id="ArrowNo-@item.ID">1</span>
+                                                <button onclick="MinusValueSpan('@item.StockPrice.Value', '@item.ID')">-</button>
+                                                <span id="PriceValue-@item.ID" class="arrows-increase">@item.StockPrice.Value</span>
+                                                <span class="arrows-increase"> @item.Currency</span>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="cardfooter-action">
+                                    <div class="action-btns">
+                                        <button class="donation-btn">تبرع سريع</button>
+                                        <button class="donation-btn-outline" onclick="AddToCart('@item.ID', '@item.Header', '@item.TypeID')">إضافه للسلة</button>
+                                    </div>
+                                    <div class="gift-donation">
+                                        <img src="../images/gift.svg" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
 </div>
 
 @section scripts{
-	<script src="~/assets/sweetalert/sweetalert.min.js"></script>
-	<script>
-
-        function AddToCart(id,Name,Type) {
-            var model = new Object();
-            model.ID = id;
-            model.Name = Name;
-            var Amount=0;
-            if (Type == 1) {
-                Amount = document.getElementById("donateNumber-" + id).value;
-            }
-            else
-                Amount = document.getElementById("PriceValue-" + id).innerText;
-
-            model.Amount = Amount
-            $.ajax({
-                type: "Post",
-
-                url: '@Url.Action("AddToSession", "Home")',
-                data: { model: model},
-                success: function (data) {
-
-                        swal("نجاح!", data.Message, "success");
-
-                    document.getElementById("CartItemsSpan").innerText = data.Count;
-
-                }
-            });
-        }
-
-
-        function AddValueSpan(Stockvalue, WantedCard,left) {
-            var CurrentArrow = parseInt(document.getElementById("ArrowNo-" + WantedCard).innerText);
-            CurrentArrow++;
-            if (CurrentArrow * Stockvalue >= left) {
-                return;
-            }
-            document.getElementById("PriceValue-" + WantedCard).innerText = CurrentArrow * Stockvalue;
-            document.getElementById("ArrowNo-" + WantedCard).innerText = CurrentArrow;
-        }
-
-        function MinusValueSpan(Stockvalue, WantedCard) {
-            var CurrentArrow = parseInt(document.getElementById("ArrowNo-" + WantedCard).innerText);
-            CurrentArrow--;
-            if (CurrentArrow <= 0) {
-                return;
-            }
-            document.getElementById("PriceValue-" + WantedCard).innerText = CurrentArrow * Stockvalue;
-            document.getElementById("ArrowNo-" + WantedCard).innerText = CurrentArrow;
-        }
-        function isNumber(evt) {
-            evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                return false;
-            }
-            return true;
-
-        }
-	</script>
+    <script src="~/Scripts/Homepage.js"></script>
+    <script>
+        var CartURL = '@Url.Action("AddToSession", "Home")';
+    </script>
 }

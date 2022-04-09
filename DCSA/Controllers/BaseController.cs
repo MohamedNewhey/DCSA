@@ -16,7 +16,8 @@ namespace DCSA.Controllers
             var Cart = Session["Cart"] as List<CartItem>;
             if (Cart != null)
                 ViewBag.CartItems = Cart.Count();
-           
+            else
+                ViewBag.CartItems = 0;
 
 
             base.OnActionExecuting(filterContext);
