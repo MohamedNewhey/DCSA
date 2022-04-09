@@ -2,21 +2,21 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <title>@ViewBag.Title</title>
+	<title>@ViewBag.Title</title>
 
-    @Scripts.Render("~/bundles/modernizr")
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="../Content/Fonts/font.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="../Content/bootstrap.rtl.min.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="../Content/fontawesome.min.css" />
-
-    <link rel="stylesheet" type="text/css" href="../Content/Homepage.css" />
+	@Scripts.Render("~/bundles/modernizr")
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="../Content/Fonts/font.css" />
+	<link rel="stylesheet"
+		  type="text/css"
+		  href="../Content/bootstrap.rtl.min.css" />
+	<link rel="stylesheet"
+		  type="text/css"
+		  href="../Content/fontawesome.min.css" />
+	<link href="~/Content/animate.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="../Content/Homepage.css" />
 </head>
 
 <style>
@@ -30,130 +30,180 @@
 </style>
 
 <body>
-    <!--TopBar-->
-    <div class="TopBar">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <ul class="headerList">
-                        <li>
-                            <i class="fa-solid fa-phone-flip icon"></i>
-                            <a href="tel:+201458959206"> الجوال 01458959206</a>
-                        </li>
+	<!--TopBar-->
+	<div class="TopBar">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<ul class="headerList">
+						<li>
+							<i class="fa-solid fa-phone-flip icon"></i>
+							<a href="tel:+201458959206"> الجوال 01458959206</a>
+						</li>
 
-                        <li>
-                            <i class="fa-solid fa-envelope icon"></i>
+						<li>
+							<i class="fa-solid fa-envelope icon"></i>
 
-                            <a href="mailto:dsca@info.org"> dsca@info.org البريد الالكتروني</a>
+							<a href="mailto:dsca@info.org"> dsca@info.org البريد الالكتروني</a>
 
-                        </li>
+						</li>
 
-                        <li><i class="fa-solid fa-location-dot icon"></i> الرياض</li>
-                    </ul>
-                </div>
-                <div class="col-md-6 text-end">
-                    <div class="social">
-                        <ul class="headerSocial">
-                            <li>
-                                <a> <i class="fa-brands fa-twitter fa-lg"></i></a>
-                            </li>
+						<li><i class="fa-solid fa-location-dot icon"></i> الرياض</li>
+					</ul>
+				</div>
+				<div class="col-md-6 text-end">
+					<div class="social">
+						<ul class="headerSocial">
+							<li>
+								<a> <i class="fa-brands fa-twitter fa-lg"></i></a>
+							</li>
 
-                            <li>
-                                <a><i class="fa-brands fa-whatsapp fa-lg"></i></a>
-                            </li>
+							<li>
+								<a><i class="fa-brands fa-whatsapp fa-lg"></i></a>
+							</li>
 
-                            <li>
-                                <a><i class="fa-brands fa-facebook-f fa-lg"></i></a>
-                            </li>
+							<li>
+								<a><i class="fa-brands fa-facebook-f fa-lg"></i></a>
+							</li>
 
-                            <li>
-                                <a><i class="fa-brands fa-instagram fa-lg"></i></a>
-                            </li>
-                            <li>
-                                <a><i class="fa-brands fa-snapchat fa-lg"></i></a>
-                            </li>
-                        </ul>
-                    </div>
+							<li>
+								<a><i class="fa-brands fa-instagram fa-lg"></i></a>
+							</li>
+							<li>
+								<a><i class="fa-brands fa-snapchat fa-lg"></i></a>
+							</li>
+						</ul>
+					</div>
 
-                    <!-- <div class="LoginArea">
-                        <ul class="headerList">
-                            <li><i class="fa-regular fa-user icon"></i> إنشاء حساب</li>
-                            <li><i class="fa-solid fa-lock icon"></i> تسجيل الدخول </li>
-
-
-                        </ul> -->
-                </div>
-            </div>
-        </div>
-    </div>
+					<!-- <div class="LoginArea">
+						<ul class="headerList">
+							<li><i class="fa-regular fa-user icon"></i> إنشاء حساب</li>
+							<li><i class="fa-solid fa-lock icon"></i> تسجيل الدخول </li>
 
 
-    <!--Navbar-->
-
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img height="110" src="../images/logo.png"></a>
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">	طموحهم ماله سقف تعرف على سير المشروع </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">	تبرعك سوف يستكمل المرحلة الاولى للمشروع</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">	كبار المتبرعين اوقف فصل تعليمي</a>
-                    </li>
-
-                    <div class="donation-btns">
-                        <button class="btn btn-Donation" type="button">
-                            <img width="25" src="../images/cart (2).svg" />   سلة التبرع <span style="color:red" id="CartItemsSpan">@ViewBag.CartItems</span>
-                        </button>
-                        <button class="btn btn-Donation" type="button">
-                            <img width="25" src="../images/hand-donate.svg" />   التبرع السريع
-                        </button>
-                    </div>
-                </ul>
-                <div>
-                    <img height="80" src="../images/DSCA LOGO1.png">
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!--slider area-->
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="../images/dsca-done-22-(1).jpg" class="d-block w-100" alt="slider1">
-            </div>
-
-        </div>
-    </div>
-
-    <!-- body-->
-
-    @RenderBody()
+						</ul> -->
+				</div>
+			</div>
+		</div>
+	</div>
 
 
-    @Scripts.Render("~/bundles/jquery")
-    <script src="~/Scripts/jquery.js"></script>
+	<!--Navbar-->
 
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-    <script src="~/Scripts/jquery.steps.js"></script>
-    <script src="~/Scripts/jquery-ui.js"></script>
-    <script src="~/Scripts/fontawesome.min.js"></script>
-    <script src="~/Scripts/all.min.js"></script>
-    @RenderSection("scripts", required: false)
+	<nav class="navbar navbar-expand-lg navbar-light">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#"><img height="110" src="../images/logo.png"></a>
+			<button class="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent"
+					aria-expanded="false"
+					aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="#">	طموحهم ماله سقف تعرف على سير المشروع </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">	تبرعك سوف يستكمل المرحلة الاولى للمشروع</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="#">	كبار المتبرعين اوقف فصل تعليمي</a>
+					</li>
+
+					<div class="donation-btns">
+						<button class="btn btn-Donation position-relative" type="button">
+							<img width="25" src="../images/cart (2).svg" />   سلة التبرع
+
+							@if (ViewBag.CartItems > 0)
+							{
+							<span id="CartItemsSpan" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+								@ViewBag.CartItems
+								<span class="visually-hidden">unread messages</span>
+							</span>}
+							else{
+							
+							<span></span>
+							}
+
+						</button>
+						<button class="btn btn-Donation" type="button">
+							<img width="25" src="../images/hand-donate.svg" />   التبرع السريع
+						</button>
+					</div>
+				</ul>
+				<div>
+					<img height="80" src="../images/DSCA LOGO1.png">
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<!--slider area-->
+	<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img src="../images/slid.jpg" class="d-block w-100" alt="slider1">
+			</div>
+
+		</div>
+	</div>
+
+	<!-- body-->
+
+	@RenderBody()
+
+
+
+
+	<!--payment methods-->
+
+	<div class="payment-section">
+		<h3 class="sectionTitle text-center mt-5">طرق الدفع </h3>
+
+		<div class="container">
+			<div class="row text-center">
+				<div class="col mb-3">
+					<img class="payment-img" src="../images/mada.png" />
+				</div>
+				<div class="col mb-3">
+					<img class="payment-img" src="../images/54e30edf9d8e3f86b1935d5d3d1317d8.png" />
+				</div>
+				<div class="col mb-3">
+					<img class="payment-img" src="../images/Apple_Pay-Logo.wine-removebg-preview.png" />
+				</div>
+				<div class="col mb-3">
+					<img class="payment-img" src="../images/How-Does-PayPal-account-Work-removebg-preview.png" />
+				</div>
+				<div class="col mb-3">
+					<img class="payment-img" src="../images/png-transparent-wire-transfer-bank-account-payment-exchange-rate-payment-method-text-service-logo-removebg-preview.png" />
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<!--Footer area-->
+
+
+	<footer>footer area</footer>
+
+
+	@Scripts.Render("~/bundles/jquery")
+	<script src="~/Scripts/DscaScripts/jquery.js"></script>
+	<script src="~/Scripts/DscaScripts/bootstrap.min.js"></script>
+	<script src="~/Scripts/DscaScripts/fontawesome.min.js"></script>
+	<script src="~/Scripts/DscaScripts/all.min.js"></script>
+	<script src="~/Scripts/wow.min.js"></script>
+	<script>
+		new WOW().init();
+	</script>
+
+	@RenderSection("scripts", required: false)
 </body>
 </html>
