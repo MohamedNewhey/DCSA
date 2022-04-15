@@ -1,0 +1,112 @@
+﻿.homepage-color {
+	background-color: #F5F5F5
+}
+.form-control {
+	border: 2px solid #D8D8D8;
+	border-radius:7px
+}
+
+.search-btn {
+	text-decoration: none;
+	background-image: linear-gradient(to right,#BB0A11,#99090F);
+	color: #FFF;
+	padding: 5px 123px;
+	border: 0;
+	box-shadow: 0px 3px 6px #00000029;
+	border-radius: 8px;
+}
+
+
+hr {
+	margin-top: 5%;
+	margin-bottom:5%
+}
+
+
+.Child-Card {
+	box-shadow: 0px 3px 6px #00000029;
+	border: 1px solid #00000000;
+	opacity: 1;
+	background-color: #ffff;
+	width: 240px;
+	height: 300px;
+	margin-bottom:40px
+}
+.child-photo {
+	border-radius: 50%;
+	margin-top: 10px;
+	width: 170px;
+	height: 170px;
+	margin-bottom: 12px;
+}
+.ChildName {
+position:relative
+}
+
+	.ChildName:after {
+		content: " ";
+		position: absolute;
+		right: 40%;
+		top: 153%;
+		border: 1px solid #BB0A11;
+		width: 39px;
+	}
+.ChildMobile {
+	margin-top: 26px;
+	direction:ltr
+}
+
+.centeritems {
+	display: flex;
+	justify-content: center;
+	align-self: center;
+	align-items: center;
+}
+
+.overlay {
+	height: 0%;
+	width: 100%;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0, 0.9);
+	overflow-y: hidden;
+	transition: 0.5s;
+}
+
+.overlay-content {
+	position: relative;
+	top: 25%;
+	width: 100%;
+	
+	
+}
+.overlay-content ul {
+list-style:none
+}
+
+	.overlay-content ul li {
+	margin-bottom:3px
+	}
+.overlay a {
+	padding: 8px;
+	text-decoration: none;
+	font-size: 17px;
+	color: #D8D8D8;
+	display: block;
+	transition: 0.3s;
+	text-align: right;
+}
+
+
+.overlay .closebtn {
+	position: absolute;
+
+	top: 0px;
+	left: 31px;
+	font-size: 50px;
+	color: #d8d8d8 !important
+}
+

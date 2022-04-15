@@ -1,0 +1,83 @@
+﻿* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+	font-family: 'HelveticaNeueLT Arabic 75';
+}
+
+/* Login Admainpanel*/
+
+
+.img-login-admin {
+	background-color: #F5F5F5;
+	text-align: center;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+}
+
+.login-admin {
+	background-color: #FFFFFF;
+	height: 100vh;
+	text-align: center;
+}
+
+.img-login {
+	width: 382px;
+}
+
+.img-logo {
+	width: 200px;
+	margin-top: 68px;
+}
+
+.form-login {
+	width: 64%;
+	margin-top: 29px;
+	margin-right: 139px;
+	height: 45px;
+	direction: rtl;
+}
+
+
+
+/*--------------------------button------------------------*/
+
+
+button, input, optgroup, select, textarea {
+	margin: 0;
+	font-family: inherit;
+	font-size: smaller;
+	line-height: normal;
+	border: 0;
+}
+
+	button:focus {
+		outline: 0 !important
+	}
+
+
+.button-history-add {
+	width: 167px;
+	height: 34px;
+	background-color: #2EB934;
+	color: #FFFFFF;
+	margin-left: 10px;
+}
+
+.field-validation-error {
+	text-align: right !important;
+	display: block;
+	margin-right:139px !important;
+	margin-top:5px
+}
+
+
+.form-check {
+	text-align: right;
+	margin-right: 119px;
+	margin-top: 20px;
+}

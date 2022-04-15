@@ -1,4 +1,4 @@
-﻿@using NCCM.Models
+﻿@using DCSA.Models
 @model LoginViewModel
 @{
 
@@ -17,11 +17,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" href="~/Content/Icons/globe.ico" />
+	<link rel="stylesheet" type="text/css" href="~/Content/Fonts/font.css" />
 	<link href="~/Content/bootstrap.rtl.min.css" rel="stylesheet" />
-	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-	<link href="~/Content/bootstrap-utilities.rtl.min.css" rel="stylesheet" />
 	<link href="~/Content/Login.css" rel="stylesheet" />
-	<link href="~/Content/helvatica font/HelvaticaFont.css" rel="stylesheet" />
 	<title>تسجيل دخول</title>
 
 </head>
@@ -35,16 +33,17 @@
                 <div class="col-md-7 login-admin">
 
 					<div class="login-form">
-						<img class="img-logo" src="~/images/0-45.png" />
+						
+						<img class="img-logo" src="~/images/logo.png" />
 						<h3 class="mt-3">الدخول لحسابى</h3>
 
 						<input type="email" class="form-control form-login" placeholder="اسم المستخدم" aria-label="Username" name="Email" aria-describedby="basic-addon1">
 						@Html.ValidationMessageFor(Model => Model.Email, null, new { @class = "text-danger" })
 						<input type="password" class="form-control form-login" placeholder="كلمة المرور" aria-label="Username" name="Password" aria-describedby="basic-addon1">
 						<div class="form-check">
-							<input  type="checkbox" value="" id="flexCheckDefault">
+							<input type="checkbox" value="" id="flexCheckDefault">
 							<label class="form-check-label" for="flexCheckDefault">
-							تذكرني
+								تذكرني
 							</label>
 						</div>
 
