@@ -1,4 +1,4 @@
-﻿@model NCCM.Database.Page
+﻿@model DCSA.Database.Caus
 @{
     if (Model.ID == -1)
     {
@@ -25,21 +25,21 @@
         display: none !important
     }*/
 </style>
-<form action="/file-upload" id="DPArea" enctype="multipart/form-data" class="dropzone">
+@*<form action="/file-upload" id="DPArea" enctype="multipart/form-data" class="dropzone">
     <div class="fallback">
         <input name="file" type="file" multiple />
         <span id="filePath"></span>
     </div>
-</form>
+</form>*@
 
-<table class="table1" id="UploadedImages" style="width: 100%;">
+@*<table class="table1" id="UploadedImages" style="width: 100%;">
     <tr>
         <th></th>
         <th></th>
 
     </tr>
 
-</table>
+</table>*@
 @using (Html.BeginForm())
 {
     <div id="updateProgress" style="position: fixed;display:none; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
@@ -58,47 +58,57 @@
 				<!--------------------عنوان and تاريخ ------------------------------------>
 				<div class="row mt-4">
                     <div class="col  mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">العنوان  <span></span></label>
+                        <label for="exampleFormControlInput1" class="form-label"> اسم المشروع <span></span></label>
 
-                        <input class="form-control" type="text" name="Header" id="Header" placeholder="ادخل العنوان" value="@Model.Header" onkeyup="ValidationRefresh('Header', 'ValidHeader');generateURL()">
+                        <input class="form-control" type="text" name="Header" id="Header" placeholder="ادخل  اسم المشروع" value="@Model.Header" onkeyup="ValidationRefresh('Header', 'ValidHeader');generateURL()">
                         <span class="text-danger" id="ValidHeader"></span>
                     </div>
 					<div class="col">
-                        <div class="col" style="position:relative">
 
-                            <label for="exampleFormControlInput1" class="form-label">التاريخ <span></span></label>
+						<label for="exampleFormControlInput1" class="form-label">صوره المشروع <span></span></label>
+						<input type="text" class="form-control upload-icon" placeholder="اسحب صورة لتحميلها" onclick="document.getElementById('file').click(); " id="file1" style="cursor:pointer" readonly />
+						<input type="file" id="file" style="display:none" onchange="var fileInput = document.getElementById('file'); var filename = fileInput.files[0].name; document.getElementById('file1').value = filename; ValidationRefresh('file1', 'ValidPhoto'); removePhoto()" name="CoverPhoto" />
+						<span class="text-danger" id="ValidPhoto"></span>
 
-                            <input type="text" class="form-control calnder-icon2" placeholder="ادخل التاريخ" name="PageDate" id="PageDate" onclick="ValidationRefresh('PageDate', 'ValidDate')">
+						@*<div class="col" style="position:relative">
 
-                            <span class="text-danger" id="ValidDate"></span>
-                        </div>
+			<label for="exampleFormControlInput1" class="form-label">التاريخ <span></span></label>
+
+			<input type="text" class="form-control calnder-icon2" placeholder="ادخل التاريخ" name="PageDate" id="PageDate" onclick="ValidationRefresh('PageDate', 'ValidDate')">
+
+			<span class="text-danger" id="ValidDate"></span>
+		</div>*@
 					</div>
 				</div>
 				<!------------------------الترتيب and مسار الصفحه------------------------->
 				<div class="row">
 
-                    <div class="col">
-                        <label for="exampleFormControlInput1" class="form-label">مسار الصفحة <span></span></label>
+					<div class="col">
+						<label for="exampleFormControlInput1" class="form-label">نوع اليه الدفع<span></span></label>
 
-                        <input class="form-control" name="URL" id="URL" type="text" value="@Model.URL" placeholder="ادخل مسار الصفحه" onkeyup="ValidationRefresh('URL', 'ValidURL')">
-                        <span class="text-danger" id="ValidURL"></span>
-                    </div>
-                    <div class="col  mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">الترتيب <span></span></label>
+						<select class="form-select form-control form-select-md" aria-label=".form-select-sm example">
+							<option selected>اختار نوع الدفع</option>
+							<option value="1">اسهم</option>
+							<option value="2">مبلغ مالي</option>
+						
+						</select>
+						@*<input class="form-control" name="URL" id="URL" type="text" value="@Model.URL" placeholder="ادخل مسار الصفحه" onkeyup="ValidationRefresh('URL', 'ValidURL')">
+		<span class="text-danger" id="ValidURL"></span>*@
+					</div>
+					<div class="col  mb-3">
 
-                        @if (Model.ID != -1)
-                        {
-                            <input type="text" class="form-control" placeholder="ادخل الترتيب" value="@Model.PageOrder" onkeyup="ValidationRefresh('PageOrder', 'ValidOrder');" onkeypress="return isNumber(event)" name="PageOrder" id="PageOrder"> }
-                        else
-                        {
-                            <input type="text" class="form-control" placeholder="ادخل الترتيب" value="1" onkeyup="ValidationRefresh('PageOrder', 'ValidOrder');" onkeypress="return isNumber(event)" name="PageOrder" id="PageOrder">
-                        }
-                        <span class="text-danger" id="ValidOrder"></span>
-                    </div>
+						<label for="exampleFormControlInput1" class="form-label"> المبلغ المستهدف <span></span></label>
+
+						<input class="form-control" type="text"   placeholder="المبلغ المستهدف">
+						<span class="text-danger" id="ValidHeader"></span>
+
+
+						
+					</div>
 				</div>
 
 				<!---------------------صورة------------------------------------>
-                <div class="mb-3">
+                @*<div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">الصورة <span></span></label>
                     <input type="text" class="form-control upload-icon" placeholder="اسحب صورة لتحميلها" onclick="document.getElementById('file').click(); " id="file1" style="cursor:pointer" readonly />
                     <input type="file" id="file" style="display:none" onchange="var fileInput = document.getElementById('file'); var filename = fileInput.files[0].name; document.getElementById('file1').value = filename; ValidationRefresh('file1', 'ValidPhoto'); removePhoto()" name="CoverPhoto" />
@@ -107,35 +117,53 @@
                     {
                         <a href="@Model.CoverPhoto" title="click to open full size" target="_blank"><img src="@Model.CoverPhoto" width="5%" class="mt-4" /></a>
                     }
-                </div>
+                </div>*@
 
 				<!-----------------------------مختصر الخبر--------------------->
 
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">الوصف <span></span></label>
+					<div class="row">
 
-                    <textarea class="form-control" id="exampleFormControlTextarea1" name="ShortDescription" rows="3" placeholder="ادخل الوصف" onkeyup="ValidationRefresh('exampleFormControlTextarea1', 'ValidDes')">@Model.ShortDescription</textarea>
-                    <span class="text-danger" id="ValidDes"></span>
+						<div class="col">
+							<label for="exampleFormControlInput1" class="form-label">الوصف <span></span></label>
+
+							<textarea class="form-control" id="exampleFormControlTextarea1" name="ShortDescription" rows="3" placeholder="ادخل الوصف" onkeyup="ValidationRefresh('exampleFormControlTextarea1', 'ValidDes')">@Model.ShortDescription</textarea>
+							<span class="text-danger" id="ValidDes"></span>
+						</div>
+						<div class="col">
+							<label for="exampleFormControlInput1" class="form-label">الترتيب <span></span></label>
+
+							@if (Model.ID != -1)
+							{
+								<input type="text" class="form-control" placeholder="ادخل الترتيب" value="1" onkeyup="ValidationRefresh('PageOrder', 'ValidOrder');" onkeypress="return isNumber(event)" name="PageOrder" id="PageOrder"> }
+							else
+							{
+								<input type="text" class="form-control" placeholder="ادخل الترتيب" value="1" onkeyup="ValidationRefresh('PageOrder', 'ValidOrder');" onkeypress="return isNumber(event)" name="PageOrder" id="PageOrder">
+							}
+							<span class="text-danger" id="ValidOrder"></span>
+						</div>
+					</div>
+                   
                 </div>
 
 				<!----------------------محتوى الصفحة------------->
 			
-				<div class="row">
+				@*<div class="row">
 					<div class="col mb-3">
 						<label class="form-label">محتوى الصفحة</label>
 					</div>
-				</div>
-				<div>
+				</div>*@
+				@*<div>
 					<textarea id="Content" name="Content" onkeyup="ValidationRefresh('Content', 'ValidContent')" rows="5" placeholder="ادخل محتوى الصفحة" cols="10">@Model.PageContent
                                 </textarea>
 					<span class="text-danger" id="ValidContent"></span>
-				</div>
+				</div>*@
 
 				<!-------------------Paragraph---------------------->
 
-				<div>
+				@*<div>
 					<p class="last-p-board-history">يجب مراعاة عند كتابة المحتوى ان لا يكون النص بدون تنسيق سابق وان يتم التنسيق من خلال محرر النص الخاص بالموقع</p>
-				</div>
+				</div>*@
 
 				<!-------------------buttons---------------------->
 
@@ -177,7 +205,7 @@
                          @:$("#ActivitiesTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
 
         }
-@if(Model.PageDate != null)
+@*@if(Model.PageDate != null)
 {
      @:$('#PageDate').datetimepicker({
     @:format: 'MM/DD/YYYY',
@@ -190,7 +218,7 @@ else
     @:format: 'MM/DD/YYYY',
         @:date: '@DateTime.Now'
             @:});
-}
+}*@
 
             $('img').each(function () {
     var $this = $(this)

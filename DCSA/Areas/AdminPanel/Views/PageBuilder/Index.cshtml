@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NCCM.Database.Page>
+﻿@model IEnumerable<DCSA.Database.Caus>
 
 @{
 	ViewBag.Title = ViewBag.PageTitle;
@@ -13,7 +13,7 @@
     </div>
 </div>
 <!-- -----------------button classification----------------- -->
-<div class="row mb-5">
+@*<div class="row mb-5">
 	<div class="input-group mb-3 report-button">
 		<div class="dropdown">
 			<button class="btn btn-outline-secondary  Classification-button" id="SearchButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -33,13 +33,13 @@
 		
 		<input type="text" class="form-control Classification-button" onchange="Search()" value="@ViewBag.Search" id="SearchInput" aria-label="Text input with dropdown button" placeholder="بحــــــث">
 	</div>
-</div>
+</div>*@
 <!-- ---------title and refresh----------------- -->
 <div class="row">
 
 	<div class="col-md-7">
-		<span class="Missing-children-title">@ViewBag.PageTitle</span>
-		<span class="title-number">@Model.Count()</span>
+		<span class="Missing-children-title">المشاريع المتاحه</span>
+	
 	</div>
 	<div class="col-md-5 report-icons2">
 
@@ -59,62 +59,94 @@
 <hr>
 <!--table-->
 <div>
-	<table style="width: 100%;">
+	<table style="width: 100%;" class="table table-striped">
 		<thead>
 			<tr>
-				<th>العنوان</th>
-
-				<th>الرابط</th>
-
-				<th class="text-center">الحالة</th>
-				<th>الناشر</th>
+				<th>اسم المشروع</th>
+                <th> نوع اليه الدفع</th>
+                <th>المستهدف</th>
+				<th>المتبقي</th>
+                <th>تم جمعه</th>
 
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr id="Tr-@item.ID">
+			@*@foreach (var item in Model)
+		{
+			<tr id="Tr-@item.ID">
 
-					<td>@Html.DisplayFor(modelItem => item.Header)</td>
+				<td>@Html.DisplayFor(modelItem => item.Header)</td>
 
 
-					<td>  خدمات-الدعم-القانوني-ونفسي/@item.PageType.URL/@item.URL</td>
+				<td>  خدمات-الدعم-القانوني-ونفسي</td>
+
+				@if (item.Publish == true)
+				{
+					<td class="text-center"><img class="icon-color-table" src="~/Content/Icons/Ellipse 3.svg">نشر</td>
+				}
+				else
+				{
+					<td class="text-center"><img class="icon-color-table" src="~/Content/Icons/Ellipse 2.svg">اخفاء من النشر</td>
+				}
+				<td>@Html.DisplayFor(modelItem => item.User.Name)</td>
+				<td class="two-button-color">
 
 					@if (item.Publish == true)
 					{
-						<td class="text-center"><img class="icon-color-table" src="~/Content/Icons/Ellipse 3.svg">نشر</td>
+						<button type="button" class="table-button-off" onclick="Publish('@item.ID', 2)">ايقاف</button>
 					}
 					else
 					{
-						<td class="text-center"><img class="icon-color-table" src="~/Content/Icons/Ellipse 2.svg">اخفاء من النشر</td>
+						<button type="button" class="table-button-Spread" onclick="Publish('@item.ID', 1)">نشر</button>
 					}
-					<td>@Html.DisplayFor(modelItem => item.User.Name)</td>
-					<td class="two-button-color">
-						<a class="table-button-show" href="@Url.Action("DisplayPage", "Activities", new {area = "", name = item.PageType.URL, itemurl = item.URL})">عرض</a>
-						@if (item.Publish == true)
-						{
-							<button type="button" class="table-button-off" onclick="Publish('@item.ID', 2)">ايقاف</button>
-						}
-						else
-						{
-							<button type="button" class="table-button-Spread" onclick="Publish('@item.ID', 1)">نشر</button>
-						}
-						@if (ViewBag.ID == null)
-						{
-							<a class="table-button-edit" href="@Url.Action("Manage", "PageBuilder", new { ID = item.ID })">تعديل</a>
-						}
-						else
-						{
-							<a class="table-button-edit" href="@Url.Action("Manage", "PageBuilder", new { ID = item.ID, type = ViewBag.ID })">تعديل</a>
-						}
-						<button type="button" class="table-button-hide" onclick="Delete('@item.ID')">مسح</button>
-					</td>
-				</tr>
-			}
+					@if (ViewBag.ID == null)
+					{
+						<a class="table-button-edit" href="@Url.Action("Manage", "PageBuilder", new { ID = item.ID })">تعديل</a>
+					}
+					else
+					{
+						<a class="table-button-edit" href="@Url.Action("Manage", "PageBuilder", new { ID = item.ID, type = ViewBag.ID })">تعديل</a>
+					}
+					<button type="button" class="table-button-hide" onclick="Delete('@item.ID')">مسح</button>
+				</td>
+			</tr>
+		}*@
 
+			<tr>
+				<td>قليلك كتير</td>
+				<td> اسهم / مبلغ مالي</td>
+				<td>5000</td>
+				<td>1000</td>
+				<td>4000</td>
+				<td>
+					<a class="table-button-edit">تعديل</a>
+					<button type="button" class="table-button-hide">مسح</button>
+				</td>
+			</tr>
 
+			<tr>
+				<td>قليلك كتير</td>
+				<td> اسهم / مبلغ مالي</td>
+				<td>5000</td>
+				<td>1000</td>
+				<td>4000</td>
+				<td>
+					<a class="table-button-edit">تعديل</a>
+					<button type="button" class="table-button-hide">مسح</button>
+				</td>
+			</tr>
 
+			<tr>
+				<td>قليلك كتير</td>
+				<td> اسهم / مبلغ مالي</td>
+				<td>5000</td>
+				<td>1000</td>
+				<td>4000</td>
+				<td>
+					<a class="table-button-edit">تعديل</a>
+					<button type="button" class="table-button-hide">مسح</button>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 
