@@ -660,7 +660,7 @@ padding:2px 4px;
 }
 
 .upload-icon {
-    background-image: url('../images/upload.svg');
+    /*background-image: url('../images/upload.svg');*/
     background-repeat: no-repeat;
     background-size: 2%;
     background-position-x: 2%;
@@ -690,7 +690,7 @@ table {
 
 .dropzone {
     border: 2px dashed #0000004d !important;
-    background-image: url('../images/upload.svg') !important;
+  
     background-repeat: no-repeat !important;
     background-position: center 81% !important;
     background-size: 3% !important;
