@@ -827,3 +827,19 @@ font-size: 19px;
 .thanksSection {
 padding:40px
 }
+
+
+
+.donation-card-Done:before {
+	content: " ";
+	background-image: url(../images/image.png);
+	position: absolute;
+	background-size: 74%;
+	width: 100%;
+	height: 100%;
+	background-color: #0000006e;
+	z-index: 99;
+	background-repeat: no-repeat;
+	background-position: top center;
+}
+
