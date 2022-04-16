@@ -21,25 +21,25 @@
         padding: 0;
         font-size: initial
     }
-   /* .tox-notification {
+    /* .tox-notification {
         display: none !important
     }*/
 </style>
 @*<form action="/file-upload" id="DPArea" enctype="multipart/form-data" class="dropzone">
-    <div class="fallback">
-        <input name="file" type="file" multiple />
-        <span id="filePath"></span>
-    </div>
-</form>*@
+        <div class="fallback">
+            <input name="file" type="file" multiple />
+            <span id="filePath"></span>
+        </div>
+    </form>*@
 
 @*<table class="table1" id="UploadedImages" style="width: 100%;">
-    <tr>
-        <th></th>
-        <th></th>
+        <tr>
+            <th></th>
+            <th></th>
 
-    </tr>
+        </tr>
 
-</table>*@
+    </table>*@
 @using (Html.BeginForm())
 {
     <div id="updateProgress" style="position: fixed;display:none; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
@@ -53,127 +53,126 @@
 
     <div class="row">
         <div class="col-md-12">
-			<div id="example-basic">
-				<input name="TypeID" value="@ViewBag.TypeID" style="display:none" />
-				<!--------------------عنوان and تاريخ ------------------------------------>
-				<div class="row mt-4">
+            <div id="example-basic">
+                <!--------------------عنوان and تاريخ ------------------------------------>
+                <div class="row mt-4">
                     <div class="col  mb-3">
                         <label for="exampleFormControlInput1" class="form-label"> اسم المشروع <span></span></label>
 
-                        <input class="form-control" type="text" name="Header" id="Header" placeholder="ادخل  اسم المشروع" value="@Model.Header" onkeyup="ValidationRefresh('Header', 'ValidHeader');generateURL()">
+                        <input class="form-control" type="text" name="Header" id="Header" required placeholder="ادخل  اسم المشروع" value="@Model.Header" @*onkeyup="ValidationRefresh('Header', 'ValidHeader');generateURL()"*@>
                         <span class="text-danger" id="ValidHeader"></span>
                     </div>
-					<div class="col">
+                    <div class="col">
 
-						<label for="exampleFormControlInput1" class="form-label">صوره المشروع <span></span></label>
-						<input type="text" class="form-control upload-icon" placeholder="اسحب صورة لتحميلها" onclick="document.getElementById('file').click(); " id="file1" style="cursor:pointer" readonly />
-						<input type="file" id="file" style="display:none" onchange="var fileInput = document.getElementById('file'); var filename = fileInput.files[0].name; document.getElementById('file1').value = filename; ValidationRefresh('file1', 'ValidPhoto'); removePhoto()" name="CoverPhoto" />
-						<span class="text-danger" id="ValidPhoto"></span>
+                        <label for="exampleFormControlInput1" class="form-label">صوره المشروع <span></span></label>
+                        <input type="text" class="form-control upload-icon" placeholder="اسحب صورة لتحميلها" onclick="document.getElementById('file').click(); " id="file1" style="cursor:pointer" readonly />
+                        <input type="file" id="file" style="display:none" onchange="var fileInput = document.getElementById('file'); var filename = fileInput.files[0].name; document.getElementById('file1').value = filename; ValidationRefresh('file1', 'ValidPhoto'); removePhoto()" name="CoverPhoto" required />
+                        <span class="text-danger" id="ValidPhoto"></span>
+                        @if (Model.CoverPhoto != null)
+                        {
+                            <a href="@Model.CoverPhoto" title="click to open full size" target="_blank"><img src="@Model.CoverPhoto" width="5%" class="mt-4" /></a>
+                        }
+                        @*<div class="col" style="position:relative">
 
-						@*<div class="col" style="position:relative">
+            <label for="exampleFormControlInput1" class="form-label">التاريخ <span></span></label>
 
-			<label for="exampleFormControlInput1" class="form-label">التاريخ <span></span></label>
+            <input type="text" class="form-control calnder-icon2" placeholder="ادخل التاريخ" name="PageDate" id="PageDate" onclick="ValidationRefresh('PageDate', 'ValidDate')">
 
-			<input type="text" class="form-control calnder-icon2" placeholder="ادخل التاريخ" name="PageDate" id="PageDate" onclick="ValidationRefresh('PageDate', 'ValidDate')">
+            <span class="text-danger" id="ValidDate"></span>
+        </div>*@
+                    </div>
+                </div>
+                <!------------------------الترتيب and مسار الصفحه------------------------->
+                <div class="row">
 
-			<span class="text-danger" id="ValidDate"></span>
-		</div>*@
-					</div>
-				</div>
-				<!------------------------الترتيب and مسار الصفحه------------------------->
-				<div class="row">
+                    <div class="col">
+                        <label for="exampleFormControlInput1" class="form-label">نوع اليه الدفع<span></span></label>
 
-					<div class="col">
-						<label for="exampleFormControlInput1" class="form-label">نوع اليه الدفع<span></span></label>
+                        <select class="form-select form-control form-select-md" required aria-label=".form-select-sm example" name="TypeID">
+                            <option selected value="1">مبلغ مالي</option>
+                            <option value="2">اسهم</option>
 
-						<select class="form-select form-control form-select-md" aria-label=".form-select-sm example">
-							<option selected>اختار نوع الدفع</option>
-							<option value="1">اسهم</option>
-							<option value="2">مبلغ مالي</option>
-						
-						</select>
-						@*<input class="form-control" name="URL" id="URL" type="text" value="@Model.URL" placeholder="ادخل مسار الصفحه" onkeyup="ValidationRefresh('URL', 'ValidURL')">
-		<span class="text-danger" id="ValidURL"></span>*@
-					</div>
-					<div class="col  mb-3">
+                        </select>
+                        @*<input class="form-control" name="URL" id="URL" type="text" value="@Model.URL" placeholder="ادخل مسار الصفحه" onkeyup="ValidationRefresh('URL', 'ValidURL')">
+                            <span class="text-danger" id="ValidURL"></span>*@
+                    </div>
+                    <div class="col  mb-3">
 
-						<label for="exampleFormControlInput1" class="form-label"> المبلغ المستهدف <span></span></label>
+                        <label for="exampleFormControlInput1" class="form-label"> المبلغ المستهدف <span></span></label>
 
-						<input class="form-control" type="text"   placeholder="المبلغ المستهدف">
-						<span class="text-danger" id="ValidHeader"></span>
+                        <input class="form-control" type="text" required placeholder="المبلغ المستهدف" name="TargetMoney" value="@Model.TargetMoney">
+                        <span class="text-danger" id="ValidHeader"></span>
 
 
-						
-					</div>
-				</div>
 
-				<!---------------------صورة------------------------------------>
-                @*<div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">الصورة <span></span></label>
-                    <input type="text" class="form-control upload-icon" placeholder="اسحب صورة لتحميلها" onclick="document.getElementById('file').click(); " id="file1" style="cursor:pointer" readonly />
-                    <input type="file" id="file" style="display:none" onchange="var fileInput = document.getElementById('file'); var filename = fileInput.files[0].name; document.getElementById('file1').value = filename; ValidationRefresh('file1', 'ValidPhoto'); removePhoto()" name="CoverPhoto" />
-                    <span class="text-danger" id="ValidPhoto"></span>
-                    @if (Model.CoverPhoto != null)
-                    {
-                        <a href="@Model.CoverPhoto" title="click to open full size" target="_blank"><img src="@Model.CoverPhoto" width="5%" class="mt-4" /></a>
-                    }
-                </div>*@
-
-				<!-----------------------------مختصر الخبر--------------------->
-
-                <div class="mb-3">
-					<div class="row">
-
-						<div class="col">
-							<label for="exampleFormControlInput1" class="form-label">الوصف <span></span></label>
-
-							<textarea class="form-control" id="exampleFormControlTextarea1" name="ShortDescription" rows="3" placeholder="ادخل الوصف" onkeyup="ValidationRefresh('exampleFormControlTextarea1', 'ValidDes')">@Model.ShortDescription</textarea>
-							<span class="text-danger" id="ValidDes"></span>
-						</div>
-						<div class="col">
-							<label for="exampleFormControlInput1" class="form-label">الترتيب <span></span></label>
-
-							@if (Model.ID != -1)
-							{
-								<input type="text" class="form-control" placeholder="ادخل الترتيب" value="1" onkeyup="ValidationRefresh('PageOrder', 'ValidOrder');" onkeypress="return isNumber(event)" name="PageOrder" id="PageOrder"> }
-							else
-							{
-								<input type="text" class="form-control" placeholder="ادخل الترتيب" value="1" onkeyup="ValidationRefresh('PageOrder', 'ValidOrder');" onkeypress="return isNumber(event)" name="PageOrder" id="PageOrder">
-							}
-							<span class="text-danger" id="ValidOrder"></span>
-						</div>
-					</div>
-                   
+                    </div>
                 </div>
 
-				<!----------------------محتوى الصفحة------------->
-			
-				@*<div class="row">
-					<div class="col mb-3">
-						<label class="form-label">محتوى الصفحة</label>
-					</div>
-				</div>*@
-				@*<div>
-					<textarea id="Content" name="Content" onkeyup="ValidationRefresh('Content', 'ValidContent')" rows="5" placeholder="ادخل محتوى الصفحة" cols="10">@Model.PageContent
-                                </textarea>
-					<span class="text-danger" id="ValidContent"></span>
-				</div>*@
+                <!---------------------صورة------------------------------------>
+                @*<div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">الصورة <span></span></label>
+                        <input type="text" class="form-control upload-icon" placeholder="اسحب صورة لتحميلها" onclick="document.getElementById('file').click(); " id="file1" style="cursor:pointer" readonly />
+                        <input type="file" id="file" style="display:none" onchange="var fileInput = document.getElementById('file'); var filename = fileInput.files[0].name; document.getElementById('file1').value = filename; ValidationRefresh('file1', 'ValidPhoto'); removePhoto()" name="CoverPhoto" />
+                        <span class="text-danger" id="ValidPhoto"></span>
+                        @if (Model.CoverPhoto != null)
+                        {
+                            <a href="@Model.CoverPhoto" title="click to open full size" target="_blank"><img src="@Model.CoverPhoto" width="5%" class="mt-4" /></a>
+                        }
+                    </div>*@
 
-				<!-------------------Paragraph---------------------->
+                <!-----------------------------مختصر الخبر--------------------->
 
-				@*<div>
-					<p class="last-p-board-history">يجب مراعاة عند كتابة المحتوى ان لا يكون النص بدون تنسيق سابق وان يتم التنسيق من خلال محرر النص الخاص بالموقع</p>
-				</div>*@
+                <div class="mb-3">
+                    <div class="row">
 
-				<!-------------------buttons---------------------->
+                        <div class="col">
+                            <label for="exampleFormControlInput1" class="form-label">الوصف <span></span></label>
 
-				<div class="text-center mt-5 last-buttons">
-					<button type="button" class="button-history-add" onclick="Save()">حفظ</button>
-					<button type="button" class="button-history-Cancel" onclick="window.location.href = '@Url.Action("Index", "PageBuilder", new { id = ViewBag.TypeID})'">إلغاء</button>
-				</div>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name="ShortDescription" rows="3" placeholder="ادخل الوصف" onkeyup="ValidationRefresh('exampleFormControlTextarea1', 'ValidDes')">@Model.ShortDescription</textarea>
+                            <span class="text-danger" id="ValidDes"></span>
+                        </div>
+                        <div class="col">
+                            <label for="exampleFormControlInput1" class="form-label">الترتيب <span></span></label>
+
+                            @*@if (Model.ID != -1)
+                                {
+                                    <input type="text" class="form-control" placeholder="ادخل الترتيب" value="1" onkeyup="ValidationRefresh('PageOrder', 'ValidOrder');" onkeypress="return isNumber(event)" name="PageOrder" id="PageOrder"> }
+                                else
+                                {*@
+                            <input type="text" class="form-control" placeholder="ادخل الترتيب" value="1" onkeyup="ValidationRefresh('PageOrder', 'ValidOrder');" onkeypress="return isNumber(event)" name="PageOrder" id="PageOrder">
+                            @*}*@
+                            <span class="text-danger" id="ValidOrder"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!----------------------محتوى الصفحة------------->
+                @*<div class="row">
+                        <div class="col mb-3">
+                            <label class="form-label">محتوى الصفحة</label>
+                        </div>
+                    </div>*@
+                @*<div>
+                        <textarea id="Content" name="Content" onkeyup="ValidationRefresh('Content', 'ValidContent')" rows="5" placeholder="ادخل محتوى الصفحة" cols="10">@Model.PageContent
+                                    </textarea>
+                        <span class="text-danger" id="ValidContent"></span>
+                    </div>*@
+
+                <!-------------------Paragraph---------------------->
+                @*<div>
+                        <p class="last-p-board-history">يجب مراعاة عند كتابة المحتوى ان لا يكون النص بدون تنسيق سابق وان يتم التنسيق من خلال محرر النص الخاص بالموقع</p>
+                    </div>*@
+
+                <!-------------------buttons---------------------->
+
+                <div class="text-center mt-5 last-buttons">
+                    <button type="button" class="button-history-add" onclick="Save()">حفظ</button>
+                    <button type="button" class="button-history-Cancel" onclick="window.location.href = '@Url.Action("Index", "PageBuilder", new { id = ViewBag.TypeID})'">إلغاء</button>
+                </div>
 
 
-			</div>
+            </div>
 
 
         </div>
@@ -195,88 +194,21 @@
     <script>
         Dropzone.autoDiscover = false;
 
-        $(document).ready(function(){
-          $("#latest-news-tab-@ViewBag.TypeID").addClass('active').parent().siblings().find('a').removeClass('active');
-
-          @if(ViewBag.TypeID == 4)
-        {
-             @:$("#NewsTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
-        } else {
-                         @:$("#ActivitiesTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
-
-        }
-@*@if(Model.PageDate != null)
-{
-     @:$('#PageDate').datetimepicker({
-    @:format: 'MM/DD/YYYY',
-        @:date: '@Model.PageDate'
-            @:});
-}
-else
-{
-     @:$('#PageDate').datetimepicker({
-    @:format: 'MM/DD/YYYY',
-        @:date: '@DateTime.Now'
-            @:});
-}*@
-
-            $('img').each(function () {
-    var $this = $(this)
-                $this.attr('src', $this.attr('src').replace('../..', '../../..'))
-            })
-            tinymce.init({
-selector: '#Content',
-                height: 600,
-                menubar: true,
-                plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
-                    'searchreplace visualblocks code fullscreen',
-                    'insertdatetime media table paste code help wordcount'
-                ],
-                toolbar: 'undo redo | formatselect | ' +
-                    'bold italic backcolor | alignleft aligncenter ' +
-                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'removeformat | help',
-                content_css: ['/Content/EditorOnly.css'],
-
-                branding: false
-
-            });
-
-            var myDropzone = new Dropzone("#DPArea", { url: '@Url.Action("SaveFile", "PageBuilder", new { area = "AdminPanel"})' });
-
-            myDropzone.on("complete", function (data) {
-                // Will send the filesize along with the file as POST data.
-                var res = JSON.parse(data.xhr.response);
-                var mark = '<tr class="edit-tr" >';
-                mark += '<td class="first-tr"><img class="add-img" style="width:50px" src="' + res.FilePath + '" ></td>';
-                mark += '<td class="sec-tr">' + res.FilePath+ '</td>';
-                mark += '</tr>';
-
-                var table = $("#UploadedImages tbody");
-
-                table.append(mark);
-
-            });
+        $(document).ready(function () {
+            $("#latest-news-tab-@ViewBag.TypeID").addClass('active').parent().siblings().find('a').removeClass('active');
 
 
-
-
-
-
-        })
+        });
 
         function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-    }
-    return true;
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
 
-}
-
-
+        }
         function generateURL() {
             var header = document.getElementById("Header").value;
             var url = header.split(' ').slice(0,6).join('-');
@@ -285,86 +217,81 @@ selector: '#Content',
         }
 
         function Save() {
-                        $("#TypeID").attr("disabled", false);
+            $("#TypeID").attr("disabled", false);
 
-            var formdata = new FormData($('form').get(1));
+            var formdata = new FormData($('form').get(0));
 
-            formdata.delete('Content');
+            //formdata.delete('Content');
 
-            formdata.append('Content', tinyMCE.activeEditor.getContent());
+            //formdata.append('Content', tinyMCE.activeEditor.getContent());
 
             var tag = document.getElementById('updateProgress');
             tag.style.display = 'block';
-        $.ajax({
-        url: '@Url.Action("CreatePage", "PageBuilder")',
-        type: 'POST',
-        data: formdata,
-        processData: false,
-        contentType: false,
-        success: function (data) {
-            if (data.IsValid) {
-                swal({
-                    title: data.Message,
-                    text: "نجاح",
-                    type: "success",
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "تم",
-                    closeOnConfirm: false
-                }, function () {
-                    window.location.href = "@Url.Action("Index", "PageBuilder", new { Type = ViewBag.TypeID})";
+            $.ajax({
+                url: '@Url.Action("CreatePage", "PageBuilder")',
+                type: 'POST',
+                data: formdata,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.IsValid) {
+                        swal({
+                            title: data.Message,
+                            text: "نجاح",
+                            type: "success",
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "تم",
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href = "@Url.Action("Index", "PageBuilder")";
 
-                });
+                        });
 
 
-                tag.style.display = 'none';
-            }
-            else {
-                swal({
-                    title: "خطأ!",
-                    text: data.Message,
-                    type: "error",
-                });
-                tag.style.display = 'none';
-
-                if (data.ValidFieldID != "") {
-                    document.getElementById(data.ValidFieldID).innerText = data.Message;
-                    $("#" + data.FieldID).css('border-color', 'red');
-
-                    if (data.FieldID == "TypeID") {
-                        $('#' + data.FieldID).siblings(".select2-container").css('border', '1px solid red');
+                        tag.style.display = 'none';
                     }
+                    else {
+                        swal({
+                            title: "خطأ!",
+                            text: data.Message,
+                            type: "error",
+                        });
+                        tag.style.display = 'none';
 
+                        if (data.ValidFieldID != "") {
+                            document.getElementById(data.ValidFieldID).innerText = data.Message;
+                            $("#" + data.FieldID).css('border-color', 'red');
+
+                            if (data.FieldID == "TypeID") {
+                                $('#' + data.FieldID).siblings(".select2-container").css('border', '1px solid red');
+                            }
+
+
+                        }
+                    }
+                },
+                error: function () {
+
+                    swal({
+                        title: "خطأ!",
+                        text: "حدث خطأ",
+                        type: "error",
+                    });
+                    tag.style.display = 'none';
 
                 }
-            }
-        },
-        error: function () {
-
-            swal({
-                title: "خطأ!",
-                text: "حدث خطأ",
-                type: "error",
             });
-            tag.style.display = 'none';
-
-        }
-    });
 
         }
 
         function ValidationRefresh(inputid, validid) {
-
-
-
             if (inputid == "TypeID") {
                 $('#' + inputid).siblings(".select2-container").css('border', '');
             }
 
 
-                document.getElementById(validid).innerText = "";
-                $("#" + inputid).css('border-color', '');
-
-
+            document.getElementById(validid).innerText = "";
+            $("#" + inputid).css('border-color', '');
 
         }
 

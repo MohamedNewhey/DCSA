@@ -25,7 +25,7 @@
 
 						<div>
 							<p class="admainpanel-title text-center">عدد المتبرعين</p>
-							<p class="forms-number">@Model.InDangerChildNo</p>
+							<p class="forms-number">@Model.DonatersNumber</p>
 						</div>
 
 
@@ -50,7 +50,7 @@
 
 						<div>
 							<p class="admainpanel-title">عدد المشاريع</p>
-							<p class="forms-number">@Model.SupportFormsNo</p>
+							<p class="forms-number">@Model.CausesNumber</p>
 						</div>
 
 
@@ -80,7 +80,7 @@
 
 						<div>
 							<p class="admainpanel-title">اجمالي المستهدف</p>
-							<p class="forms-number">@Model.MissingChildNo</p>
+							<p class="forms-number">@Model.TargetMoney</p>
 						</div>
 
 
@@ -107,7 +107,7 @@
 
 						<div>
 							<p class="admainpanel-title">اجمالي المتبقي</p>
-							<p class="forms-number">@Model.FoundChildNo</p>
+							<p class="forms-number">@Model.TargetRemain</p>
 						</div>
 
 
@@ -130,73 +130,44 @@
 
 	<!-- charts-->
 	<div class="">
-		<h3 class="sectionTitle text-center mt-5">	المشايع المتاحه و مدها </h3>
-		<div class="row">
-			<div class="col-md-3 text-center">
-				<div class="box admain-charts">
-					<h5 class="mb-4">اسم المشروع</h5>
-					<ul class="card-mada">
-						<li class="preview-info-list__item">
-							<span class="preview-info-list__label">المطلوب</span>
-							<div data-v-6325d1f0="" class="title">
-								60000
-							</div>
-							<div class="descrption">ريال</div>
-						</li>
-						<li class="preview-info-list__item">
-							<span class="preview-info-list__label">المتبقي</span>
-							<div data-v-6325d1f0="" class="title">
-								10000
-							</div>
-							<div class="descrption">ريال</div>
-						</li>
-					</ul>
-					<div class="chart-box">
-						<div id="chart"></div>
-					</div>
-				</div>
-			</div>
+		<h3 class="sectionTitle text-center mt-5">	المشاريع المتاحه و مدها </h3>
+        <div class="row">
+			@for (int i = 0; i < Model.Causes.Count; i++)
+            {
+            <div class="col-md-3 text-center">
+                <div class="box admain-charts">
+                    <h5 class="mb-4">@Model.Causes[i].Name</h5>
+                    <ul class="card-mada">
+                        <li class="preview-info-list__item">
+                            <span class="preview-info-list__label">المطلوب</span>
+                            <div data-v-6325d1f0="" class="title">
+                                @Model.Causes[i].Target
+                            </div>
+                            <div class="descrption">ريال</div>
+                        </li>
+                        <li class="preview-info-list__item">
+                            <span class="preview-info-list__label">المتبقي</span>
+                            <div data-v-6325d1f0="" class="title">
+                                @Model.Causes[i].Remain
+                            </div>
+                            <div class="descrption">ريال</div>
+                        </li>
+                    </ul>
+                    <div class="chart-box">
+                        <div id="chart-@Model.Causes[i].ID"></div>
+                    </div>
+                </div>
+            </div>
+            }
 
-		
 
 
-		</div>
+        </div>
 	
 	</div>
 
 
-	<!-- charts end-->
-	@*@if (SecurityRoles.IsWebsiteAdmin())
-	{
-		<div class="row menu-item">
-			<div class="col-md-4">
-
-				<img class="adminpanel-icon" src="~/images/AdminLayout/newspaper (1).svg" />
-				<span class="menu-link">اخبار المجلس</span>
-				<span class="numberOf-posts">@Model.NewsNo</span>
-				<a class="Missing-children-button2" href="@Url.Action("Manage", "PageBuilder", new { area = "AdminPanel", type = 4})">اضافة</a>
-
-
-			</div>
-			<div class="col-md-4 border-admainpanel">
-
-				<img class="adminpanel-icon" src="~/images/AdminLayout/book-open (1).svg" />
-				<span class="menu-link">معلومات تهمك</span>
-				<span class="numberOf-posts">@Model.InfoNo</span>
-				<a class="Missing-children-button2" href="@Url.Action("Index", "InformationCategories", new { area = "AdminPanel"})">اضافة</a>
-
-
-
-			</div>
-			<div class="col-md-4">
-				<img class="adminpanel-icon" src="~/images/AdminLayout/document-layout-right.svg" />
-				<span class="menu-link">صفحات الموقع</span>
-				<span class="numberOf-posts">@Model.PagesNo</span>
-				<a class="Missing-children-button2" href="@Url.Action("Manage", "StaticPages", new { area = "AdminPanel"})">اضافة</a>
-
-			</div>
-		</div>
-	}*@
+	
 
 </div>
 
@@ -213,73 +184,70 @@
 		<script src="~/assets/highcharts/export-data.js"></script>*@
 	<script src="~/Scripts/chart.js"></script>
 
-	<script>
+    <script>
+
+		var allCauses = @Html.Raw(Json.Encode(Model.Causes));
 		$(document).ready(function () {
 			$("#HomeTab").addClass('active2').parent().siblings().find('a').removeClass('active2');
 
-			var percent = 0.9 // 0.0 to 1.0
-			var temp = (percent);
-			var text = (temp * 100).toFixed(2) + "%";
+            for (let i = 0; i < allCauses.length; i++) {
+                var percent = (allCauses[i].Per/100) // 0.0 to 1.0
+				var temp = (percent);
+				var text = (temp * 100).toFixed(2) + "%";
 
-			var width = 100;
-			var height = 100;
-			var thickness = 10;
-			var duration = 750;
-			var foregroundColor = "#612964";
-			var backgroundColor = "#D9D9D9";
+				var width = 100;
+				var height = 100;
+				var thickness = 10;
+				var duration = 750;
+				var foregroundColor = "#612964";
+				var backgroundColor = "#D9D9D9";
 
-			var radius = Math.min(width, height) / 2;
-			var color = d3.scaleOrdinal([foregroundColor, backgroundColor]);
+				var radius = Math.min(width, height) / 2;
+				var color = d3.scaleOrdinal([foregroundColor, backgroundColor]);
 
-			var svg = d3.select("#chart")
-				.append('svg')
-				.attr('class', 'pie')
-				.attr('width', width)
-				.attr('height', height);
+                var svg = d3.select("#chart-" + allCauses[i].ID)
+					.append('svg')
+					.attr('class', 'pie')
+					.attr('width', width)
+					.attr('height', height);
 
-			var g = svg.append('g')
-				.attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
+				var g = svg.append('g')
+					.attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
 
-			var arc = d3.arc()
-				.innerRadius(radius - thickness)
-				.outerRadius(radius);
+				var arc = d3.arc()
+					.innerRadius(radius - thickness)
+					.outerRadius(radius);
 
-			var pie = d3.pie()
-				.sort(null);
+				var pie = d3.pie()
+					.sort(null);
 
-			var path = g.selectAll('path')
-				.data(pie([0, 1]))
-				.enter()
-				.append('path')
-				.attr('d', arc)
-				.attr('fill', function (d, i) {
-					return color(i);
-				})
-				.each(function (d) { this._current = d; });
-
-
-			path.data(pie([percent, 1 - percent])).transition()
-				.duration(duration)
-				.attrTween('d', function (d) {
-					var interpolate = d3.interpolate(this._current, d);
-					this._current = interpolate(0);
-					return function (t) {
-						return arc(interpolate(t));
-					}
-				});
-
-			g.append('text')
-				.attr('text-anchor', 'middle')
-				.attr('dy', '.35em')
-				.text(text);
+				var path = g.selectAll('path')
+					.data(pie([0, 1]))
+					.enter()
+					.append('path')
+					.attr('d', arc)
+					.attr('fill', function (d, i) {
+						return color(i);
+					})
+					.each(function (d) { this._current = d; });
 
 
+				path.data(pie([percent, 1 - percent])).transition()
+					.duration(duration)
+					.attrTween('d', function (d) {
+						var interpolate = d3.interpolate(this._current, d);
+						this._current = interpolate(0);
+						return function (t) {
+							return arc(interpolate(t));
+						}
+					});
 
+				g.append('text')
+					.attr('text-anchor', 'middle')
+					.attr('dy', '.35em')
+					.text(text);
 
-
-
-
-
+			}
 		})
-	</script>
+    </script>
 }
