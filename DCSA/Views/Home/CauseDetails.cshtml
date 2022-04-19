@@ -2,7 +2,8 @@
 @{
     ViewBag.Title = "تفاصيل " + Model.Header;
     double left = Model.TargetMoney.Value - Model.Donations.Sum(x => x.Amount).Value;
-    double Perc = Math.Round(Model.Donations.Sum(x => x.Amount).Value / Model.TargetMoney.Value * 100, 0);
+    left -= Model.StartPrice.Value;
+    double Perc = Math.Round((Model.Donations.Sum(x => x.Amount).Value + Model.StartPrice.Value) / Model.TargetMoney.Value * 100, 0);
     string PColor = "#fff";
     if (Perc == 0)
     {
@@ -103,9 +104,10 @@
                         <p class="card-title">@Model.Header</p>
                     </div>
                     <div class="Card-content">
-                        <p>
+                        @Html.Raw(Model.CauseContent)
+                        @*<p>
                          @Model.ShortDescription
-                        </p>
+                        </p>*@
                     </div>
 
 
@@ -239,5 +241,7 @@
     <script src="~/Scripts/Homepage.js"></script>
     <script>
         var CartURL = '@Url.Action("AddToSession", "Home")';
+          var FreeDonation = '@Url.Action("AddFreeDonation", "Home")';
+        var RefreshLink = "No";
     </script>
 }

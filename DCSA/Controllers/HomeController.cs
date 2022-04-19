@@ -172,6 +172,19 @@ namespace DCSA.Controllers
             return PartialView("_GetSearchResults",model);
         }
 
+
+        [Route("طموحهم-ماله-سقف-تعرف-على-سير-المشروع")]
+        public ActionResult StaticPage1() {
+
+            return View();
+        }
+        [Route("عن-الجمعيه")]
+        public ActionResult StaticPage2()
+        {
+
+            return View();
+        }
+
         [Route("Robots.txt")]
         public ContentResult RobotsText()
         {
