@@ -38,10 +38,15 @@ body {
 	display: block;
 }
 
-	.headerList .icon {
-		font-size: 14px;
-		margin-inline-end: 3px;
-	}
+.headerSocial li a 
+{
+	color:var(--white-color)
+}
+
+.headerList .icon {
+	font-size: 14px;
+	margin-inline-end: 3px;
+}
 
 	.headerList li {
 		display: inline-block;
@@ -484,7 +489,7 @@ label {
 }
 
 .payment-img {
-	width: 150px;
+	max-width:85px
 }
 
 
@@ -498,7 +503,7 @@ label {
 	position: relative;
 	overflow: hidden;
 	font-size: 15px;
-	height: 500px;
+	height: auto;
 	line-height: 1.2;
 	color: var(--paragraph-color);
 }
@@ -548,7 +553,7 @@ label {
 }
 
 .defult-margin {
-	margin: 50px 0
+	margin: 90px 0
 }
 
 .Cart-title {
@@ -634,7 +639,8 @@ color:silver
 .donations-total {
 
 color:var(--paragraph-color);
-font-size:24px
+font-size:24px;
+margin-bottom:50px
 }
 
 .paymentMethods-title {
@@ -665,7 +671,7 @@ font-size:24px
 
 
 .payment-img-donation {
-	width: 100px;
+	width: 76px;
 }
 
 .modal-title {
@@ -696,7 +702,7 @@ footer {
 
 .footer-links {
 	list-style: none;
-	padding: 3px 13px;
+	padding: 3px ;
 	margin: 0;
 	
 }
@@ -713,31 +719,31 @@ footer {
 		text-decoration:none
 	}
 
-		.footer-links li a:hover  {
+		/*.footer-links li a:hover  {
 			padding-right: 10px;
 			color: var(--Second-Color);
 			transition: all 0.4s ease-in-out
-		}
+		}*/
 
 .footer-title {
-	border-bottom: 1px dashed;
+	border-bottom: 1px solid;
 	width: fit-content;
 	padding: 0 0 14px;
 }
 
 
-.footer-links li:before {
+/*.footer-links li:before {
 	content: ">";
 	margin-inline-end: 5px;
 	vertical-align: middle;
 }
-
+*/
 
 .FooterSocial {
 	list-style: none;
-	padding: 3px 13px;
+	padding: 3px 24px;
 	margin: 60px 0 0 0;
-	text-align:left;
+	text-align:right;
 	display:block
 }
 	.FooterSocial li {
@@ -781,7 +787,7 @@ margin:0 10px
 	justify-content: center;
 	height: 45px;
 	font-size: 22px;
-	margin: 6px 0 0 0;
+	margin: 28px 0 0 0;
 }
 
 
@@ -843,3 +849,33 @@ padding:40px
 	background-position: top center;
 }
 
+#mysr-form-form-el#mysr-form-form-el#mysr-form-form-el.mysr-form-moyasarForm[payment-form=true] .mysr-form-button{
+
+background-color:var(--main-Color) !important
+
+
+}
+
+
+.copyright {
+	padding-top:20px;
+	margin-bottom:20px
+}
+
+.copyright-social img {
+	margin-inline: 10px;
+	max-width: 40px;
+	
+}
+
+
+.copyright-social {
+	padding: 3px 40px;
+}
+
+
+.static-img img {
+width:300px;
+height:300px
+
+}

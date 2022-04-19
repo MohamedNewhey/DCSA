@@ -11,6 +11,15 @@
 }
 
 <link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.5.6/moyasar.css">
+    
+
+    <style>
+        .cartt {
+            padding: 81px;
+            box-shadow: 0 0 7px #00000045;
+            border-radius: 3px;
+        }
+    </style>
 
 <div class="modal fade" id="ThanksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -28,9 +37,9 @@
     </div>
 </div>
 <div class="defult-margin" id="DataDiv">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col">
+    <div class="container">
+        <div class="row cartt">
+            <div class="col-8">
                 <h4 class="Cart-title">
                     <img class="cart-img" src="~/images/money.svg" />	سلة التبرعات
 
@@ -70,7 +79,7 @@
             </div> 
             @if (Model.Count() > 0)
             {
-                <div class="col">
+                <div class="col-4">
 
                     <div class="text-center">
                         <h3 class="Cart-title">
@@ -79,47 +88,37 @@
                         <p class="donations-total">@Model.Sum(x => x.Amount) ريال</p>
                     </div>
 
-                    <h4 class="paymentMethods-title">طرق الدفع</h4>
+                 
 
 
                     <div class="row">
                         <div class="col mb-3">
-                            <label>
-                                <input type="radio" name="test" value="mada" checked>
-
+                           
                                 <img class="payment-img-donation" src="~/images/mada.png" />
-                            </label>
+                         
                         </div>
+
                         <div class="col mb-3">
-                            <label>
-                                <input type="radio" name="test" value="master-visa">
+                           
+
+                                <img style=" width: 44px; margin-top: -8px;" class="payment-img-donation" src="~/images/png-transparent-wire-transfer-bank-account-payment-exchange-rate-payment-method-text-service-logo-removebg-preview.png" />
+
+                            
+                        </div>
+
+                        <div class="col mb-3">
+                            
 
                                 <img class="payment-img-donation" src="~/images/54e30edf9d8e3f86b1935d5d3d1317d8.png" />
-                            </label>
+                      
                         </div>
-                        <div class="col mb-3">
-                            <label>
-                                <input type="radio" name="test" value="paypal">
 
-                                <img class="payment-img-donation" src="~/images/How-Does-PayPal-account-Work-removebg-preview.png" />
-                            </label>
-                        </div>
                         <div class="col mb-3">
-                            <label>
-                                <input type="radio" name="test" value="paypal">
+                            
                                 <img class="payment-img-donation" src="~/images/Apple_Pay-Logo.wine-removebg-preview.png" />
 
-                            </label>
                         </div>
 
-                        <div class="col mb-3">
-                            <label>
-                                <input type="radio" name="test" value="bank-transfer">
-
-                                <img class="payment-img-donation" src="~/images/png-transparent-wire-transfer-bank-account-payment-exchange-rate-payment-method-text-service-logo-removebg-preview.png" />
-
-                            </label>
-                        </div>
                     </div>
 
 

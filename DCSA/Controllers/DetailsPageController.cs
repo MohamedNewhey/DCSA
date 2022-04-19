@@ -18,5 +18,10 @@ namespace DCSA.Controllers
         {
             return View();
         }
+
+        public ActionResult StaticPage1()
+        {
+            return View();
+        }
     }
 }

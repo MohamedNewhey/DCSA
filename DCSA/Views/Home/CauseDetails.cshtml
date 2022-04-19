@@ -81,12 +81,20 @@
     .card-mada {
         margin: 30px 0;
     }
+
+    .Cardimg-holder {
+        height: 250px;
+        min-height: 250px;
+        background-size: cover;
+        background-position: 50%;
+        box-shadow: 0 0 13px rgb(0 0 0 / 13%);
+    }
 </style>
 
 
-<div class="container-fluid mt-5 mb-5">
+<div class="container mt-5 mb-5">
     <div class="row">
-        <div class="col-lg-8 col-md-6 mb-5">
+        <div class="col-lg-6 offset-lg-1  col-md-6 mb-5 mt-5">
             <div class="donation-card-Detalils">
                 <div class="Cardimg-holder"
                      style="background-image: url(@Model.CoverPhoto );"></div>
@@ -131,7 +139,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 mb-3">
+        <div class="col-lg-4  col-md-6 mb-5 mt-5">
             <div class="donation-card-Detalils">
                 <div class="card-mainbody">
                     <ul class="card-mada">
