@@ -879,3 +879,31 @@ width:300px;
 height:300px
 
 }
+
+.Accounts-banks {
+	box-shadow: 0px 2px 7px #0000002b;
+	border-radius: 5px;
+	padding: 20px;
+}
+
+.bank-title a 
+{
+	color:var(--paragraph-color);
+	text-decoration:none;
+	font-size:17px
+}
+
+	.bank-title a:hover {
+	
+	color:var(--main-Color)
+	}
+
+
+.bank-title span {
+
+font-size:15px !important
+}
+
+.static-imgs img {
+height:100vh
+}

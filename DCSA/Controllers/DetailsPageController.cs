@@ -23,5 +23,10 @@ namespace DCSA.Controllers
         {
             return View();
         }
+
+        public ActionResult BankAccounts()
+        {
+            return View();
+        }
     }
 }
