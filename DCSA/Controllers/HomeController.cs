@@ -43,6 +43,7 @@ namespace DCSA.Controllers
 
         }
 
+        [Route("سلة-التبرعات")]
         public ActionResult DonationCart()
         {
             var Cart = Session["Cart"] as List<CartItem>;
@@ -106,7 +107,8 @@ namespace DCSA.Controllers
 
         public ActionResult Thanks(string id, string status, string amount,string message) {
 
-            MoyasarService.ApiKey = "sk_test_QtHqu8NyBqMZ66ePEYh7599mMv8HMcXqeBHUnGtF";
+            //MoyasarService.ApiKey = "sk_test_QtHqu8NyBqMZ66ePEYh7599mMv8HMcXqeBHUnGtF";
+            MoyasarService.ApiKey = "sk_live_UWXWPyx1qDR49XuVXzSm94sGNs6s6sD6zXNS5SeQ";
             var payment = Payment.Fetch(id);
 
             if (payment.Status == "paid")
@@ -134,6 +136,12 @@ namespace DCSA.Controllers
 
                     dono.PaymentMethod = payment.Source.Type;
                     db.Donations.Add(dono);
+
+                    if (item.GiftID.HasValue)
+                    {
+                        var gift = db.Gifts.First(x => x.ID == item.GiftID.Value);
+                        EmailManager.SendEmail(gift.REmail, gift.DAmount.Value, item.Name, gift.RName);
+                    }
 
                 }
                 db.SaveChanges();
@@ -173,16 +181,52 @@ namespace DCSA.Controllers
         }
 
 
-        [Route("طموحهم-ماله-سقف-تعرف-على-سير-المشروع")]
-        public ActionResult StaticPage1() {
 
-            return View();
-        }
-        [Route("عن-الجمعيه")]
-        public ActionResult StaticPage2()
+        [HttpPost]
+        public ActionResult SendGift(GiftModel model)
         {
+            if (model.REmail == "" || model.REmail == null)
+                return null;
+            if(model.DAmount==0)
+                return null;
 
-            return View();
+            string CauseName = db.Causes.First(x => x.ID == model.CauseID).Header;
+
+            Gift gift = new Gift();
+            gift.DMessage = model.DMessage;
+            gift.REmail = model.REmail;
+            gift.SenderName = model.Sender;
+            gift.CauseID = model.CauseID;
+            gift.RName = model.Rname;
+            gift.DAmount = model.DAmount;
+            db.Gifts.Add(gift);
+
+            db.SaveChanges();
+            CartItem CI = new CartItem();
+            var Cart = Session["Cart"] as List<CartItem>;
+            if (Cart == null)
+                Cart = new List<CartItem>();
+            var ParsedID = model.CauseID;
+            CI.ID = model.CauseID.ToString();
+            CI.Name = CauseName +"(اهداء)";
+            CI.Amount = model.DAmount;
+            CI.Currency = db.Causes.FirstOrDefault(x => x.ID == ParsedID).Currency;
+            CI.CoverPhoto = db.Causes.FirstOrDefault(x => x.ID == ParsedID).CoverPhoto;
+            CI.GiftID = gift.ID;
+            Cart.Add(CI);
+            Session.Add("Cart", Cart);
+          
+
+            return Json(new { Count = Cart.Count }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [Route("{name}")]
+        public ActionResult DisplayStaticContent(string name)
+        {
+            var model = db.StaticPages.Where(x => x.URL.Contains(name)).FirstOrDefault();
+
+            return View(model);
         }
 
         [Route("Robots.txt")]
@@ -212,6 +256,7 @@ namespace DCSA.Controllers
             string xml = SM.GetSitemapDocument(sitemapNodes);
             return this.Content(xml, "text/xml", Encoding.UTF8);
         }
+
 
 
     }

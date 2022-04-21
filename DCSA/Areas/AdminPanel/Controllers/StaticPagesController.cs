@@ -26,20 +26,20 @@ namespace DCSA.Areas.AdminPanel.Controllers
                 ViewBag.SearchValue = searchValue;
 
             if (Search != null && Search != "" && (searchValue == null || searchValue == "" || searchValue.Trim() == "تـصنيــــف"))
-                model = db.StaticPages.Where(x => x.MainPage == false && (x.Name.Contains(Search) || x.URL.Contains(Search) || x.PageContent.Contains(Search))).ToList();
+                model = db.StaticPages.Where(x => (x.Name.Contains(Search) || x.URL.Contains(Search) || x.PageContent.Contains(Search))).ToList();
 
             else if (Search != null && Search != "" && searchValue != null && searchValue != "" && searchValue.Trim() != "تـصنيــــف")
             {
                 if (searchValue.Trim() == "العنوان")
-                    model = db.StaticPages.Where(x => x.MainPage == false && x.Name.Contains(Search)).ToList();
+                    model = db.StaticPages.Where(x =>  x.Name.Contains(Search)).ToList();
                 if (searchValue.Trim() == "الرابط")
-                    model = db.StaticPages.Where(x => x.MainPage == false && x.URL.Contains(Search)).ToList();
+                    model = db.StaticPages.Where(x =>  x.URL.Contains(Search)).ToList();
                 if (searchValue.Trim() == "المحتوى")
-                    model = db.StaticPages.Where(x => x.MainPage == false && x.PageContent.Contains(Search)).ToList();
+                    model = db.StaticPages.Where(x => x.PageContent.Contains(Search)).ToList();
             }
 
             else
-                model = db.StaticPages.Where(x => x.MainPage == false).ToList();
+                model = db.StaticPages.ToList();
 
             return View(model);
         }
@@ -218,16 +218,16 @@ namespace DCSA.Areas.AdminPanel.Controllers
 
                    
 
-                    if (model.PageDate == null || model.PageDate == DateTime.Parse("1/1/0001 12:00:00 AM"))
-                    {
-                        JV.FieldID = "PageDate";
-                        JV.ValidFieldID = "ValidDate";
-                        JV.Step = -1;
-                        JV.Message = "من فضلك اختر التاريخ";
-                        JV.IsValid = false;
+                    //if (model.PageDate == null || model.PageDate == DateTime.Parse("1/1/0001 12:00:00 AM"))
+                    //{
+                    //    JV.FieldID = "PageDate";
+                    //    JV.ValidFieldID = "ValidDate";
+                    //    JV.Step = -1;
+                    //    JV.Message = "من فضلك اختر التاريخ";
+                    //    JV.IsValid = false;
 
-                        return Json(JV, JsonRequestBehavior.AllowGet);
-                    }
+                    //    return Json(JV, JsonRequestBehavior.AllowGet);
+                    //}
 
                     if (model.Content == null || model.Content == "")
                     {
@@ -245,16 +245,12 @@ namespace DCSA.Areas.AdminPanel.Controllers
                     SP.Name = model.Name;
                     SP.URL = model.URL;
                     SP.Publish = true;
-                    SP.UserID = UserID;
+                    SP.PagePlace = 1;
 
-                    if (model.MainPage == 1)
-                        SP.MainPage = true;
-                    else
-                        SP.MainPage = false;
+             
 
-
-                    SP.CreationDate = DateTime.Now;
-                    SP.PageDate = model.PageDate;
+                 //   SP.CreationDate = DateTime.Now;
+                 //   SP.PageDate = model.PageDate;
                     if (model.PageOrder == 0)
                         SP.PageOrder = 1;
                     else
@@ -312,16 +308,16 @@ namespace DCSA.Areas.AdminPanel.Controllers
 
                     }
 
-                    if (model.PageDate == null || model.PageDate == DateTime.Parse("1/1/0001 12:00:00 AM"))
-                    {
-                        JV.FieldID = "PageDate";
-                        JV.ValidFieldID = "ValidDate";
-                        JV.Step = -1;
-                        JV.Message = "من فضلك اختر التاريخ";
-                        JV.IsValid = false;
+                    //if (model.PageDate == null || model.PageDate == DateTime.Parse("1/1/0001 12:00:00 AM"))
+                    //{
+                    //    JV.FieldID = "PageDate";
+                    //    JV.ValidFieldID = "ValidDate";
+                    //    JV.Step = -1;
+                    //    JV.Message = "من فضلك اختر التاريخ";
+                    //    JV.IsValid = false;
 
-                        return Json(JV, JsonRequestBehavior.AllowGet);
-                    }
+                    //    return Json(JV, JsonRequestBehavior.AllowGet);
+                    //}
                    
                     if (model.Content == null || model.Content == "")
                     {
@@ -338,15 +334,10 @@ namespace DCSA.Areas.AdminPanel.Controllers
                     SP.PageContent = model.Content;
                     SP.Name = model.Name;
                     SP.URL = model.URL;
-                    SP.UserID = UserID;
+                   
 
-                    if (model.MainPage == 1)
-                        SP.MainPage = true;
-                    else
-                        SP.MainPage = false;
-
-                    SP.CreationDate = DateTime.Now;
-                    SP.PageDate = model.PageDate;
+                   // SP.CreationDate = DateTime.Now;
+                    //SP.PageDate = model.PageDate;
                     if (model.PageOrder == 0)
                         SP.PageOrder = 1;
                     else
@@ -384,12 +375,7 @@ namespace DCSA.Areas.AdminPanel.Controllers
             {
                 
                 StaticPage staticPage = db.StaticPages.Find(id);
-                if (staticPage.MainPage.Value)
-                {
-                    JVM.IsValid = false;
-                    JVM.Message = "خطاء فى النطام";
-                    return Json(JVM, JsonRequestBehavior.AllowGet);
-                }
+                
                 db.StaticPages.Remove(staticPage);
                 db.SaveChanges();
 

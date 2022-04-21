@@ -21,7 +21,7 @@ namespace DCSA.Areas.AdminPanel.Controllers
             model.CausesNumber = db.Causes.Count();
             model.DonatersNumber = db.Donations.Count();
             model.TargetMoney = db.Causes.Sum(x => x.TargetMoney).Value;
-            model.TargetRemain = model.TargetMoney - db.Donations.Sum(x => x.Amount).Value;
+            model.TargetRemain = model.TargetMoney - (db.Donations.Sum(x => x.Amount).HasValue? db.Donations.Sum(x => x.Amount).Value: 0);
             model.Causes = new List<CauseModel>();
             model.Causes = db.Causes.Select(x => new CauseModel
             {

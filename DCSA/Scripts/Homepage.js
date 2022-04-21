@@ -119,3 +119,69 @@ function CollectFreeDonation() {
     });
 
 }
+
+
+function GiftClick(CauseID) {
+    //Reseting the validation
+    document.getElementById('ReceiverName-' + CauseID).style.border = "";
+    document.getElementById('Receriveremail-' + CauseID).style.border = "";
+    document.getElementById('DonationMessage-' + CauseID).style.border = "";
+    document.getElementById('DonationAmount-' + CauseID).style.border = "";
+
+    //Collecting the data
+    var Sender = $("#SenderName-" + CauseID).val();
+    var RName = $("#ReceiverName-" + CauseID).val();
+    var REmail = $("#Receriveremail-" + CauseID).val();
+    var DMessage = $("#DonationMessage-" + CauseID).val();
+    var DAmount = $("#DonationAmount-" + CauseID).val();
+
+    //Validation
+    if (RName == "") {
+        document.getElementById('ReceiverName-' + CauseID).style.border = "1px solid red";
+        return;
+    }
+    if (DAmount == "") {
+        document.getElementById('DonationAmount-' + CauseID).style.border = "1px solid red";
+        return;
+    }
+    if (DMessage == "") {
+        document.getElementById('DonationMessage-' + CauseID).style.border = "1px solid red";
+        return;
+    }
+    if (REmail == "") {
+        document.getElementById('Receriveremail-' + CauseID).style.border = "1px solid red";
+        return;
+    } else {
+        if (!isEmail(REmail)) {
+            document.getElementById('Receriveremail-' + CauseID).style.border = "1px solid red";
+            return;
+        }
+    }
+
+    var GiftModel = new Object();
+    GiftModel.Sender = Sender;
+    GiftModel.RName = RName;
+    GiftModel.REmail = REmail;
+    GiftModel.DMessage = DMessage;
+    GiftModel.DAmount = DAmount;
+    GiftModel.CauseID = CauseID;
+
+
+    $.ajax({
+        type: "Post",
+        url: GiftLink,
+        data: { model: GiftModel },
+        success: function (data) {
+            swal("نجاح!", "تم اضافة للسلة", "success");
+            document.getElementById("CartItemsSpan").innerText = data.Count;
+            ToggleCard('GiftCard-'+CauseID);
+            
+        }
+    });
+}
+
+function isEmail(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
+}
+

@@ -13,5 +13,19 @@ namespace DCSA.Models
         
         public string CoverPhoto { get; set; }
         public string Currency { get; set; }
+        public int? GiftID { get; set; }
+    }
+
+    public class GiftModel
+    {
+      public string Sender { get; set; }
+        public string Rname{ get; set; }
+        public string REmail { get; set; }
+        public string DMessage { get; set; }
+        public int  DAmount { get; set; }
+
+        public int CauseID { get; set; }
+
+
     }
 }

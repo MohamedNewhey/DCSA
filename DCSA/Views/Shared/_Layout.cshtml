@@ -111,21 +111,23 @@
 					aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0 align-self-end">
-					<li class="nav-item">
-						<a class="nav-link" aria-current="page" href="@Url.Action("StaticPage1","Home")">	طموحهم ماله سقف تعرف على سير المشروع </a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">	تبرعك سوف يستكمل المرحلة الاولى للمشروع</a>
-					</li>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-					<li class="nav-item">
-						<a class="nav-link" href="#">	كبار المتبرعين اوقف فصل تعليمي</a>
-					</li>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-self-end">
+
+                    @foreach (var item in ViewBag.StaticPages)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="@Url.Action("DisplayStaticContent", "Home", new { Name=item.URL })">	@item.Name </a>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="https://dsca.org.sa/">جمعيتنا </a>
+                    </li>
+                 
 
                     <div class="donation-btns">
-                         <a class="btn btn-Donation position-relative" href="@Url.Action("DonationCart","Home")">
+                        <a class="btn btn-Donation position-relative" href="@Url.Action("DonationCart","Home")">
                             <img width="25" src="~/images/cart (2).svg" />   سلة التبرع
 
 
@@ -140,11 +142,12 @@
                             <img width="25" src="~/images/hand-donate.svg" />   التبرع السريع
                         </button>
                     </div>
-				</ul>
-				<div class="mobile-hidden">
-					<img height="60" src="~/images/DSCA LOGO1.png">
-				</div>
-			</div>
+                </ul>
+
+                <div class="mobile-hidden">
+                    <img height="60" src="~/images/DSCA LOGO1.png">
+                </div>
+            </div>
 		</div>
 	</nav>
 
@@ -173,14 +176,20 @@
                 <div class="col-md-4">
                     <h5 class="footer-title">روابط هامه</h5>
                     <div class="d-flex gap-5">
-                        <ul class="footer-links">
-                            <li><a href="@Url.Action("StaticPage2","Home")">عن المبرة</a></li>
-                            <li><a href="#">الحسابات البنكي</a></li>
+                       
 
-                        </ul>
+                            <ul class="footer-links">
+
+                                <li><a href="@Url.Action("DisplayStaticContent", "Home", new { Name = "عن-الجمعيه" })">عن المبرة</a></li>
+                                <li><a href="@Url.Action("DisplayStaticContent", "Home", new { Name = "الحسابات-البنكية" })">الحسابات البنكي</a></li>
+
+                            </ul>
+
+                       
                         <ul class="footer-links">
-                            <li><a href="#">الأسئلة الشائعة</a></li>
-                            <li><a href="#">اتصل بنا</a></li>
+
+                            <li><a href="@Url.Action("DisplayStaticContent","Home", new { Name="الأسئلة-الشائعة" })">الأسئلة الشائعة</a></li>
+                            <li><a href="@Url.Action("DisplayStaticContent","Home", new { Name="اتصل-بنا" })">اتصل بنا</a></li>
                         </ul>
                     </div>
                 </div>

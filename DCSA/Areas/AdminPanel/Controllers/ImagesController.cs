@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace DCSA.Areas.AdminPanel.Controllers
 {
-    [WebsiteOnly]
+    [Authorize]
     public class ImagesController : AdminBaseController
     {
         DefaultConnection db = new DefaultConnection();

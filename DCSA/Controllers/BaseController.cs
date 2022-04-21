@@ -20,6 +20,10 @@ namespace DCSA.Controllers
                 ViewBag.CartItems = 0;
 
 
+            ViewBag.StaticPages = db.StaticPages.Where(x=>x.PagePlace==1).OrderBy(x=>x.PageOrder).ToList();
+
+            ViewBag.FooterPages = db.StaticPages.Where(x => x.PagePlace == 2).OrderBy(x=>x.PageOrder).ToList();
+
             base.OnActionExecuting(filterContext);
         }
     }

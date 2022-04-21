@@ -142,7 +142,7 @@
         </div>
 
         <div class="col-lg-4  col-md-6 mb-5 mt-5">
-            <div class="donation-card-Detalils">
+            <div class="donation-card-Detalils" style="height:600px">
                 <div class="card-mainbody">
                     <ul class="card-mada">
                         <li class="preview-info-list__item">
@@ -184,7 +184,7 @@
 
                         @*<button class="donation-btn">تبرع</button>*@
                         <button class="donation-btn-outline" onclick="AddToCart('@Model.ID', '@Model.Header', '@Model.TypeID')">إضافه للسلة</button>
-                        @*<p class="ahda">اهداء</p>*@
+                        <p class="ahda mt-3" onclick="ToggleCard('GiftCard-@Model.ID')">اهداء</p>
                     </div>
 
 
@@ -194,36 +194,41 @@
 
                 <!-- GiftDonation Section And Form-->
 
-                <div class="GiftDonationCard d-none">
+                <div id="GiftCard-@Model.ID" class="GiftDonationCard d-none">
                     <div class="GiftDonationBody">
                         <div class="Giftcard-header">
                             <div class="card-title text-center">بيانات الإهداء</div>
-                            <i class="fa-solid fa-xmark fa-lg"></i>
+                            <i style="cursor:pointer" onclick="ToggleCard('GiftCard-@Model.ID')" class="fa-solid fa-xmark fa-lg"></i>
                         </div>
 
                         <div class="GiftContentBody">
-                            <form>
-                                <input class="form-control form-control-sm"
+                            <form id="GiftForm-@Model.ID">
+                                <input class="form-control form-control-sm" id="SenderName-@Model.ID"
                                        type="text"
-                                       placeholder="اسم المتبرع"
+                                       placeholder="(اختيارى)اسم المتبرع"
                                        aria-label=".form-control-sm example" />
-                                <input class="form-control form-control-sm"
+                                <input class="form-control form-control-sm" id="ReceiverName-@Model.ID"
                                        type="text"
                                        placeholder="اسم المهدي له"
                                        aria-label=".form-control-sm example" />
-                                <input class="form-control form-control-sm"
-                                       type="text"
-                                       placeholder="رقم جوال المهدي له 05xxxxxxx"
+
+                                <input class="form-control form-control-sm" id="DonationAmount-@Model.ID"
+                                       type="text" onkeypress="return isNumber(event)"
+                                       placeholder="المبلغ "
+                                       aria-label=".form-control-sm example" />
+
+                                <input class="form-control form-control-sm" id="Receriveremail-@Model.ID"
+                                       type="email" style="direction:rtl"
+                                       placeholder="ايميل المهدي له "
                                        aria-label=".form-control-sm example" />
                                 <div class="form-floating">
-                                    <textarea class="form-control"
+                                    <textarea class="form-control" id="DonationMessage-@Model.ID"
                                               placeholder="اكتب رسالتك"
-                                              id="floatingTextarea2"
                                               style="height: 150px; resize: none"></textarea>
                                 </div>
 
                                 <div class="text-center Giftbtn">
-                                    <button>اهداء</button>
+                                    <button type="button" onclick="GiftClick('@Model.ID')">اهداء</button>
                                 </div>
                             </form>
                         </div>
@@ -241,7 +246,13 @@
     <script src="~/Scripts/Homepage.js"></script>
     <script>
         var CartURL = '@Url.Action("AddToSession", "Home")';
-          var FreeDonation = '@Url.Action("AddFreeDonation", "Home")';
+        var FreeDonation = '@Url.Action("AddFreeDonation", "Home")';
+           var GiftLink= '@Url.Action("SendGift", "Home")';
         var RefreshLink = "No";
+
+        function ToggleCard(id) {
+            var GiftCard = document.getElementById(id);
+            GiftCard.classList.toggle("d-none")
+        }
     </script>
 }

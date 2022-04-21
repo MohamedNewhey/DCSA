@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NCCM.Database.StaticPage>
+﻿@model IEnumerable<DCSA.Database.StaticPage>
 
 @{
     ViewBag.Title = "صفحات الموقع";
@@ -58,8 +58,7 @@
                 <th>العنوان</th>
                 <th>الرابط</th>
                 <th class="text-center">الحالة</th>
-                <th>الناشر</th>
-           
+             
 
             </tr>
         </thead>
@@ -81,10 +80,9 @@
                     {
                         <td class="text-center"><img class="icon-color-table" src="~/Content/Icons/Ellipse 2.svg">اخفاء من النشر</td>
                     }
-                    <td>@Html.DisplayFor(modelItem => item.User.Name)</td>
-                    
+                  
 					<td class="two-button-color">
-						<a class="table-button-show" href="@Url.Action("DisplayStaticContent", "DisplayPages", new { area = "", name = item.URL})">عرض</a>
+						<a class="table-button-show" href="@Url.Action("DisplayStaticContent", "Home", new { area = "", name = item.URL})">عرض</a>
 
 						@if (item.Publish == true)
 						{

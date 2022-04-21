@@ -1,4 +1,4 @@
-﻿@model NCCM.Database.StaticPage
+﻿@model DCSA.Database.StaticPage
 @{
     if (Model.ID == -1)
     {
@@ -84,13 +84,13 @@
                             <span class="text-danger" id="ValidOrder"></span>
                         </div>
                         <div class="col mb-3">
-                            <div class="col mb-3" style="position:relative">
+                            @*<div class="col mb-3" style="position:relative">
                                 <label for="exampleFormControlInput1" class="form-label">التاريخ</label>
                                
                                     <input type="text" class="form-control calnder-icon2" name="PageDate" id="PageDate" onclick="ValidationRefresh('PageDate', 'ValidDate')">
                                
                                 <span class="text-danger" id="ValidDate"></span>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
 
