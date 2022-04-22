@@ -84,11 +84,11 @@ namespace DCSA.Areas.AdminPanel.Controllers
             {
                 int WID = int.Parse(ID);
                 var model = db.Causes.First(x => x.ID == WID);
-                //if (model.CauseContent.Contains("../../"))
-                //{
-                //    var newContent = model.CauseContent.Replace("../..", "../../..");
-                //    model.CauseContent = newContent;
-                //}
+                if (model.CauseContent.Contains("../../"))
+                {
+                    var newContent = model.CauseContent.Replace("../..", "../../..");
+                    model.CauseContent = newContent;
+                }
                 return View(model);
             }
 
@@ -148,39 +148,6 @@ namespace DCSA.Areas.AdminPanel.Controllers
                         return Json(JV, JsonRequestBehavior.AllowGet);
                     }
 
-                    //if (model.PageDate == null || model.PageDate == DateTime.Parse("1/1/0001 12:00:00 AM"))
-                    //{
-                    //    JV.FieldID = "PageDate";
-                    //    JV.ValidFieldID = "ValidDate";
-                    //    JV.Step = -1;
-                    //    JV.Message = "من فضلك اختر التاريخ";
-                    //    JV.IsValid = false;
-
-                    //    return Json(JV, JsonRequestBehavior.AllowGet);
-                    //}
-
-                    //if (model.URL == null || model.URL == "")
-                    //{
-                    //    JV.FieldID = "URL";
-                    //    JV.ValidFieldID = "ValidURL";
-                    //    JV.Step = -1;
-                    //    JV.Message = "من فضلك ادخل ال URL";
-                    //    JV.IsValid = false;
-
-                    //    return Json(JV, JsonRequestBehavior.AllowGet);
-                    //}
-
-                    //var urlCheck = db.Causes.Where(x => x.URL.Contains(model.URL)).FirstOrDefault();
-                    //if(urlCheck != null)
-                    //{
-                    //    JV.FieldID = "URL";
-                    //    JV.ValidFieldID = "ValidURL";
-                    //    JV.Step = -1;
-                    //    JV.Message = "هذا ال URL موجود من قبل";
-                    //    JV.IsValid = false;
-
-                    //    return Json(JV, JsonRequestBehavior.AllowGet);
-                    //}
 
                     if (model.CoverPhoto == null)
                     {
@@ -204,21 +171,11 @@ namespace DCSA.Areas.AdminPanel.Controllers
                         return Json(JV, JsonRequestBehavior.AllowGet);
                     }
 
-                    //if (model.Content == null || model.Content == "")
-                    //{
-                    //    JV.FieldID = "Content";
-                    //    JV.ValidFieldID = "ValidContent";
-                    //    JV.Step = -1;
-                    //    JV.Message = "من فضلك اخل محتوى الصفحة";
-                    //    JV.IsValid = false;
-
-                    //    return Json(JV, JsonRequestBehavior.AllowGet);
-                    //}
-
                     Caus page = new Caus();
                     page.TypeID = model.TypeID;
                     page.Header = model.Header;
-                   // page.CauseContent = model.Content;
+                    page.CauseContent = model.Content;
+                    page.StartPrice = model.StartPrice;
                     page.ShortDescription = model.ShortDescription;
                     page.CreationDate = DateTime.Now;
                     page.TargetMoney = model.TargetMoney;
@@ -267,42 +224,6 @@ namespace DCSA.Areas.AdminPanel.Controllers
 
                         return Json(JV, JsonRequestBehavior.AllowGet);
                     }
-
-                    //if (model.PageDate == null || model.PageDate == DateTime.Parse("1/1/0001 12:00:00 AM"))
-                    //{
-                    //    JV.FieldID = "PageDate";
-                    //    JV.ValidFieldID = "ValidDate";
-                    //    JV.Step = -1;
-                    //    JV.Message = "من فضلك اختر التاريخ";
-                    //    JV.IsValid = false;
-
-                    //    return Json(JV, JsonRequestBehavior.AllowGet);
-                    //}
-
-                    //if (model.URL == null || model.URL == "")
-                    //{
-                    //    JV.FieldID = "URL";
-                    //    JV.ValidFieldID = "ValidURL";
-                    //    JV.Step = -1;
-                    //    JV.Message = "من فضلك ادخل ال URL";
-                    //    JV.IsValid = false;
-
-                    //    return Json(JV, JsonRequestBehavior.AllowGet);
-                    //}
-
-
-                    //var urlCheck = db.Causes.Where(x => x.URL.Contains(model.URL) && x.ID != model.ID && x.TypeID == model.TypeID).FirstOrDefault();
-                    //if (urlCheck != null)
-                    //{
-                    //    JV.FieldID = "URL";
-                    //    JV.ValidFieldID = "ValidURL";
-                    //    JV.Step = -1;
-                    //    JV.Message = "هذا ال URL موجود من قبل";
-                    //    JV.IsValid = false;
-
-                    //    return Json(JV, JsonRequestBehavior.AllowGet);
-                    //}
-
                     if (model.ShortDescription == null || model.ShortDescription == "")
                     {
                         JV.FieldID = "exampleFormControlTextarea1";
@@ -314,24 +235,14 @@ namespace DCSA.Areas.AdminPanel.Controllers
                         return Json(JV, JsonRequestBehavior.AllowGet);
                     }
 
-                    //if (model.Content == null || model.Content == "")
-                    //{
-                    //    JV.FieldID = "Content";
-                    //    JV.ValidFieldID = "ValidContent";
-                    //    JV.Step = -1;
-                    //    JV.Message = "من فضلك اخل محتوى الصفحة";
-                    //    JV.IsValid = false;
-
-                    //    return Json(JV, JsonRequestBehavior.AllowGet);
-                    //}
-
                     Caus page = db.Causes.Find(model.ID);
                     page.TypeID = model.TypeID;
                     page.Header = model.Header;
-                   // page.CauseContent = model.Content;
+                    page.CauseContent = model.Content;
                     page.ShortDescription = model.ShortDescription;
                     page.CreationDate = DateTime.Now;
                     page.TargetMoney = model.TargetMoney;
+                    page.StartPrice = model.StartPrice;
                     //  page.CauseDate = model.PageDate;
                     page.UserID = UserID;
 

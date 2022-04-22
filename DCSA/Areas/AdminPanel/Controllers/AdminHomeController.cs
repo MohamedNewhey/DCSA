@@ -28,8 +28,8 @@ namespace DCSA.Areas.AdminPanel.Controllers
                 ID = x.ID,
                 Name = x.Header,
                 Target = x.TargetMoney.Value,
-                Remain = x.TargetMoney.Value - (x.Donations.Sum(y => y.Amount).HasValue? x.Donations.Sum(y => y.Amount).Value : 0),
-                Per = Math.Round((x.Donations.Sum(y => y.Amount).HasValue ? x.Donations.Sum(y => y.Amount).Value : 0) / x.TargetMoney.Value * 100, 0)
+                Remain = x.TargetMoney.Value - (x.Donations.Sum(y => y.Amount).HasValue? x.Donations.Sum(y => y.Amount).Value : 0) + x.StartPrice.Value,
+                Per = Math.Round((x.Donations.Sum(y => y.Amount).HasValue ? x.Donations.Sum(y => y.Amount).Value : 0) + x.StartPrice.Value / x.TargetMoney.Value * 100, 0)
 
             }).ToList();
             

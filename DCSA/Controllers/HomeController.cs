@@ -28,6 +28,7 @@ namespace DCSA.Controllers
         {
 
             ViewBag.Causes = GlobalHelper.GetCauses();
+            ViewBag.Slider = db.Images.ToList();
             return View();
         }
         public ActionResult CauseDetails(int? id)
