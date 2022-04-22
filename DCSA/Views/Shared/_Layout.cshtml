@@ -43,24 +43,25 @@
 	<div class="TopBar">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6">
-					<ul class="headerList">
-						<li>
-							<i class="fa-solid fa-phone-flip icon"></i>
-                            <a href="tel:+201458959206">   4421060 – 011</a>
-						</li>
+                <div class="col-md-12 text-center">
+                    @*<ul class="headerList">
+            <li>
+                <i class="fa-solid fa-phone-flip icon"></i>
+                <a href="tel:+201458959206">   4421060 – 011</a>
+            </li>
 
-						<li>
-							<i class="fa-solid fa-envelope icon"></i>
+            <li>
+                <i class="fa-solid fa-envelope icon"></i>
 
-                            <a href="mailto:dsca@dsca.org.sa">dsca@dsca.org.sa</a>
+                <a href="mailto:dsca@dsca.org.sa">dsca@dsca.org.sa</a>
 
-						</li>
+            </li>
 
-						<li><i class="fa-solid fa-location-dot icon"></i> الرياض</li>
-					</ul>
-				</div>
-				<div class="col-md-6 text-end">
+            <li><i class="fa-solid fa-location-dot icon"></i> الرياض</li>
+        </ul>*@
+                    لتتمكن من الدفع بواسطة ابل باي يجب عليك استخدام متصفح سفاري
+                </div>
+				<!--<div class="col-md-6 text-end">
 					<div class="social">
 						<ul class="headerSocial">
 							<li>
@@ -82,7 +83,7 @@
 								<a href="https://www.linkedin.com/authwall?trk=bf&trkInfo=AQFIM04yAXljZQAAAYBC6AqoTSwsuTCr4sunb_kZgX1N7ngRFGc1rBIsTUz6A5TIh_IxA4PMGOqzhAE_K3AGxsmlugXbAu42BeoN4_icMa07jMYTB5DSc8BPSI2b_rzsULqN24s=&originalReferer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fcompany%2Fdown-syndrome-charitable-association%2F" target="_blank"><i class="fa-brands fa-linkedin fa-lg"></i></a>
 							</li>
 						</ul>
-					</div>
+					</div>-->
 
 					<!-- <div class="LoginArea">
 						<ul class="headerList">
@@ -91,7 +92,7 @@
 
 
 						</ul> -->
-				</div>
+				<!--</div>-->
 			</div>
 		</div>
 	</div>
@@ -99,7 +100,7 @@
 
 	<!--Navbar-->
 
-	<nav class="navbar navbar-expand-lg navbar-light">
+	<nav id="home" class="navbar navbar-expand-lg navbar-light">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="@Url.Action("index","Home")"><img height="80" src="~/images/logo.png"></a>
 			<button class="navbar-toggler"
@@ -151,7 +152,7 @@
 		</div>
 	</nav>
 
-	<!--slider area-->
+	
 
 	<!-- body-->
 
@@ -178,19 +179,17 @@
                     <div class="d-flex gap-5">
                        
 
-                            <ul class="footer-links">
-
-                                <li><a href="@Url.Action("DisplayStaticContent", "Home", new { Name = "عن-الجمعيه" })">عن المبرة</a></li>
-                                <li><a href="@Url.Action("DisplayStaticContent", "Home", new { Name = "الحسابات-البنكية" })">الحسابات البنكي</a></li>
-
-                            </ul>
-
-                       
                         <ul class="footer-links">
 
-                            <li><a href="@Url.Action("DisplayStaticContent","Home", new { Name="الأسئلة-الشائعة" })">الأسئلة الشائعة</a></li>
+                            <li><a href="@Url.Action("DisplayStaticContent", "Home", new { Name = "عن-الجمعيه" })">عن المبرة</a></li>
+                            <li><a href="@Url.Action("DisplayStaticContent", "Home", new { Name = "الحسابات-البنكية" })">الحسابات البنكي</a></li>
+                            <li><a href="#home" >االمشاريع</a></li>
                             <li><a href="@Url.Action("DisplayStaticContent","Home", new { Name="اتصل-بنا" })">اتصل بنا</a></li>
+                            <li> <a  href="@Url.Action("DonationCart","Home")"> سلة التبرعات</a></li>
+                            <li> <a aria-current="page" target="_blank" href="https://dsca.org.sa/">جمعيتنا </a></li>
                         </ul>
+
+                       
                     </div>
                 </div>
 
@@ -249,12 +248,12 @@
 
 	<section class="container copyright">
        <div class="row">
-           <div class="col-8">
+           <div class="col-md-8 col-xs-12">
                <div>الجمعيه مسجله تحت رقم  197</div>
                
            </div>
 		   
-           <div class="col-4 copyright-social">
+           <div class="col-md-4 col-xs-12 copyright-social">
                <div>
                    <img class="payment-img" src="~/images/visa.svg" />
                    <img class="payment-img" src="~/images/master.svg" />

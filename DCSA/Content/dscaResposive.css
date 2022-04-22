@@ -14,7 +14,7 @@
 
 @media (max-width: 1024px) {
 	.nav-link {
-		font-size: 10px !important
+		font-size: 15px !important
 	}
 
 	.donation-btns {
@@ -33,6 +33,27 @@
 	.payment-img-donation {
 		width: 77px;
 	}
+
+	.FooterSocial li a {
+		color: var(--paragraph-color);
+		text-decoration: none;
+		background-color: #DDD;
+		padding: 4px;
+		border-radius: 50%;
+		width: 30px;
+		height: 30px;
+		text-align: center;
+		display: block;
+	}
+
+	.copyright-social {
+		padding: 3px 21px !important;
+	}
+
+		.copyright-social img {
+			margin-inline: 10px;
+			max-width: 30px;
+		}
 }
 
 
@@ -41,11 +62,37 @@
 	.mobile-hidden {
 		display: none
 	}
-	.ShareLinks__copyLink {
-	
-		font-size: 16px !important
-	
+
+	.FooterSocial {
+		text-align: center !important
 	}
+
+	.ShareLinks__copyLink {
+		font-size: 16px !important
+	}
+
+	.copyright-social img {
+		margin-inline: 10px;
+		max-width: 30px;
+		margin-bottom: 21px;
+	}
+
+	.FooterSocial li a {
+		color: var(--paragraph-color);
+		text-decoration: none;
+		background-color: #DDD;
+		padding: 0px;
+		border-radius: 50%;
+		width: 25px;
+		height: 25px;
+		text-align: center;
+		display: block;
+	}
+
+		.FooterSocial li a svg {
+			font-size: 15px
+		}
+
 
 	.donation-btns {
 		margin-top: 20px;
@@ -54,39 +101,85 @@
 	.nav-link {
 		font-size: 13px !important
 	}
+
 	.payment-img-donation {
 		width: 69px;
 	}
-	.FooterSocial li a {
-		color: var(--paragraph-color);
-		text-decoration: none;
-		background-color: #DDD;
-		padding: 3px;
-		border-radius: 50%;
-		width: 30px;
-		height: 30px;
-		text-align: center;
-		display: block;
-	}
+
 
 	.FooterSocial li {
 		margin-inline-start: 5px;
 	}
 
+
 }
 
 
-@media (max-width: 425px) {
 
+@media (max-width: 500px) {
+
+	.static-imgs img {
+		height: 70vh;
+	}
+	.footer-links {
+		list-style: none;
+		padding: 3px;
+		margin: 20px auto;
+		align-self: center;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 30px 60px;
+	}
 	.footer-donors {
-		
 		margin-top: 43px;
 	}
+	.copyright-social {
+	margin-top:20px
+	
+	}
+
+	.copyright {
+	
+	text-align:center
+	}
+
+	.FooterSocial li a {
+		color: var(--paragraph-color);
+		text-decoration: none;
+		background-color: #DDD;
+		padding: 0px;
+		border-radius: 50%;
+		width: 25px;
+		height: 25px;
+		text-align: center;
+		display: block;
+	}
+
+		.FooterSocial li a svg {
+			font-size: 15px
+		}
 
 	.FooterSocial {
-	
-		text-align: center;
-	
+		text-align: center !important
+	}
+
+	.footer-title {
+		margin: 0 auto !important
 	}
 }
 
+@media only screen and (max-width: 991.5px) {
+
+	.staticpagebanks li {
+		width: 47%;
+	}
+}
+
+
+@media only screen and (max-width: 767px) 
+{
+	.staticpagebanks li {
+		float: none;
+		width: 90%;
+	}
+}

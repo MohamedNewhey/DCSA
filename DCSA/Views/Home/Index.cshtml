@@ -8,12 +8,13 @@
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="~/images/slid.jpg" class="d-block w-100" alt="slider1">
+         
+            <img class="d-block w-100" src="~/images/صورة السلايدر.png" />
         </div>
-        <div class="carousel-item">
+        @*<div class="carousel-item">
 
             <img class="d-block w-100" src="~/images/الجمعية_الخيرية_لمتلازمة_داون_dsca_store.png" />
-        </div>
+        </div>*@
 
     </div>
 </div>
@@ -54,13 +55,13 @@
 
 
                                 <div class="card-maintitle">
-                                    @*<a class="card-title" href="#">	@item.Header</a>*@
+                                    <a class="card-title" href="#">	@item.Header</a>
                                     <div class="card-details">
                                         <a class="card-title" href="@Url.Action("CauseDetails", "Home", new { id = item.ID})">التفاصيل</a>
                                     </div>
                                 </div>
                                 <div class="Card-content">
-                                    @*<p>@item.ShortDescription....</p>*@
+                                    <p>@item.ShortDescription....</p>
                                 </div>
 
                                 <ul class="card-mada">
@@ -192,24 +193,24 @@
 
     <div class="container mb-5">
         <div class="row text-center">
-            <div class="col mb-3">
+            <div class="col mb-5">
 
                 <img class="payment-img" src="~/images/visa.svg" />
 
             </div>
-            <div class="col mb-3">
+            <div class="col mb-5">
 
                 <img class="payment-img" src="~/images/master.svg" />
 
             </div>
-            <div class="col mb-3">
+            <div class="col mb-5">
                 <img class="payment-img" src="~/images/mada.svg" />
 
             </div>
-            <div class="col mb-3">
+            <div class="col mb-5">
                 <img class="payment-img" src="~/images/Apple_Pay-Logo.wine-removebg-preview.png" />
             </div>
-            <div class="col mb-3">
+            <div class="col mb-5">
                 <img style="width:46px; margin-top:-5px" src="~/images/png-transparent-wire-transfer-bank-account-payment-exchange-rate-payment-method-text-service-logo-removebg-preview.png" />
             </div>
 

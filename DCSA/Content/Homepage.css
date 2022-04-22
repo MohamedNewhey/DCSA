@@ -702,9 +702,12 @@ footer {
 
 .footer-links {
 	list-style: none;
-	padding: 3px ;
+	padding: 3px;
 	margin: 0;
-	
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 30px 60px;
+}
 }
 
 
@@ -732,12 +735,12 @@ footer {
 }
 
 
-/*.footer-links li:before {
+.footer-links li:before {
 	content: ">";
 	margin-inline-end: 5px;
 	vertical-align: middle;
 }
-*/
+
 
 .FooterSocial {
 	list-style: none;
@@ -875,9 +878,9 @@ background-color:var(--main-Color) !important
 
 
 .static-img img {
-width:300px;
-height:300px
-
+	width: 300px;
+	height: 300px;
+	margin-bottom: 20px;
 }
 
 .Accounts-banks {
@@ -906,4 +909,48 @@ font-size:15px !important
 
 .static-imgs img {
 height:100vh
+}
+
+.staticpagebanks {
+	display: block;
+	list-style: none;
+}
+
+	.staticpagebanks li {
+		display: block;
+		border: 1px solid #eee;
+		padding: 17px;
+		float: right;
+		width: 31%;
+		min-height: 80px;
+		margin: 1%;
+		background: #f5f5f5;
+	}
+
+
+		.staticpagebanks li img {
+			float: right;
+			margin-left: 15px;
+		}
+
+	.staticpagebanks strong {
+		display: block;
+		margin-bottom: 8px;
+	}
+
+.staticpagebanks span {
+	display: block;
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #636363;
+}
+
+.article-build {
+	margin-bottom:50px
+}
+
+
+article h4 {
+
+font-size:17px
 }
