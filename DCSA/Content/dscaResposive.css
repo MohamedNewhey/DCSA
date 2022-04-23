@@ -1,8 +1,14 @@
 ﻿
+@media (min-width: 1400px) {
+	.ShowinLowScreen {
+		display: none
+	}
+}
 
-
-@media (min-width: 992px) {
-	
+@media (max-width: 992px) {
+	.HideAllscreens {
+		display: none !important
+	}	
 }
 
 @media (max-width: 1400px) {
@@ -10,9 +16,18 @@
 	.nav-link {
 		font-size: 12px !important
 	}
+	.ShowinLowScreen {
+		display: none
+	}
+
 }
 
 @media (max-width: 1024px) {
+
+	.ShowinLowScreen {
+	
+	display:none
+	}
 	.nav-link {
 		font-size: 15px !important
 	}
@@ -59,6 +74,16 @@
 
 
 @media (max-width: 768px) {
+	.ShowinLowScreen {
+		display: block;
+
+	}
+
+
+	.HideAllscreens {
+		display: none !important
+	}
+
 	.mobile-hidden {
 		display: none
 	}
@@ -117,7 +142,19 @@
 
 
 @media (max-width: 500px) {
+	.ShowinLowScreen {
+		display: block;
+		font-size: 9px;
+		margin-inline-end: 10px;
+	}
 
+	.cartt {
+		padding:0px !important;
+		
+	}
+	.HideAllscreens {
+		display: none !important
+	}
 	.static-imgs img {
 		height: 70vh;
 	}
@@ -169,7 +206,9 @@
 }
 
 @media only screen and (max-width: 991.5px) {
-
+	.HideAllscreens {
+		display: none !important
+	}
 	.staticpagebanks li {
 		width: 47%;
 	}
@@ -181,5 +220,8 @@
 	.staticpagebanks li {
 		float: none;
 		width: 90%;
+	}
+	.HideAllscreens  {
+		display: none !important
 	}
 }
