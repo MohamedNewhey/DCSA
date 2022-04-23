@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DCSA.Database;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -52,71 +53,28 @@ namespace DCSA.Helpers
             nodes.Add(
                 new SitemapNode()
                 {
-                    Url = ShareURL ,
+                    Url = ShareURL,
                     Priority = 1
                 });
-          //  nodes.Add(
-          //     new SitemapNode()
-          //     {
-          //         Url = ShareURL + "Home",
-          //         Priority = 0.9
-          //     });
-          //  nodes.Add(
-          //     new SitemapNode()
-          //     {
-          //         Url = ShareURL + "Home/Intro",
-          //         Priority = 0.9
-          //     });
 
-          //  nodes.Add(
-          //   new SitemapNode()
-          //   {
-          //       Url = ShareURL + "Sectors",
-          //       Priority = 0.9
-          //   });
+            DefaultConnection db = new DefaultConnection();
 
-          //  nodes.Add(
-          // new SitemapNode()
-          // {
-          //     Url = ShareURL + "PublicPolicies",
-          //     Priority = 0.9
-          // });
+            foreach (var item in db.Causes.ToList())
+                nodes.Add(new SitemapNode()
+                {
+                    Url = ShareURL + "Home/CauseDetails/"+item.ID,
+                    Frequency = SitemapFrequency.Weekly,
+                    Priority = 1
+                });
 
-          //  nodes.Add(
-          //new SitemapNode()
-          //{
-          //    Url = ShareURL + "ResponsibleEntities",
-          //    Priority = 0.9
-          //});
-          //  nodes.Add(new SitemapNode()
-          //  {
-          //      Url = ShareURL + "Home/Suggestions",
-          //      Priority = 0.9
-          //  });
-         
-          //  foreach (var Sec in SectionLogic.ToList((int)SystemEnums.ProblemTypes.Sector))
-          //      nodes.Add(new SitemapNode()
-          //      {
-          //          Url = ShareURL + "Sectors/ViewProblems?ID=" + Sec.ID,
-          //          Frequency = SitemapFrequency.Weekly,
-          //          Priority = 0.8
-          //      });
+            foreach (var item in db.StaticPages.ToList())
+                nodes.Add(new SitemapNode()
+                {
+                    Url = ShareURL + item.URL,
+                    Frequency = SitemapFrequency.Weekly,
+                    Priority = 0.8
+                });
 
-          //  foreach (var Sec in SectionLogic.ToList((int)SystemEnums.ProblemTypes.GeneralPolicy))
-          //      nodes.Add(new SitemapNode()
-          //      {
-          //          Url = ShareURL + "PublicPolicies/ViewProblems?ID=" + Sec.ID,
-          //          Frequency = SitemapFrequency.Weekly,
-          //          Priority = 0.8
-          //      });
-
-          //  foreach (var Sec in RepEntityLogic.ToList())
-          //      nodes.Add(new SitemapNode()
-          //      {
-          //          Url = ShareURL + "ResponsibleEntities/ViewProblems?ID=" + Sec.ID,
-          //          Frequency = SitemapFrequency.Weekly,
-          //          Priority = 0.8
-          //      });
 
 
             return nodes;

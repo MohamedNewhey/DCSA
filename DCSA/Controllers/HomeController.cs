@@ -222,10 +222,15 @@ namespace DCSA.Controllers
         }
 
 
+
         [Route("{name}")]
         public ActionResult DisplayStaticContent(string name)
         {
             var model = db.StaticPages.Where(x => x.URL.Contains(name)).FirstOrDefault();
+            if (model == null)
+            {
+                return RedirectToAction("index");
+            }
 
             return View(model);
         }
@@ -258,7 +263,9 @@ namespace DCSA.Controllers
             return this.Content(xml, "text/xml", Encoding.UTF8);
         }
 
-
+        public ActionResult NotFound() {
+            return View();
+        }
 
     }
 }
